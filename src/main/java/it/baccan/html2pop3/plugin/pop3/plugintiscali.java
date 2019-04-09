@@ -353,8 +353,8 @@ public class plugintiscali extends pop3base implements pop3plugin {
                     // Al momento non risolve ancora il problema
                     cBodyAttach = string.replace(cBodyAttach, "src=\"/cp/ps/Mail/ViewAttachment", "src=\"" + cServer + "/cp/ps/Mail/ViewAttachment");
 
-                    pop3message pop3 = new pop3message();
-                    pop3.setCharset(pop3message.ISO_8859_1);
+                    POP3Message pop3 = new POP3Message();
+                    pop3.setCharset(POP3Message.ISO_8859_1);
 
                     //String cDA = getInfo( sb, "\t\t\t\t\t\tDa:" );
                     String cDA = getInfo(sb, "<label class=\"custom\">Da:");

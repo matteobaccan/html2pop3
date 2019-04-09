@@ -188,7 +188,7 @@ public class plugintim extends pop3base implements pop3plugin {
                 }
             }
 
-            pop3message pop3 = new pop3message();
+            POP3Message pop3 = new POP3Message();
             pop3.setDa(getInfo(sMail, "Da:", true));
             pop3.setA(getInfo(sMail, "A:", true));
             pop3.setCc(getInfo(sMail, "Cc:", true));

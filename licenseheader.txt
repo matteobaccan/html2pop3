@@ -2,8 +2,11 @@
 ${licenseFirst}
 </#if>
 ${licensePrefix}Copyright (c) 2019 Matteo Baccan
+${licensePrefix}http://www.baccan.it
+${licensePrefix}
 ${licensePrefix}Distributed under the GPL v3 software license, see the accompanying
 ${licensePrefix}file LICENSE or http://www.gnu.org/licenses/gpl.html.
+${licensePrefix}
 <#if licenseLast??>
 ${licenseLast}
 </#if>

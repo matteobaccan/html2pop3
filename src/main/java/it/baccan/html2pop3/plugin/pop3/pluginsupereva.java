@@ -246,7 +246,7 @@ public class pluginsupereva extends pop3base implements pop3plugin {
             p.put(cID, cMsgId);
             // Workaround per download doppi e mancata cancellazione
 
-            pop3message pop3 = new pop3message();
+            POP3Message pop3 = new POP3Message();
             pop3.setCharset("ISO-8859-1");
             pop3.setDa(getInfo(sb, "Da:"));
             pop3.setA(getInfo(sb, "A:"));

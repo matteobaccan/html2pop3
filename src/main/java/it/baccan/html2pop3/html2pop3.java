@@ -1,23 +1,9 @@
 /*
- * HTML2POP3 server
- *
- * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
- * their web site at http://www.gnu.org/).
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
  */
 /**
@@ -50,15 +36,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class html2pop3 extends Thread {
 
+    private static String cConfig = "/config.cfg";
+    private filter pop3IpFilter = new filter();
+    private filter pop3PluginFilter = new filter();
+    private filter pop3UserFilter = new filter();
+    private filter pop3GlobalFilter = new filter();
+    private filter smtpIpFilter = new filter();
+    private filter smtpPluginFilter = new filter();
+    private filter smtpUserFilter = new filter();
+    private filter smtpGlobalFilter = new filter();
+    private filter nntpIpFilter = new filter();
+
     /**
      *
      * @param args
      */
     static public void main(String args[]) {
-        //logStreamMemo psm = new logStreamMemo( System.out, "html2pop3.log" );
-        //System.setOut( psm );
-        //System.setErr( psm );
-
         // Imposto l'eventuale config
         html2pop3.parseCommandLine(args);
 
@@ -66,8 +59,6 @@ public class html2pop3 extends Thread {
         html2pop3 html2pop3 = new html2pop3();
         html2pop3.start();
     }
-
-    private static String cConfig = "config.cfg";
 
     /**
      *
@@ -94,9 +85,6 @@ public class html2pop3 extends Thread {
             if (args[nPar].equalsIgnoreCase("-config") && nPar + 1 < args.length) {
                 html2pop3.setConfig(args[nPar + 1]);
             }
-
-            //if( args[nPar].equalsIgnoreCase("-?") )
-            // TODO
         }
     }
 
@@ -122,14 +110,6 @@ public class html2pop3 extends Thread {
         }
     }
 
-    /*
-    public void setURLStreamHandlerFactory(){
-       // Se win32 imposta un nuovo StreamHandlerFactory
-       if( bIsWin32 ){
-          URL.setURLStreamHandlerFactory( new fakeURLStreamHandlerFactory() );
-       }
-    }
-     */
     class SortedProperties extends Properties {
 
         public synchronized Enumeration keys() {
@@ -164,7 +144,6 @@ public class html2pop3 extends Thread {
 
     }
 
-    //private Properties p = new Properties();
     private SortedProperties p = new SortedProperties();
     private String cLocalHost = "127.0.0.1";
     private int cLocalPort = 110;
@@ -410,15 +389,11 @@ public class html2pop3 extends Thread {
     public boolean load() {
         boolean bRet = false;
         try {
-
-            ClassLoader classLoader = getClass().getClassLoader();
-            this.getClass().getResourceAsStream("/config.cfg");
-            File file = new File(classLoader.getResource(cConfig).getFile());
-            System.getProperties();
-            FileInputStream fis = new FileInputStream(cConfig);
-            p.clear();
-            p.load(fis);
-            fis.close();
+            log.info("Load Config [{}]", cConfig);
+            try (InputStream fis = this.getClass().getResourceAsStream(cConfig)) {
+                p.clear();
+                p.load(fis);
+            }
 
             // Host + port
             this.cLocalHost = p.getProperty("host", "127.0.0.1");
@@ -437,7 +412,7 @@ public class html2pop3 extends Thread {
             this.nMaxEmail = Double.valueOf(p.getProperty("maxdownloadpersession", "-1")).intValue();
 
             // POP3 default
-            pop3message.setAddHTML(p.getProperty("htmlattach", "true").equalsIgnoreCase("true"));
+            POP3Message.setAddHTML(p.getProperty("htmlattach", "true").equalsIgnoreCase("true"));
 
             // RSS
             pluginrss.setConfig(getConfigPath(), "rss.cfg");
@@ -453,7 +428,7 @@ public class html2pop3 extends Thread {
             pluginlibero.setRead(p.getProperty("libero.read", "false").equalsIgnoreCase("true"));
 
             // RFC2047
-            pop3message.setrfc2047(p.getProperty("rfc2047", "true").equalsIgnoreCase("true"));
+            POP3Message.setrfc2047(p.getProperty("rfc2047", "true").equalsIgnoreCase("true"));
 
             // Tunneling server
             pluginpop3.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
@@ -489,15 +464,15 @@ public class html2pop3 extends Thread {
             System.setProperties(sp);
 
             // Filter
-            pop3i = getFilter("pop3.ipfilter");
-            pop3p = getFilter("pop3.pluginfilter");
-            pop3u = getFilter("pop3.userfilter");
-            pop3g = getFilter("pop3.globalfilter");
-            smtpi = getFilter("smtp.ipfilter");
-            smtpp = getFilter("smtp.pluginfilter");
-            smtpu = getFilter("smtp.userfilter");
-            smtpg = getFilter("smtp.globalfilter");
-            nntpi = getFilter("nntp.ipfilter");
+            pop3IpFilter = getFilter("pop3.ipfilter");
+            pop3PluginFilter = getFilter("pop3.pluginfilter");
+            pop3UserFilter = getFilter("pop3.userfilter");
+            pop3GlobalFilter = getFilter("pop3.globalfilter");
+            smtpIpFilter = getFilter("smtp.ipfilter");
+            smtpPluginFilter = getFilter("smtp.pluginfilter");
+            smtpUserFilter = getFilter("smtp.userfilter");
+            smtpGlobalFilter = getFilter("smtp.globalfilter");
+            nntpIpFilter = getFilter("nntp.ipfilter");
 
             bRet = true;
         } catch (java.io.FileNotFoundException fnf) {
@@ -544,22 +519,12 @@ public class html2pop3 extends Thread {
         return ret;
     }
 
-    private filter pop3i = new filter();
-    private filter pop3p = new filter();
-    private filter pop3u = new filter();
-    private filter pop3g = new filter();
-    private filter smtpi = new filter();
-    private filter smtpp = new filter();
-    private filter smtpu = new filter();
-    private filter smtpg = new filter();
-    private filter nntpi = new filter();
-
     /**
      *
      * @return
      */
     public filter getPOP3IpFilter() {
-        return pop3i;
+        return pop3IpFilter;
     }
 
     /**
@@ -567,7 +532,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getPOP3PluginFilter() {
-        return pop3p;
+        return pop3PluginFilter;
     }
 
     /**
@@ -575,7 +540,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getPOP3UserFilter() {
-        return pop3u;
+        return pop3UserFilter;
     }
 
     /**
@@ -583,7 +548,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getPOP3GlobalFilter() {
-        return pop3g;
+        return pop3GlobalFilter;
     }
 
     /**
@@ -591,7 +556,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getSMTPIpFilter() {
-        return smtpi;
+        return smtpIpFilter;
     }
 
     /**
@@ -599,7 +564,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getSMTPPluginFilter() {
-        return smtpp;
+        return smtpPluginFilter;
     }
 
     /**
@@ -607,7 +572,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getSMTPUserFilter() {
-        return smtpu;
+        return smtpUserFilter;
     }
 
     /**
@@ -615,7 +580,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getSMTPGlobalFilter() {
-        return smtpg;
+        return smtpGlobalFilter;
     }
 
     /**
@@ -623,7 +588,7 @@ public class html2pop3 extends Thread {
      * @return
      */
     public filter getNNTPIpFilter() {
-        return nntpi;
+        return nntpIpFilter;
     }
 
     private String getConfigFullPath() {
@@ -675,7 +640,7 @@ public class html2pop3 extends Thread {
             }
 
             // POP3 default
-            p.put("htmlattach", "" + pop3message.getAddHTML());
+            p.put("htmlattach", "" + POP3Message.getAddHTML());
 
             // Email per sessione
             p.put("maxdownloadpersession", "" + nMaxEmail);
@@ -831,7 +796,7 @@ public class html2pop3 extends Thread {
         } else {
             log.info("Modalita' di debug disattiva");
         }
-        log.info("Attach email originale nella posta emulata: " + pop3message.getAddHTML());
+        log.info("Attach email originale nella posta emulata: " + POP3Message.getAddHTML());
         log.info("Numero di download massimi per sessione: " + nMaxEmail);
         //log.info("Dimensione del file di log: " + logStreamMemo.getLogSize());
         log.info("Tunneling server " + p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
@@ -842,7 +807,7 @@ public class html2pop3 extends Thread {
         log.info("tin: modalita' di cancellazione " + (plugintin.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
         log.info("libero: flag di lettura " + (pluginlibero.getRead() ? "ATTIVO" : "DISATTIVO"));
         log.info("outlook 2002: timeout " + (bOutlook2002Timeout ? "ATTIVO" : "DISATTIVO"));
-        log.info("supporto per rfc2047: " + (pop3message.getrfc2047() ? "ATTIVO" : "DISATTIVO"));
+        log.info("supporto per rfc2047: " + (POP3Message.getrfc2047() ? "ATTIVO" : "DISATTIVO"));
         log.info("-----------------------------------------------------------------------------");
         Properties p = System.getProperties();
         Enumeration keys = p.keys();

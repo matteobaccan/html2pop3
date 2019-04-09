@@ -11,7 +11,7 @@ import it.baccan.html2pop3.exceptions.ParsingMailException;
 import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.Converter;
 import it.baccan.html2pop3.utils.message.FullHeaderMessage;
-import it.baccan.html2pop3.utils.message.pop3message;
+import it.baccan.html2pop3.utils.message.POP3Message;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -251,7 +251,7 @@ public class PluginLinuxIt extends pop3base implements pop3plugin {
          * @return the message type
          */
         int getMessageType() {
-            return pop3message.TEXT_MESSAGE;
+            return POP3Message.TEXT_MESSAGE;
         }
 
         private String parseMultipleAddresses(String currentAddresses, int lastEndPos) {
@@ -406,7 +406,7 @@ public class PluginLinuxIt extends pop3base implements pop3plugin {
         String ret = null;
         String s = null;
         MailMessage mm = null;
-        pop3message p3m = null;
+        POP3Message p3m = null;
         HashMap attach = null;
         Iterator iterator = null;
 

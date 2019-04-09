@@ -195,7 +195,7 @@ public class pluginfastwebnet extends pop3base implements pop3plugin {
             //                     log.info(cServer +cLeft +cMsgId +cRight);
             String sb = getPage(cServer + cLeft + cMsgId + cRight, cSessionCook).toString();
 
-            pop3message pop3 = new pop3message();
+            POP3Message pop3 = new POP3Message();
             pop3.setDa(getInfo(sb, "Da:"));
             pop3.setA(getInfo(sb, "A:"));
             pop3.setCc(getInfo(sb, "Cc:"));

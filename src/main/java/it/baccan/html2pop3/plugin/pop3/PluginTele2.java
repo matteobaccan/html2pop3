@@ -475,7 +475,7 @@ public class PluginTele2 extends pop3base implements pop3plugin {
             String messageId = getMessageID(pos);
             String ret = null;
             MailMessage mail = null;
-            pop3message p3m = null;
+            POP3Message p3m = null;
             int retry = 0;
 
             try {
@@ -487,8 +487,8 @@ public class PluginTele2 extends pop3base implements pop3plugin {
 
                 if (isValidSession(retFromPost)) {
                     mail = new MailMessage(retFromPost);
-                    p3m = new pop3message();
-                    p3m.setCharset(pop3message.ISO_8859_1);
+                    p3m = new POP3Message();
+                    p3m.setCharset(POP3Message.ISO_8859_1);
                     p3m.setDa(mail.getFrom());
                     p3m.setA(mail.getTo());
                     p3m.setData(mail.getDate());
@@ -505,7 +505,7 @@ public class PluginTele2 extends pop3base implements pop3plugin {
                         p3m.addAttach(s, (byte[]) hm.get(s));
                     }
                     if (mail.isTextMsg()) {
-                        p3m.setMessageType(pop3message.TEXT_MESSAGE);
+                        p3m.setMessageType(POP3Message.TEXT_MESSAGE);
                     }
                     ret = p3m.getMessage(line, all);
                 } else {
@@ -740,7 +740,7 @@ public class PluginTele2 extends pop3base implements pop3plugin {
             String body = null;
             String attachName = null;
             Matcher matcher = null;
-            pop3message p3m = new pop3message();
+            POP3Message p3m = new POP3Message();
             Pattern from = Pattern.compile("^\\s*str \\+= '(.+) &lt;(.+)&gt;", Pattern.MULTILINE);
             Pattern subject = Pattern.compile("^\\s*str \\+= '(.*)';", Pattern.MULTILINE);
             Pattern date = Pattern.compile("^\\s*str \\+= '(\\w{3}, \\d{2} \\w{3} \\d{4} \\d{2}:\\d{2}:\\d{2} \\+\\d{4})';", Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
@@ -808,13 +808,13 @@ public class PluginTele2 extends pop3base implements pop3plugin {
                     if (matcher.find(position)) {
                         //it's a text message
                         matcher = textBody.matcher(pageData);
-                        p3m.setMessageType(pop3message.TEXT_MESSAGE);
+                        p3m.setMessageType(POP3Message.TEXT_MESSAGE);
                         if (matcher.find(position)) {
                             body = Converter.html2TextChar(matcher.group(1), true).replaceAll("(?i)<br>", "");
                         }
                     } else {
                         //it's html message
-                        p3m.setMessageType(pop3message.HTML_MESSAGE);
+                        p3m.setMessageType(POP3Message.HTML_MESSAGE);
                         matcher = htmlBody.matcher(pageData);
                         if (matcher.find(position + 5)) {
                             body = matcher.group(1);

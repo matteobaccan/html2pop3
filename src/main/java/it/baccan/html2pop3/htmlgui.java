@@ -48,7 +48,7 @@ public class htmlgui extends javax.swing.JFrame {
         oConcurrentClient.setText("" + h2p.getClient());
         oCoda.setSelectedItem(h2p.getLifo() ? "lifo" : "fifo");
         oDeleteOptimized.setSelected(h2p.getDeleteOptimized());
-        oHTMLAttach.setSelected(pop3message.getAddHTML());
+        oHTMLAttach.setSelected(POP3Message.getAddHTML());
         oSessionEmail.setText("" + h2p.getMaxEmail());
 
     }
@@ -361,7 +361,7 @@ public class htmlgui extends javax.swing.JFrame {
         h2p.setLifo(oCoda.getSelectedItem().toString().equalsIgnoreCase("lifo"));
         h2p.setDeleteOptimized(oDeleteOptimized.isSelected());
         h2p.setMaxEmail(Double.valueOf(oSessionEmail.getText()).intValue());
-        pop3message.setAddHTML(oHTMLAttach.isSelected());
+        POP3Message.setAddHTML(oHTMLAttach.isSelected());
         System.setProperty("proxyUser", oProxyUser.getText());
         System.setProperty("proxyPassword", oProxyPassword.getText());
         System.setProperty("http.proxyHost", oProxyHost.getText());

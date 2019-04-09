@@ -12,7 +12,7 @@
  */
 package it.baccan.html2pop3.plugin.pop3;
 
-import it.baccan.html2pop3.utils.message.pop3message;
+import it.baccan.html2pop3.utils.message.POP3Message;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -357,7 +357,7 @@ public class plugintin extends pop3base implements pop3plugin {
             }
 
             if (bTop || (!bTop && getMessage(sb).length() > 0)) {
-                pop3message pop3 = new pop3message();
+                POP3Message pop3 = new POP3Message();
                 pop3.setDa("\"" + cleanJSON(jEmail.getString("fromnameoraddress")) + "\" <" + cleanJSON(jEmail.getString("from")) + ">");
                 pop3.setData(formatDate(jEmail.getString("date")));
                 pop3.setA(cleanJSON(jEmail.getString("to")));

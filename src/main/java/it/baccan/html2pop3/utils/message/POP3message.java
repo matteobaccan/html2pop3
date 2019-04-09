@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
+ *
+ */
 /**
  * Title:        Libero HTML2POP3
  * Description:  Crea una mail POP3
@@ -27,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pop3message extends MasterMessage {
+public class POP3Message extends MasterMessage {
 
     /**
      *
@@ -40,35 +48,17 @@ public class pop3message extends MasterMessage {
     public static final int HTML_MESSAGE = 1;
     private int messageType = HTML_MESSAGE;
 
-    /**
-     *
-     */
-    public pop3message() {
-    }
+    @Getter @Setter private String da = "";
+    @Getter @Setter private String a = "";
+    @Getter @Setter private String cc = "";
+    @Getter @Setter private String oggetto = "";
+    @Getter @Setter private String data = "";
+    @Getter @Setter private String notifica = "";
 
-    @Getter @Setter String da = "";
-    @Getter @Setter String a = "";
-    @Getter @Setter String cc = "";
-    @Getter @Setter String oggetto = "";
-    @Getter @Setter String data = "";
-    @Getter @Setter String notifica = "";
+    @Getter @Setter private String body = "";
 
-    String cBody = "";
-
-    /**
-     *
-     * @param c
-     */
-    public void setBody(String c) {
-        // Per evitare un problema con eudora, aggiungo degli accapi
-        // Audora ha un limite sulla lunghezza delle righe
-        c = string.replace(c, "<br>", "<br>\r\n");
-        c = string.replace(c, "<br/>", "<br/>\r\n");
-        this.cBody = c;
-    }
-
-    ArrayList<byte[]> aAttach = new ArrayList<>();
-    ArrayList<String> aName = new ArrayList<>();
+    private ArrayList<byte[]> aAttach = new ArrayList<>();
+    private ArrayList<String> aName = new ArrayList<>();
 
     /**
      *
@@ -102,7 +92,11 @@ public class pop3message extends MasterMessage {
     /**
      *
      */
-    @Setter static public boolean addHTML = false;
+    static public boolean addHTML = false;
+
+    static public void setAddHTML(boolean b) {
+        addHTML = b;
+    }
 
     /**
      *
@@ -200,12 +194,12 @@ public class pop3message extends MasterMessage {
 
             // Il body deve avere le seguenti modifiche
             // riga per riga .. se parte con . aggiugnerne uno
-            //cBody = string.replace( cBody, "\n.", "\n.." );
-            //if( cBody.startsWith(".") && !cBody.startsWith("..") )
-            //cBody = "." +cBody;
-            cBody = lineFormat.format(cBody);
+            //body = string.replace( body, "\n.", "\n.." );
+            //if( body.startsWith(".") && !body.startsWith("..") )
+            //body = "." +body;
+            body = lineFormat.format(body);
 
-            oMailBody.append(cBody);
+            oMailBody.append(body);
             if (messageType == HTML_MESSAGE) {
                 oMailBody.append("</BODY>\r\n");
                 oMailBody.append("</HTML>\r\n");
@@ -333,7 +327,7 @@ public class pop3message extends MasterMessage {
      * @param args
      */
     public static void main(String[] args) {
-        pop3message pop3 = new pop3message();
+        POP3Message pop3 = new POP3Message();
         pop3.setDa("cFrom");
         pop3.setA("cFrom");
         pop3.setCc("cFrom");

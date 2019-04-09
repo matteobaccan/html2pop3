@@ -226,7 +226,7 @@ public class pluginrss extends pop3base implements pop3plugin {
             log.error("Rss: getmail ID (" + cMsgId + ")");
 
             String cEnc = pXML.getProperty(cMsgId + "enc");
-            pop3message pop3 = new pop3message();
+            POP3Message pop3 = new POP3Message();
             pop3.setCharset(cEnc);
             pop3.setDa("HTML2POP3 RSS");
             pop3.setA(cUser);
