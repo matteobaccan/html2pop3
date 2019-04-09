@@ -29,7 +29,7 @@ public class fakeURLStreamHandlerFactory implements URLStreamHandlerFactory {
             // Altrimenti lo ricavo
         } else {
             String s1 = System.getProperty("java.protocol.handler.pkgs", "");
-            if (s1 != "") {
+            if (!s1.isEmpty()) {
                 s1 += "|";
             }
             s1 += "com.ms.net.www.protocol|";
