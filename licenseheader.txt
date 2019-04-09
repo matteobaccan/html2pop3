@@ -2,8 +2,8 @@
 ${licenseFirst}
 </#if>
 ${licensePrefix}Copyright (c) 2019 Matteo Baccan
-${licensePrefix}Distributed under the MIT software license, see the accompanying
-${licensePrefix}file COPYING or http://www.opensource.org/licenses/mit-license.php.
+${licensePrefix}Distributed under the GPL v3 software license, see the accompanying
+${licensePrefix}file LICENSE or http://www.gnu.org/licenses/gpl.html.
 <#if licenseLast??>
 ${licenseLast}
 </#if>

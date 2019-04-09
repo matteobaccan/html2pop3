@@ -232,7 +232,7 @@
                             <versionInfo>
                                 <fileVersion>${project.version}.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
-                                <fileDescription>TerpinExport ${project.version}</fileDescription>
+                                <fileDescription>HTML2POP3 ${project.version}</fileDescription>
                                 <copyright>Matteo Baccan</copyright>
                                 <productVersion>${project.version}.0</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
@@ -254,9 +254,9 @@
                         <phase>install</phase>
                         <configuration>
                             <tasks>
-                                <exec 
-                                    dir="${project.basedir}" 
-                                    executable="${project.basedir}\src\batch\release.bat" 
+                                <exec
+                                    dir="${project.basedir}"
+                                    executable="${project.basedir}\src\batch\release.bat"
                                     failonerror="true">
                                     <arg value='${project.artifactId}-${project.version}'></arg>
                                 </exec>
