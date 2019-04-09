@@ -1,0 +1,9 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Copyright (c) 2019 Matteo Baccan
+${licensePrefix}Distributed under the MIT software license, see the accompanying
+${licensePrefix}file COPYING or http://www.opensource.org/licenses/mit-license.php.
+<#if licenseLast??>
+${licenseLast}
+</#if>

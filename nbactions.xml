@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>debug</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+        </goals>
+        <properties>
+            <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath it.baccan.html2pop3.htmlgui32</exec.args>
+            <exec.executable>java</exec.executable>
+            <jpda.listen>true</jpda.listen>
+            <exec.workingdir>work</exec.workingdir>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-versions:display-plugin-updates</actionName>
+        <displayName>versions:display-plugin-updates</displayName>
+        <goals>
+            <goal>versions:display-plugin-updates</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-versions:dependency-updates-report</actionName>
+        <displayName>versions:dependency-updates-report</displayName>
+        <goals>
+            <goal>versions:dependency-updates-report</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-versions:display-dependency-updates</actionName>
+        <displayName>versions:display-dependency-updates</displayName>
+        <goals>
+            <goal>versions:display-dependency-updates</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-versions:display-property-updates</actionName>
+        <displayName>versions:display-property-updates</displayName>
+        <goals>
+            <goal>versions:display-property-updates</goal>
+        </goals>
+    </action>
+    <action>
+            <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath it.baccan.html2pop3.htmlgui32</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.workingdir>work</exec.workingdir>
+            </properties>
+        </action>
+    <action>
+            <actionName>profile</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath it.baccan.html2pop3.htmlgui32</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.workingdir>work</exec.workingdir>
+            </properties>
+        </action>
+
+</actions>
