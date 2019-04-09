@@ -60,6 +60,12 @@ public class POP3Message extends MasterMessage {
     private ArrayList<byte[]> aAttach = new ArrayList<>();
     private ArrayList<String> aName = new ArrayList<>();
 
+    static public boolean addHTML = false;
+    @Getter @Setter private String charset = UTF_8;
+
+    private static boolean bRFC2047 = true;
+    private final String cHEX = "0123456789abcdef";
+
     /**
      *
      * @param cName
@@ -82,18 +88,6 @@ public class POP3Message extends MasterMessage {
         }
     }
 
-    private String cleanAddress(String c) {
-        if (!c.startsWith("\"") && !c.startsWith("<") && !c.contains("<") && c.length() > 0) {
-            c = "<" + c + ">";
-        }
-        return c;
-    }
-
-    /**
-     *
-     */
-    static public boolean addHTML = false;
-
     static public void setAddHTML(boolean b) {
         addHTML = b;
     }
@@ -114,8 +108,6 @@ public class POP3Message extends MasterMessage {
     public String getMessage() {
         return getMessage(0, false);
     }
-
-    @Getter @Setter private String charset = UTF_8;
 
     /**
      * Sets if the message is in HTML or TEXT form the default is HTML
@@ -253,8 +245,6 @@ public class POP3Message extends MasterMessage {
         return oMail.toString();
     }
 
-    private static boolean bRFC2047 = true;
-
     /**
      *
      * @param b
@@ -270,8 +260,6 @@ public class POP3Message extends MasterMessage {
     public static boolean getrfc2047() {
         return bRFC2047;
     }
-
-    private String cHEX = "0123456789abcdef";
 
     /**
      *

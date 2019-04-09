@@ -1,23 +1,9 @@
 /*
- * POP3 server
- *
- * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
- * their web site at http://www.gnu.org/).
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
  */
 /**
@@ -45,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pop3Server extends baseServer {
+public class POP3Server extends baseServer {
 
     private String cLoginString = "+OK HTML2POP3 server ready (" + version.getVersion() + ")";
     private Properties config = new Properties();
@@ -54,7 +40,7 @@ public class pop3Server extends baseServer {
      *
      * @param p
      */
-    public pop3Server(html2pop3 p) {
+    public POP3Server(html2pop3 p) {
         super(p);
 
         String cPath = p.getConfigPath();
@@ -237,7 +223,7 @@ public class pop3Server extends baseServer {
             boolean bExit = false;
             String cUser = "";
             String cPassword = "";
-            Vector aDel = new Vector();
+            ArrayList<Double> aDel = new ArrayList<>();
 
             hp = null;
 
@@ -527,7 +513,7 @@ public class pop3Server extends baseServer {
 
                 } else if (cLineUpper.startsWith("RSET")) {
                     // Remove delete flag
-                    aDel = new Vector();
+                    aDel = new ArrayList<>();
                     html.putData(SO, "+OK\r\n");
 
                 } else if (cLineUpper.startsWith("STAT")) {
@@ -657,14 +643,14 @@ public class pop3Server extends baseServer {
                             Double nMsg = Double.valueOf(cLine.substring(4).trim()); //.intValue();
                             boolean bDel = true;
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
-                                Double n = ((Double) aDel.elementAt(nCur));
+                                Double n = ((Double) aDel.get(nCur));
                                 if (n.equals(nMsg)) {
                                     bDel = false;
                                 }
                             }
 
                             if (bDel) {
-                                aDel.addElement(nMsg);
+                                aDel.add(nMsg);
                                 html.putData(SO, "+OK message marked for deletion\r\n");
                             } else {
                                 html.putData(SO, "-ERR already deleted\r\n");
@@ -694,7 +680,7 @@ public class pop3Server extends baseServer {
                             }
                             hp.delMessageStart();
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
-                                int nMsg = ((Double) aDel.elementAt(nCur)).intValue();
+                                int nMsg = ((Double) aDel.get(nCur)).intValue();
                                 if (hp.delMessage(nMsg)) {
                                     log.info("POP3 server: deleted " + nMsg);
                                 } else {

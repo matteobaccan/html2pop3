@@ -1,23 +1,9 @@
 /*
- * plugin3base
- *
- * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
- * their web site at http://www.gnu.org/).
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
  */
 /**
@@ -38,6 +24,8 @@ import java.lang.reflect.*;
 import java.text.SimpleDateFormat;
 
 import it.baccan.html2pop3.utils.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -45,24 +33,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public abstract class pluginbase {
+public abstract class PluginBase {
 
-    private boolean bIsWin32 = true;
-
-    /**
-     *
-     */
-    public pluginbase() {
-        // Imposta il flag win32, con JDK MS non viene chiamato il metodo
-        setNonWin32();
-    }
-
-    /**
-     * @conditional (JVM14)
-     */
-    private void setNonWin32() {
-        bIsWin32 = false;
-    }
+    @Getter @Setter private String cookie = "";
+    @Getter @Setter private String location = "";
+    @Getter @Setter private String contentDisposition = "";
+    @Getter @Setter private String contentType = "";
 
     /**
      * @conditional (JVM14)
@@ -71,20 +47,15 @@ public abstract class pluginbase {
         ((HttpURLConnection) con).setInstanceFollowRedirects(false);
     }
 
-    private String cookieHeader = "";
-    private String locationHeader = "";
-    private String contentDispositionHeader = "";
-    private String contentTypeHeader = "";
-
     /**
      *
      * @param con
      */
     protected void processField(URLConnection con) {
-        cookieHeader = "";
-        locationHeader = "";
-        contentDispositionHeader = "";
-        contentTypeHeader = "";
+        cookie = "";
+        location = "";
+        contentDisposition = "";
+        contentType = "";
 
         // I cookie possono essere N .. provo a collezionarli
         int n = 1; // n=0 has no key, and the HTTP return status in the value field
@@ -114,13 +85,13 @@ public abstract class pluginbase {
                         if (!headerVal.endsWith(";")) {
                             headerVal += ";";
                         }
-                        cookieHeader += headerVal + " ";
+                        cookie += headerVal + " ";
                     } else if (headerKey.equalsIgnoreCase("location")) {
-                        locationHeader = headerVal;
+                        location = headerVal;
                     } else if (headerKey.equalsIgnoreCase("Content-Disposition")) {
-                        contentDispositionHeader = headerVal;
+                        contentDisposition = headerVal;
                     } else if (headerKey.equalsIgnoreCase("Content-Type")) {
-                        contentTypeHeader = headerVal;
+                        contentType = headerVal;
                     }
                 }
                 n++;
@@ -128,8 +99,8 @@ public abstract class pluginbase {
         } catch (Throwable e) {
             log.error("Errore su codifica cookie " + n);
         }
-        cookieHeader = cookieHeader.trim();
-        locationHeader = locationHeader.trim();
+        cookie = cookie.trim();
+        location = location.trim();
 
         //if( cookieHeader.endsWith(";") ) cookieHeader = cookieHeader.substring(0,cookieHeader.length()-1);
     }
@@ -138,51 +109,11 @@ public abstract class pluginbase {
      *
      * @return
      */
-    protected String getCookie() {
-        return cookieHeader;
-    }
-
-    /**
-     *
-     * @param cookie
-     */
-    protected void setCookie(String cookie) {
-        cookieHeader = cookie;
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected String getLocation() {
-        return locationHeader;
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected String getContentDisposition() {
-        return contentDispositionHeader;
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected String getContentType() {
-        return contentTypeHeader;
-    }
-
-    /**
-     *
-     * @return
-     */
     protected String getContentTypeCharset() {
         String cRet = "";
-        int nPos = contentTypeHeader.indexOf("charset=");
+        int nPos = contentType.indexOf("charset=");
         if (nPos != -1) {
-            cRet = contentTypeHeader.substring(nPos + 8);
+            cRet = contentType.substring(nPos + 8);
         }
         nPos = cRet.indexOf(";");
         if (nPos != -1) {
@@ -907,7 +838,7 @@ public abstract class pluginbase {
             //getting the url posting and generating the right post
             final String LINE_SEPARATOR = String.valueOf((char) 13) + String.valueOf((char) 10);
             StringTokenizer st = new StringTokenizer(cPost, "&");
-            StringBuffer s1 = new StringBuffer();
+            StringBuilder s1 = new StringBuilder();
             String boundary = generateBoundary();
 
             while (st.hasMoreElements()) {
@@ -925,11 +856,9 @@ public abstract class pluginbase {
                     }
                 }
 
-                s1.append("--" + boundary + LINE_SEPARATOR
-                        + "Content-Disposition: form-data; name=\"" + name + "\"" + LINE_SEPARATOR
-                        + LINE_SEPARATOR + value + LINE_SEPARATOR);
+                s1.append("--").append(boundary).append(LINE_SEPARATOR).append("Content-Disposition: form-data; name=\"").append(name).append("\"").append(LINE_SEPARATOR).append(LINE_SEPARATOR).append(value).append(LINE_SEPARATOR);
             }
-            s1.append(LINE_SEPARATOR + "--" + boundary + "--" + LINE_SEPARATOR);
+            s1.append(LINE_SEPARATOR).append("--").append(boundary).append("--").append(LINE_SEPARATOR);
 
             cPost = s1.toString();
 
@@ -959,25 +888,21 @@ public abstract class pluginbase {
             //con.setRequestProperty( "Authorization", "Basic " +cEncode );
         }
 
-        //PrintWriter out = new PrintWriter( con.getOutputStream() );
-        //out.print( cPost );
-        //out.flush();
-        //out.close();
-        OutputStream out = con.getOutputStream();
-        out.write(cPost.getBytes());
-        out.flush();
-        out.close();
-
-        // Lettura risultato
-        InputStream in = con.getInputStream();
-
-        ByteArrayOutputStream cReply = new ByteArrayOutputStream();
-        int c;
-        while ((c = in.read()) != -1) {
-            cReply.write(c);
+        try (OutputStream out = con.getOutputStream()) {
+            out.write(cPost.getBytes());
+            out.flush();
         }
 
-        in.close();
+        ByteArrayOutputStream cReply;
+        // Lettura risultato
+        try (
+            InputStream in = con.getInputStream()) {
+            cReply = new ByteArrayOutputStream();
+            int c;
+            while ((c = in.read()) != -1) {
+                cReply.write(c);
+            }
+        }
 
         return cReply.toByteArray();
     }
@@ -1037,9 +962,9 @@ public abstract class pluginbase {
     protected void putFile(StringBuffer sb, String cAdd) {
         String cPath = "";
         try {
-            FileWriter fw = new FileWriter(cPath + this.getClass().getName() + cAdd + ".txt");
-            fw.write(sb.toString());
-            fw.close();
+            try (FileWriter fw = new FileWriter(cPath + this.getClass().getName() + cAdd + ".txt")) {
+                fw.write(sb.toString());
+            }
         } catch (Exception ex) {
             log.error("Error", ex);
         }
@@ -1112,7 +1037,7 @@ public abstract class pluginbase {
      * @return
      */
     protected String filter(String y, String cOn, String cOff) {
-        StringBuffer oBuf = new StringBuffer();
+        StringBuilder oBuf = new StringBuilder();
 
         String cUpper = y.toUpperCase();
         cOn = cOn.toUpperCase();
@@ -1388,10 +1313,11 @@ public abstract class pluginbase {
         try {
             java.io.File oFile = new java.io.File(cFile);
             if (oFile.exists()) {
-                FileInputStream fInput = new FileInputStream(cFile);
-                byte[] bufferSO = new byte[fInput.available()];
-                fInput.read(bufferSO);
-                fInput.close();
+                byte[] bufferSO;
+                try (FileInputStream fInput = new FileInputStream(cFile)) {
+                    bufferSO = new byte[fInput.available()];
+                    fInput.read(bufferSO);
+                }
                 cRet = new String(bufferSO);
             }
         } catch (Throwable ex) {
@@ -1407,9 +1333,9 @@ public abstract class pluginbase {
      */
     public void writeCache(String cFile, String cData) {
         try {
-            RandomAccessFile oCache = new RandomAccessFile(cFile, "rw");
-            oCache.write(cData.getBytes(), 0, cData.getBytes().length);
-            oCache.close();
+            try (RandomAccessFile oCache = new RandomAccessFile(cFile, "rw")) {
+                oCache.write(cData.getBytes(), 0, cData.getBytes().length);
+            }
         } catch (Throwable ex) {
             log.info("writeCache", ex);
         }

@@ -1,23 +1,9 @@
 /*
- * NNTP server
- *
- * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
- * their web site at http://www.gnu.org/).
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
  */
 /**
@@ -44,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class nntpServer extends baseServer {
+public class NNTPServer extends baseServer {
 
     private String cLoginString = "200 HTML2POP3 news server (" + version.getVersion() + ") ready";
 
@@ -52,7 +38,7 @@ public class nntpServer extends baseServer {
      *
      * @param p
      */
-    public nntpServer(html2pop3 p) {
+    public NNTPServer(html2pop3 p) {
         super(p);
     }
 

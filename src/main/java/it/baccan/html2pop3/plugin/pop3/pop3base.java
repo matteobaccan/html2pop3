@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public abstract class pop3base extends pluginbase {
+public abstract class pop3base extends PluginBase {
 
     /**
      *

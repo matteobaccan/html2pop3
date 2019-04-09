@@ -42,7 +42,7 @@ import it.baccan.html2pop3.plugin.*;
  *
  * @author matteo
  */
-public abstract class nntpbase extends pluginbase {
+public abstract class nntpbase extends PluginBase {
 
     /**
      *

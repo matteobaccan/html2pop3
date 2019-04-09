@@ -664,17 +664,17 @@ public class html2pop3 extends Thread {
     configChange cc;
 
     public void run() {
-        pop3Server pop3;
-        smtpServer smtp;
-        nntpServer nntp;
+        POP3Server pop3;
+        SMTPServer smtp;
+        NNTPServer nntp;
         try {
             printInfo();
 
-            pop3 = new pop3Server(this);
+            pop3 = new POP3Server(this);
             pop3.start();
-            smtp = new smtpServer(this);
+            smtp = new SMTPServer(this);
             smtp.start();
-            nntp = new nntpServer(this);
+            nntp = new NNTPServer(this);
             nntp.start();
             cc = new configChange(this);
             cc.start();
@@ -703,11 +703,11 @@ public class html2pop3 extends Thread {
                         Thread.sleep(100);
                     }
 
-                    pop3 = new pop3Server(this);
+                    pop3 = new POP3Server(this);
                     pop3.start();
-                    smtp = new smtpServer(this);
+                    smtp = new SMTPServer(this);
                     smtp.start();
-                    nntp = new nntpServer(this);
+                    nntp = new NNTPServer(this);
                     nntp.start();
                     cc = new configChange(this);
                     cc.start();
@@ -814,7 +814,7 @@ public class html2pop3 extends Thread {
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             String value = (String) p.get(key);
-            log.info(key + ": " + pluginbase.replace(pluginbase.replace(pluginbase.replace(value, "\r", "\\r"), "\n", "\\n"), "\t", "\\t"));
+            log.info(key + ": " + PluginBase.replace(PluginBase.replace(PluginBase.replace(value, "\r", "\\r"), "\n", "\\n"), "\t", "\\t"));
         }
         log.info("-----------------------------------------------------------------------------");
     }

@@ -42,7 +42,7 @@ import it.baccan.html2pop3.plugin.*;
  *
  * @author matteo
  */
-public abstract class smtpbase extends pluginbase {
+public abstract class smtpbase extends PluginBase {
 
     /**
      *

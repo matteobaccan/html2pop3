@@ -16,7 +16,7 @@ public class htmlgui extends javax.swing.JFrame {
     /**
      * Creates new form htmlgui
      */
-    html2pop3 h2p = null;
+    private html2pop3 h2p = null;
 
     /**
      *
@@ -32,9 +32,6 @@ public class htmlgui extends javax.swing.JFrame {
             }
         });
 
-        //PrintStreamMemo psm = new PrintStreamMemo(new logStreamMemo(System.out, "html2pop3.log"));
-        //System.setOut(psm);
-        //System.setErr(psm);
         h2p = new html2pop3();
         h2p.start();
 
@@ -55,10 +52,9 @@ public class htmlgui extends javax.swing.JFrame {
 
     private class PrintStreamMemo extends java.io.PrintStream {
 
-        java.io.PrintStream pParent = null;
+        private java.io.PrintStream pParent = null;
 
         public PrintStreamMemo(java.io.PrintStream out) {
-            //super(out);
             super(System.out);
             pParent = out;
         }
