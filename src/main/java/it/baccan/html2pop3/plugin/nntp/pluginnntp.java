@@ -104,13 +104,10 @@ public class pluginnntp extends nntpbase implements nntpplugin {
             bis.close();
             fis.close();
             bRet = true;
-        } catch (java.io.FileNotFoundException fnf) {
-
+        } catch (FileNotFoundException fnf) {
             log.info("Non riesco a leggere il file " + cConfigPath + cConfig);
-
         } catch (Throwable e) {
             log.error("Error", e);
-            log.info(e.getMessage());
         }
 
         //Vector aGroup = new Vector();

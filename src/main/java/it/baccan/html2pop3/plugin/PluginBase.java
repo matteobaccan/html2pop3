@@ -17,13 +17,26 @@
  */
 package it.baccan.html2pop3.plugin;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
+import it.baccan.html2pop3.utils.htmlTool;
+import it.baccan.html2pop3.utils.string;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 
-import it.baccan.html2pop3.utils.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -1106,7 +1119,7 @@ public abstract class PluginBase {
         String cRet = "";
 
         // Nuovo algoritmo basato sull'offset corrente
-        oFormatDate = new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", java.util.Locale.US);
+        oFormatDate = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", java.util.Locale.US);
         cRet = oFormatDate.format(d_oper);
 
         // Forzo il GMT+1 = Italia
@@ -1311,7 +1324,7 @@ public abstract class PluginBase {
     public String readCache(String cFile) {
         String cRet = null;
         try {
-            java.io.File oFile = new java.io.File(cFile);
+            File oFile = new File(cFile);
             if (oFile.exists()) {
                 byte[] bufferSO;
                 try (FileInputStream fInput = new FileInputStream(cFile)) {

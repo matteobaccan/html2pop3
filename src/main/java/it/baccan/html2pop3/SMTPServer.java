@@ -108,12 +108,13 @@ public class SMTPServer extends baseServer {
         }
 
         // Inizio thread di gestione del socket
+        @Override
         public void run() {
             try {
 
                 manage(socket);
 
-            } catch (java.net.SocketException se) {
+            } catch (SocketException se) {
 
                 log.error("SMTP server: chiusura connessione: " + se.getMessage());
 

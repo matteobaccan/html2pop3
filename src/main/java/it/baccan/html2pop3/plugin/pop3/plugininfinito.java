@@ -35,6 +35,7 @@ import java.net.*;
 import java.util.*;
 
 import it.baccan.html2pop3.utils.*;
+import java.io.FileNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -181,7 +182,7 @@ public class plugininfinito extends POP3Base implements POP3Plugin {
 
             log.error("Infinito: getmail end");
 
-        } catch (java.io.FileNotFoundException fnf) {
+        } catch (FileNotFoundException fnf) {
             oMail = null;
         } catch (Throwable ex) {
             oMail = null;

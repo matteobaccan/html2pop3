@@ -216,7 +216,6 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             Pattern pat4Bold = Pattern.compile("<b>(.+)</b>", Pattern.CASE_INSENSITIVE);
             Matcher matHeader = null;
             Matcher mat4Bold = null;
-            Matcher mat = null;
 
             start = headUpper.indexOf("<TABLE");
             start = headUpper.indexOf("<TABLE", start + 1);
@@ -284,7 +283,6 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             Pattern pat = Pattern.compile("^To:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = pat.matcher(headers);
             String ret = "not@found";
-            String buff = null;
             char c = '\0';
             int i = 0;
 

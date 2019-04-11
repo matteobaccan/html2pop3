@@ -39,12 +39,14 @@ import it.baccan.html2pop3.utils.htmlTool;
 import it.baccan.html2pop3.utils.string;
 import it.baccan.html2pop3.utils.version;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Properties;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
@@ -69,17 +71,13 @@ public class POP3Server extends baseServer {
         String cPath = p.getConfigPath();
         String cConfig = "tunnelpop3.cfg";
         try {
-            FileInputStream fis = new FileInputStream(cPath + cConfig);
-            config.load(fis);
-            fis.close();
-
-        } catch (java.io.FileNotFoundException fnf) {
-
+            try (FileInputStream fis = new FileInputStream(cPath + cConfig)) {
+                config.load(fis);
+            }
+        } catch (FileNotFoundException fnf) {
             log.info("Non riesco a leggere il file " + cPath + cConfig);
-
         } catch (IOException e) {
             log.error("Error", e);
-            log.error(e.getMessage());
         }
     }
 
@@ -162,35 +160,30 @@ public class POP3Server extends baseServer {
 
     class pop3Thread extends Thread {
 
-        private Socket socket;
+        private final Socket socket;
+        private POP3Plugin hp = null;
 
         public pop3Thread(Socket socket) {
             this.socket = socket;
         }
 
         // Inizio thread di gestione del socket
+        @Override
         public void run() {
             try {
-
                 manage(socket);
-
-            } catch (java.net.SocketException se) {
-
+            } catch (SocketException se) {
                 log.error("POP3 server: chiusura connessione: " + se.getMessage());
-
             } catch (Throwable e) {
-
                 log.error("Error", e);
-                log.info(e.getMessage());
             }
 
             try {
                 socket.close();
-            } catch (Throwable e) {
+            } catch (IOException e) {
+                log.error("Error closing socket", e);
             }
         }
-
-        private POP3Plugin hp = null;
 
         /**
          * @conditional (JVM14)

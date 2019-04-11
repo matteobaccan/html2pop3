@@ -475,13 +475,12 @@ public class html2pop3 extends Thread {
             nntpIpFilter = getFilter("nntp.ipfilter");
 
             bRet = true;
-        } catch (java.io.FileNotFoundException fnf) {
+        } catch (FileNotFoundException fnf) {
 
             log.info("Non riesco a leggere il file " + getConfigFullPath() + ", lanciare html2pop3 dalla directory di " + cConfig);
 
         } catch (IOException e) {
             log.error("Error", e);
-            log.info(e.getMessage());
         }
         return bRet;
     }

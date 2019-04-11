@@ -65,13 +65,12 @@ public class pluginrss extends POP3Base implements POP3Plugin {
             config.load(fis);
             fis.close();
 
-        } catch (java.io.FileNotFoundException fnf) {
+        } catch (FileNotFoundException fnf) {
 
             log.info("Non riesco a leggere il file " + cPath + cConfig);
 
         } catch (IOException e) {
             log.error("Error", e);
-            log.info(e.getMessage());
         }
 
         cCacheFile = cPath + cConfig + "-cache.cache";
@@ -79,11 +78,10 @@ public class pluginrss extends POP3Base implements POP3Plugin {
             FileInputStream fis = new FileInputStream(cCacheFile);
             cache.load(fis);
             fis.close();
-        } catch (java.io.FileNotFoundException fnf) {
+        } catch (FileNotFoundException fnf) {
             // Empty cache
         } catch (IOException e) {
             log.error("Error", e);
-            log.info(e.getMessage());
         }
     }
 

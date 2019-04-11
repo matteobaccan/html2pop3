@@ -106,12 +106,13 @@ public class NNTPServer extends baseServer {
         }
 
         // Inizio thread di gestione del socket
+        @Override
         public void run() {
             try {
 
                 manage(socket);
 
-            } catch (java.net.SocketException se) {
+            } catch (SocketException se) {
 
                 log.error("NNTP server: chiusura connessione: " + se.getMessage());
 
