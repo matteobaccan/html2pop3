@@ -43,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -132,7 +133,7 @@ public class POP3Server extends baseServer {
                     thread.start();
                 }
             }
-        } catch (java.net.BindException be) {
+        } catch (BindException be) {
             String cLoginStringFound = EchoClient.getLine(parent.getHost(), parent.getPort());
             String cError = "Errore! Porta " + parent.getPort() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server POP3";
 
@@ -672,6 +673,7 @@ public class POP3Server extends baseServer {
                             }
                         } else {
                             html.putData(SO, "-ERR delete disabled\r\n");
+                            //html.putData(SO, "+OK message marked for deletion\r\n");
                         }
                     }
 

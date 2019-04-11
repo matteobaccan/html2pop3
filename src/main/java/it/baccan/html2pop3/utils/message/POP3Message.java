@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
  * http://www.baccan.it
- * 
+ *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
@@ -57,10 +57,13 @@ public class POP3Message extends MasterMessage {
 
     @Getter @Setter private String body = "";
 
-    private ArrayList<byte[]> aAttach = new ArrayList<>();
-    private ArrayList<String> aName = new ArrayList<>();
+    private final ArrayList<byte[]> aAttach = new ArrayList<>(0);
+    private final ArrayList<String> aName = new ArrayList<>(0);
 
-    static public boolean addHTML = false;
+    /**
+     *
+     */
+    public static boolean addHTML = false;
     @Getter @Setter private String charset = UTF_8;
 
     private static boolean bRFC2047 = true;
@@ -88,7 +91,11 @@ public class POP3Message extends MasterMessage {
         }
     }
 
-    static public void setAddHTML(boolean b) {
+    /**
+     *
+     * @param b
+     */
+    public static void setAddHTML(boolean b) {
         addHTML = b;
     }
 
@@ -96,7 +103,7 @@ public class POP3Message extends MasterMessage {
      *
      * @return
      */
-    static public boolean getAddHTML() {
+    public static boolean getAddHTML() {
         return addHTML;
     }
 
@@ -110,7 +117,7 @@ public class POP3Message extends MasterMessage {
     }
 
     /**
-     * Sets if the message is in HTML or TEXT form the default is HTML
+     * Sets if the message is in HTML or TEXT form the default is HTML.
      *
      * @param i the format of the message TEXT_MESSAGE/HTML_MESSAGE
      */
@@ -134,7 +141,7 @@ public class POP3Message extends MasterMessage {
             if (messageType == HTML_MESSAGE) {
                 cCharset = "Content-Type: text/html; charset=\"" + getCharset() + "\"\r\n";
             } else {
-                cCharset = "Content-Type: text/plain; charset=\"" + getCharset() + "\"\r\n";
+                cCharset = "Content-Type: text/plain; charset=" + getCharset() + "\r\n";
             }
 
             if (da.length() > 0) {
@@ -173,16 +180,18 @@ public class POP3Message extends MasterMessage {
             oMail.append("--______BoundaryOfDocument______\r\n");
 
             oMail.append(cCharset);
-            oMail.append("Content-Transfer-Encoding: base64\r\n");
+            oMail.append("Content-Transfer-Encoding: quoted-printable\r\n");
             oMail.append("\r\n");
+            /*
             if (messageType == HTML_MESSAGE) {
                 oMailBody.append("<HTML>\r\n");
                 oMailBody.append("<HEAD>\r\n");
-                oMailBody.append("<TITLE>").append(oggetto).append(" </TITLE>\r\n"); // SPACE before </title> prevente UTF-8 error in wrong email
+                // SPACE before </title> prevente UTF-8 error in wrong email
+                oMailBody.append("<TITLE>").append(oggetto).append(" </TITLE>\r\n");
                 oMailBody.append("<META http-equiv=Content-Type content=\"text/html; charset=").append(getCharset()).append("\">\r\n");
                 oMailBody.append("</HEAD>\r\n");
                 oMailBody.append("<BODY bgcolor=#ffffff topmargin=10 marginheight=10 leftmargin=10 marginwidth=10>\r\n");
-            }
+            }*/
 
             // Il body deve avere le seguenti modifiche
             // riga per riga .. se parte con . aggiugnerne uno
@@ -192,22 +201,21 @@ public class POP3Message extends MasterMessage {
             body = lineFormat.format(body);
 
             oMailBody.append(body);
-            if (messageType == HTML_MESSAGE) {
-                oMailBody.append("</BODY>\r\n");
-                oMailBody.append("</HTML>\r\n");
-            } else {
-                oMailBody.append("\r\n");
-            }
+            //if (messageType == HTML_MESSAGE) {
+            //    oMailBody.append("</BODY>\r\n");
+            //    oMailBody.append("</HTML>\r\n");
+            //} else {
+            //    oMailBody.append("\r\n");
+            //}
 
             // Appendo il base64 del body
             StringBuilder newBody = new StringBuilder();
-            splitAndAttachBinary(newBody, oMailBody.toString().getBytes());
+            splitAndAttach7bit(newBody, oMailBody.toString().getBytes());
             oMailBody = newBody;
             oMailBody.append("\r\n");
 
             for (int nAttach = 0; nAttach < aName.size(); nAttach++) {
                 String filename = (String) aName.get(nAttach);
-                //hasAttach = true;
 
                 oMailBody.append("--______BoundaryOfDocument______\r\n");
                 oMailBody.append("Content-Type: ").append(contentType.getInstance().getFromFilename(filename)).append(";\r\n");
@@ -336,6 +344,29 @@ public class POP3Message extends MasterMessage {
                 buf[n] = cAttach[nBlock + n];
             }
             oMailBody.append(Base64.encode(buf)).append("\r\n");
+        }
+    }
+
+    private void splitAndAttach7bit(StringBuilder oMailBody, byte[] cAttach) {
+        // =3D
+        int nBlock = 0;
+        int line = 0;
+        while (nBlock < cAttach.length) {
+            line++;
+            byte c = cAttach[nBlock];
+            if (c == '=') {
+                oMailBody.append("=3D");
+                line += 2;
+            } else {
+                oMailBody.append((char) c);
+            }
+            if (c == '\n') {
+                line = 0;
+            } else if (line >= 73) {
+                oMailBody.append("=\r\n");
+                line = 0;
+            }
+            nBlock++;
         }
     }
 

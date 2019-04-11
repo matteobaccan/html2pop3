@@ -32,10 +32,17 @@
 package it.baccan.html2pop3.plugin.nntp;
 
 import java.net.*;
-import java.io.*;
 import java.util.*;
 
 import it.baccan.html2pop3.utils.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -66,7 +73,7 @@ public class pluginnntp extends nntpbase implements nntpplugin {
 
         // Se non ho la directory di LOG la creo
         try {
-            java.io.File oFile = new java.io.File(cPath + "nntpcache");
+            File oFile = new File(cPath + "nntpcache");
             if (!oFile.exists()) {
                 oFile.mkdir();
             }
@@ -136,7 +143,7 @@ public class pluginnntp extends nntpbase implements nntpplugin {
 
         // Se non ho la directory di LOG la creo
         try {
-            java.io.File oFile = new java.io.File(cConfigPath + "nntpcache" + File.separator + cCurrentGroup);
+            File oFile = new File(cConfigPath + "nntpcache" + File.separator + cCurrentGroup);
             if (!oFile.exists()) {
                 oFile.mkdir();
             }
@@ -306,10 +313,10 @@ public class pluginnntp extends nntpbase implements nntpplugin {
                 }
             }
 
-            java.io.File oFile;
+            File oFile;
             // ID to num
             Properties cacheID = new Properties();
-            oFile = new java.io.File(cCacheID);
+            oFile = new File(cCacheID);
             if (oFile.exists()) {
                 try {
                     FileInputStream fis = new FileInputStream(cCacheID);

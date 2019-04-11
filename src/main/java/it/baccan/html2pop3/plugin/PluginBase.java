@@ -658,8 +658,8 @@ public abstract class PluginBase {
         }
 
         // Se usi WinINet (com.ms.net.wininet.http.HttpURLConnection) non ho il metodo
-        if (con instanceof java.net.HttpURLConnection) {
-            ((java.net.HttpURLConnection) con).setFollowRedirects(false);
+        if (con instanceof HttpURLConnection) {
+            ((HttpURLConnection) con).setFollowRedirects(false);
         }
 
         setInstanceFollowRedirects(con);
@@ -821,8 +821,8 @@ public abstract class PluginBase {
         }
 
         // Se usi WinINet (com.ms.net.wininet.http.HttpURLConnection) non ho il metodo
-        if (con instanceof java.net.HttpURLConnection) {
-            ((java.net.HttpURLConnection) con).setFollowRedirects(false);
+        if (con instanceof HttpURLConnection) {
+            ((HttpURLConnection) con).setFollowRedirects(false);
         }
 
         setInstanceFollowRedirects(con);
@@ -925,7 +925,7 @@ public abstract class PluginBase {
      */
     public void logErrorStream(URLConnection con) {
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(((java.net.HttpURLConnection) con).getErrorStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(((HttpURLConnection) con).getErrorStream()));
 
             StringBuffer sbErr = new StringBuffer();
             String inputLine;
@@ -1128,7 +1128,6 @@ public abstract class PluginBase {
         int value = (calendar.get(Calendar.ZONE_OFFSET)
                 + calendar.get(Calendar.DST_OFFSET)) / 60000;
 
-        int width = 4;
         String buffer = " ";
         if (value >= 0) {
             buffer += "+";

@@ -17,12 +17,20 @@
  */
 package it.baccan.html2pop3;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-
-import it.baccan.html2pop3.utils.*;
-import it.baccan.html2pop3.plugin.nntp.*;
+import it.baccan.html2pop3.plugin.nntp.nntpbase;
+import it.baccan.html2pop3.plugin.nntp.pluginnntp;
+import it.baccan.html2pop3.utils.EchoClient;
+import it.baccan.html2pop3.utils.MsgBox;
+import it.baccan.html2pop3.utils.htmlTool;
+import it.baccan.html2pop3.utils.version;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.BindException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -71,7 +79,7 @@ public class NNTPServer extends baseServer {
                     thread.start();
                 }
             }
-        } catch (java.net.BindException be) {
+        } catch (BindException be) {
             String cLoginStringFound = EchoClient.getLine(parent.getHost(), parent.getPortNNTP());
             String cError = "Errore! Porta " + parent.getPortNNTP() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server NNTP";
 

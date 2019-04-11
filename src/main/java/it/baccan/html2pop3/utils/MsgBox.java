@@ -9,7 +9,6 @@ package it.baccan.html2pop3.utils;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 /**
  *

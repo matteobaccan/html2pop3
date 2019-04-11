@@ -36,6 +36,7 @@ import java.net.URL;
 import javax.swing.*;
 
 import it.baccan.html2pop3.utils.*;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -174,11 +175,11 @@ public class htmlgui32 {
      */
     public static void upenUrl(String url) {
         boolean bRun = false;
-        if (java.awt.Desktop.isDesktopSupported()) {
-            java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
-            if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
                 try {
-                    java.net.URI uri = new java.net.URI(url);
+                    URI uri = new URI(url);
                     desktop.browse(uri);
                     bRun = true;
                 } catch (Exception ee) {
@@ -212,7 +213,7 @@ public class htmlgui32 {
     private static String readCache(String cFile) {
         String cRet = null;
         try {
-            java.io.File oFile = new java.io.File(cFile);
+            File oFile = new File(cFile);
             if (oFile.exists()) {
                 FileInputStream fInput = new FileInputStream(cFile);
                 byte[] bufferSO = new byte[fInput.available()];

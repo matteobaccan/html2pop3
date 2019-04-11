@@ -19,9 +19,11 @@ import it.baccan.html2pop3.utils.message.POP3Message;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicBoolean;
+import kong.unirest.Header;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestInstance;
@@ -353,7 +355,11 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                         .field("uid", cMsgId)
                         .asString();
                 sb = response.getBody();
-
+                
+                List<Header> headers = response.getHeaders().all();
+                headers.forEach(action -> {
+                    log.debug("[{}]=[{}]", action.getName(), action.getValue());
+                });
                 if (bDebug) {
                     log.debug(sb);
                 }
@@ -379,10 +385,21 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
                     JSONObject jHead = new JSONObject(sbHead);
                     JSONArray ja = (JSONArray) jHead.get("emailheaders");
+
                     if (ja != null) {
                         if (ja.length() > 0) {
                             JSONObject row = (JSONObject) ja.get(0);
                             pop3.setCc(cleanJSON(row.getString("cc")));
+                            // Uso gli header per migliorare l'email ritonata
+                            String headerClean = cleanJSON(row.getString("headers"));
+                            StringTokenizer st = new StringTokenizer(headerClean, "\r\n");
+                            while (st.hasMoreTokens()) {
+                                String cTok = st.nextToken();
+                                if( cTok.startsWith("Date:") ){
+                                    String date = cTok.substring(5).trim();                                    
+                                    pop3.setData(date);
+                                }
+                            }
                         }
                     }
 

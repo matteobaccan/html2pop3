@@ -41,8 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PluginTele2 extends POP3Base implements POP3Plugin {
 
     private final String CLASS_NAME = this.getClass().getName();
-    private final String FIRST_PAGE = "/it_IT/index.html";
-    private final String SECOND_PAGE = "/cgi-bin/gx.cgi/AppLogic+moblogin";
     private final String WRONG_LOGIN = "<title>Login non riuscito</title>";
     private final String MAIL_DETAIL = "/cgi-bin/gx.cgi/AppLogic+mobmain";
     private final String BASE_DELETE = "/cgi-bin/gx.cgi/AppLogic+mobmain?del.x=1&msgOp";

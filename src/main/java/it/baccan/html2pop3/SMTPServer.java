@@ -17,13 +17,22 @@
  */
 package it.baccan.html2pop3;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-
-import it.baccan.html2pop3.utils.*;
-import it.baccan.html2pop3.plugin.smtp.*;
-import it.baccan.html2pop3.plugin.pop3.*;
+import it.baccan.html2pop3.plugin.pop3.plugingmail;
+import it.baccan.html2pop3.plugin.smtp.plugincgiemail;
+import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
+import it.baccan.html2pop3.plugin.smtp.smtpplugin;
+import it.baccan.html2pop3.utils.EchoClient;
+import it.baccan.html2pop3.utils.MsgBox;
+import it.baccan.html2pop3.utils.htmlTool;
+import it.baccan.html2pop3.utils.version;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.BindException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -73,7 +82,7 @@ public class SMTPServer extends baseServer {
                     thread.start();
                 }
             }
-        } catch (java.net.BindException be) {
+        } catch (BindException be) {
             String cLoginStringFound = EchoClient.getLine(parent.getHost(), parent.getPortSMTP());
             String cError = "Errore! Porta " + parent.getPortSMTP() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server SMTP";
 
