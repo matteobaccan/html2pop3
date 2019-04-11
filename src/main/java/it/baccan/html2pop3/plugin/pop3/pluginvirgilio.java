@@ -40,7 +40,7 @@ import org.json.JSONObject;
  * @author matteo
  */
 @Slf4j
-public class pluginvirgilio extends plugintin implements pop3plugin {
+public class pluginvirgilio extends PluginTin implements POP3Plugin {
 
     private boolean bDebug = false;
 
@@ -264,7 +264,7 @@ public class pluginvirgilio extends plugintin implements pop3plugin {
      * @param args
      */
     public static void main(String[] args) {
-        plugintin tin = new plugintin();
+        PluginTin tin = new PluginTin();
         if (tin.login(args[0], args[1])) {
             int nNum = tin.getMessageNum();
             int nSiz = tin.getMessageSize();

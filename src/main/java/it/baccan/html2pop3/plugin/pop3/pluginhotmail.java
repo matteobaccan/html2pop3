@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginhotmail extends pop3base implements pop3plugin {
+public class pluginhotmail extends POP3Base implements POP3Plugin {
 
     /**
      *

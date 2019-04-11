@@ -1,23 +1,9 @@
 /*
- * pop3base
- *
- * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
- * their web site at http://www.gnu.org/).
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
  */
 /**
@@ -46,12 +32,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public abstract class pop3base extends PluginBase {
+public abstract class POP3Base extends PluginBase {
 
     /**
      *
      */
-    public pop3base() {
+    public POP3Base() {
         super();
     }
 
@@ -261,13 +247,13 @@ public abstract class pop3base extends PluginBase {
         return true;
     }
 
-    // Contatti
     /**
+     * Contatti.
      *
      * @return
      */
-    public Vector getContact() {
-        return new Vector();
+    public ArrayList<String[]> getContact() {
+        return new ArrayList<>();
     }
 
     /**
@@ -276,19 +262,18 @@ public abstract class pop3base extends PluginBase {
      */
     public String getContactXML() {
         StringBuffer oRet = new StringBuffer();
-        Vector oContact = getContact();
+        ArrayList<String[]> oContact = getContact();
 
         try {
             // Formatta l'xml
             oRet.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n");
             oRet.append("<contacts version=\"1.00\">\r\n");
-            oRet.append("   <items>" + oContact.size() + "</items>\r\n");
+            oRet.append("   <items>").append(oContact.size()).append("</items>\r\n");
             for (int nCont = 0; nCont < oContact.size(); nCont++) {
-                String[] oEle = (String[]) oContact.elementAt(nCont);
-                //log.info( "getContact     :" +oEle[0] +" - " +oEle[1] );
+                String[] oEle = (String[]) oContact.get(nCont);
                 oRet.append("   <item>\r\n");                       //,"UTF-8"
-                oRet.append("      <name>" + convertXML(oEle[0]) + "</name>\r\n");
-                oRet.append("      <email>" + convertXML(oEle[1]) + "</email>\r\n");
+                oRet.append("      <name>").append(convertXML(oEle[0])).append("</name>\r\n");
+                oRet.append("      <email>").append(convertXML(oEle[1])).append("</email>\r\n");
                 oRet.append("   </item>\r\n");
             }
             oRet.append("</contacts>\r\n");

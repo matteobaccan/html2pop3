@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
  * http://www.baccan.it
- * 
+ *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
@@ -17,13 +17,36 @@
  */
 package it.baccan.html2pop3;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-
-import it.baccan.html2pop3.utils.*;
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
-import it.baccan.html2pop3.plugin.pop3.*;
+import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
+import it.baccan.html2pop3.plugin.pop3.PluginLinuxIt;
+import it.baccan.html2pop3.plugin.pop3.PluginTele2;
+import it.baccan.html2pop3.plugin.pop3.plugingmail;
+import it.baccan.html2pop3.plugin.pop3.pluginhotmail;
+import it.baccan.html2pop3.plugin.pop3.pluginlibero;
+import it.baccan.html2pop3.plugin.pop3.plugintiscali;
+import it.baccan.html2pop3.plugin.pop3.PluginTin;
+import it.baccan.html2pop3.plugin.pop3.pluginfastwebnet;
+import it.baccan.html2pop3.plugin.pop3.pluginrss;
+import it.baccan.html2pop3.plugin.pop3.plugininfinito;
+import it.baccan.html2pop3.plugin.pop3.pluginvirgilio;
+import it.baccan.html2pop3.plugin.pop3.plugintim;
+import it.baccan.html2pop3.plugin.pop3.pluginsupereva;
+import it.baccan.html2pop3.plugin.pop3.pluginpop3;
+import it.baccan.html2pop3.utils.EchoClient;
+import it.baccan.html2pop3.utils.MsgBox;
+import it.baccan.html2pop3.utils.htmlTool;
+import it.baccan.html2pop3.utils.string;
+import it.baccan.html2pop3.utils.version;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Properties;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -167,7 +190,7 @@ public class POP3Server extends baseServer {
             }
         }
 
-        private pop3plugin hp = null;
+        private POP3Plugin hp = null;
 
         /**
          * @conditional (JVM14)
@@ -217,7 +240,6 @@ public class POP3Server extends baseServer {
             }
 
             // initial banner
-            //html.putData( SO, "+OK HTML2POP3 server ready (" +version.getVersion() +")\r\n" );
             html.putData(SO, cLoginString + "\r\n");
 
             boolean bExit = false;
@@ -395,7 +417,7 @@ public class POP3Server extends baseServer {
                             //} else if( cServer.equalsIgnoreCase("email.it") ){
                             //hp = new pluginemail();
                         } else if (cServer.equalsIgnoreCase("tin.it")) {
-                            hp = new plugintin();
+                            hp = new PluginTin();
                         } else if (cServer.equalsIgnoreCase("virgilio.it")) {
                             hp = new pluginvirgilio();
                         } else if (cServer.equalsIgnoreCase("tim.it")) {

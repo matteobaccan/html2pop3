@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugintim extends pop3base implements pop3plugin {
+public class plugintim extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
     private String cServer = "http://webmail1.posta.tim.it";

@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
  * Licence details at http://www.gnu.org/licenses/gpl.txt
  */
 @Slf4j
-public class PluginTele2 extends pop3base implements pop3plugin {
+public class PluginTele2 extends POP3Base implements POP3Plugin {
 
     private final String CLASS_NAME = this.getClass().getName();
     private final String FIRST_PAGE = "/it_IT/index.html";

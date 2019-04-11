@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class html2pop3 extends Thread {
 
-    private static String cConfig = "/config.cfg";
+    private static String cConfig = "config.cfg";
     private filter pop3IpFilter = new filter();
     private filter pop3PluginFilter = new filter();
     private filter pop3UserFilter = new filter();
@@ -390,7 +390,7 @@ public class html2pop3 extends Thread {
         boolean bRet = false;
         try {
             log.info("Load Config [{}]", cConfig);
-            try (InputStream fis = this.getClass().getResourceAsStream(cConfig)) {
+            try (InputStream fis = new FileInputStream(cConfig)) {
                 p.clear();
                 p.load(fis);
             }
@@ -424,7 +424,7 @@ public class html2pop3 extends Thread {
             //logStreamMemo.setLogSize(Double.valueOf(p.getProperty("logsize", "2000000")).intValue());
             // Plugin specific
             plugintiscali.setDelete(p.getProperty("tiscali.delete", "true").equalsIgnoreCase("true"));
-            plugintin.setDelete(p.getProperty("tin.delete", "true").equalsIgnoreCase("true"));
+            PluginTin.setDelete(p.getProperty("tin.delete", "true").equalsIgnoreCase("true"));
             pluginlibero.setRead(p.getProperty("libero.read", "false").equalsIgnoreCase("true"));
 
             // RFC2047
@@ -804,7 +804,7 @@ public class html2pop3 extends Thread {
         log.info("Plugin specific setting");
         log.info("-----------------------------------------------------------------------------");
         log.info("tiscali: modalita' di cancellazione " + (plugintiscali.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
-        log.info("tin: modalita' di cancellazione " + (plugintin.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
+        log.info("tin: modalita' di cancellazione " + (PluginTin.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
         log.info("libero: flag di lettura " + (pluginlibero.getRead() ? "ATTIVO" : "DISATTIVO"));
         log.info("outlook 2002: timeout " + (bOutlook2002Timeout ? "ATTIVO" : "DISATTIVO"));
         log.info("supporto per rfc2047: " + (POP3Message.getrfc2047() ? "ATTIVO" : "DISATTIVO"));

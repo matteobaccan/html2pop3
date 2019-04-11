@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugintiscali extends pop3base implements pop3plugin {
+public class plugintiscali extends POP3Base implements POP3Plugin {
 
     /**
      *
@@ -483,8 +483,9 @@ public class plugintiscali extends pop3base implements pop3plugin {
      *
      * @return
      */
-    public Vector getContact() {
-        Vector oRet = new Vector();
+    @Override
+    public ArrayList<String[]> getContact() {
+        ArrayList<String[]> oRet = new ArrayList<>();
         try {
 
             // Prendo i contatti
@@ -505,7 +506,7 @@ public class plugintiscali extends pop3base implements pop3plugin {
                     break;
                 }
                 String[] oEle = {oMail.substring(nLabel + 14, nLabel2), oMail.substring(nEmail + 14, nEmail2)};
-                oRet.addElement(oEle);
+                oRet.add(oEle);
                 nStart = nEmail2;
             }
         } catch (Throwable ex) {

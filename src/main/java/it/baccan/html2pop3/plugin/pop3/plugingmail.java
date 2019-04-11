@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugingmail extends pop3base implements pop3plugin, smtpplugin {
+public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
 
     /**
      *
@@ -304,8 +304,9 @@ public class plugingmail extends pop3base implements pop3plugin, smtpplugin {
      *
      * @return
      */
-    public Vector getContact() {
-        Vector oRet = new Vector();
+    @Override
+    public ArrayList<String[]> getContact() {
+        ArrayList<String[]> oRet = new ArrayList<>();
         try {
 
             // Prendo i contatti
@@ -323,7 +324,7 @@ public class plugingmail extends pop3base implements pop3plugin, smtpplugin {
             while (m.find()) {
                 String[] oEle = {m.group(6), m.group(14)};
                 if (n > 0) {
-                    oRet.addElement(oEle);
+                    oRet.add(oEle);
                 }
                 n++;
             }
@@ -340,6 +341,7 @@ public class plugingmail extends pop3base implements pop3plugin, smtpplugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         StringBuffer oMail = new StringBuffer();
         try {

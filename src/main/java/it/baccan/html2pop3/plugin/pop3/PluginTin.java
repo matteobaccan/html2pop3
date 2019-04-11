@@ -1,7 +1,10 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
- * Distributed under the MIT software license, see the accompanying
- * file COPYING or http://www.opensource.org/licenses/mit-license.php.
+ * http://www.baccan.it
+ * 
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
+ *
  */
 /**
  * Title: Tin HTML2POP3 Description: Convertitore da HTML a POP3 per www.tin.it
@@ -35,7 +38,7 @@ import org.unbescape.html.HtmlEscape;
  * @author matteo
  */
 @Slf4j
-public class plugintin extends pop3base implements pop3plugin {
+public class PluginTin extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
     @Getter @Setter private String server = "";
@@ -52,7 +55,7 @@ public class plugintin extends pop3base implements pop3plugin {
     /**
      *
      */
-    public plugintin() {
+    public PluginTin() {
         prop = new HashMap<>();
         unirest = Unirest.spawnInstance();
     }
@@ -483,7 +486,7 @@ public class plugintin extends pop3base implements pop3plugin {
      *
      * @param b
      */
-    static public void setDelete(boolean b) {
+    public static void setDelete(boolean b) {
         bDelete = b;
     }
 
@@ -491,13 +494,14 @@ public class plugintin extends pop3base implements pop3plugin {
      *
      * @return
      */
-    static public boolean getDelete() {
+    public static boolean getDelete() {
         return bDelete;
     }
 
     /**
      *
      */
+    @Override
     public void delMessageEnd() {
 
         try {
@@ -515,7 +519,7 @@ public class plugintin extends pop3base implements pop3plugin {
     private String getMessage(String cMail) {
         String cRet = "";
         //01234567890123 456789012345678901234 567890123456789
-        String cMessageIni = "<body ";//onload=\"calcHeight();\" onresize=\"calcHeight();return false;\">";
+        String cMessageIni = "<body "; //onload=\"calcHeight();\" onresize=\"calcHeight();return false;\">";
         int nInfo = cMail.indexOf(cMessageIni);
         if (nInfo != -1) {
             nInfo = cMail.indexOf(">", nInfo);
@@ -574,7 +578,7 @@ public class plugintin extends pop3base implements pop3plugin {
      * @param args
      */
     public static void main(String[] args) {
-        plugintin tin = new plugintin();
+        PluginTin tin = new PluginTin();
         if (tin.login(args[0], args[1])) {
             int nNum = tin.getMessageNum();
             int nSiz = tin.getMessageSize();
