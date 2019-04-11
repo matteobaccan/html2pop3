@@ -167,9 +167,6 @@ public class NNTPServer extends baseServer {
             boolean bExit = false;
 
             String cGroup = "";
-            //String cArt   = "";
-            String cUser = "";
-            String cPwd = "";
             // main loop
             while (!bExit) {
                 String cLine = html.getLineNOCRLF(SI);
@@ -181,7 +178,7 @@ public class NNTPServer extends baseServer {
                     if (cLine.length() <= 13) {
                         html.putData(SO, "501 Syntax error in parameters or arguments to AUTHINFO USER command\r\n");
                     } else {
-                        cUser = cLine.substring(13).trim();
+                        // USER: cLine.substring(13).trim();
                         html.putData(SO, "381 More Authentication Required\r\n");
                     }
 
@@ -190,7 +187,7 @@ public class NNTPServer extends baseServer {
                     if (cLine.length() <= 13) {
                         html.putData(SO, "501 Syntax error in parameters or arguments to AUTHINFO PASS command\r\n");
                     } else {
-                        cPwd = cLine.substring(13).trim();
+                        // PWD = cLine.substring(13).trim();
                         html.putData(SO, "281 Authentication Accepted\r\n");
                     }
 

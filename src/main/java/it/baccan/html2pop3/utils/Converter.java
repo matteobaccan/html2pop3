@@ -78,9 +78,6 @@ public class Converter {
         if (checkLinks) {
             Pattern openAElement = Pattern.compile("<a[^>]*>([^><]*)</a>", Pattern.CASE_INSENSITIVE);
             Matcher matchOpenA = openAElement.matcher(textString);
-            int start = 0;
-            int end = 0;
-            String s = null;
 
             try {
                 while (matchOpenA.find()) {

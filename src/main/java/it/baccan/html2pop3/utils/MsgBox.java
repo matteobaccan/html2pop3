@@ -24,22 +24,22 @@ public class MsgBox extends JDialog implements ActionListener {
 
     /**
      *
-     * @param tit
+     * @param title
      * @param msg
      * @param okcan
      */
-    public MsgBox(String tit, String msg, boolean okcan) {
-        this(tit, msg, okcan, null);
+    public MsgBox(String title, String msg, boolean okcan) {
+        this(title, msg, okcan, null);
     }
 
     /**
      *
-     * @param tit
+     * @param title
      * @param msg
      * @param okcan
      * @param cText
      */
-    public MsgBox(String tit, String msg, boolean okcan, String cText) {
+    public MsgBox(String title, String msg, boolean okcan, String cText) {
         //super(new JFrame(""), tit, true);
         super(null, Dialog.ModalityType.APPLICATION_MODAL);
         //int nRow = msg.length()-string.replace(msg,"\n","").length();

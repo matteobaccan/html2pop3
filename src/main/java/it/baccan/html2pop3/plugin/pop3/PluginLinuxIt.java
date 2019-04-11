@@ -283,8 +283,6 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             Pattern pat = Pattern.compile("^To:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = pat.matcher(headers);
             String ret = "not@found";
-            char c = '\0';
-            int i = 0;
 
             if (mat.find()) {
                 ret = parseMultipleAddresses(mat.group(1).trim(), mat.end());
@@ -404,7 +402,6 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
         String ret = null;
         String s = null;
         MailMessage mm = null;
-        POP3Message p3m = null;
         HashMap attach = null;
         Iterator iterator = null;
 

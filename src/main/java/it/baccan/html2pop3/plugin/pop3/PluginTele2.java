@@ -401,7 +401,6 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             StringBuffer buffer = new StringBuffer();
             String post = null;
             String retFromPost = null;
-            String lastUrl = null;
 
             //scroll the page in search for all the message ids and sizes
             while (pos != -1) {
@@ -523,8 +522,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             String messageId = getMessageID(pos);
             String deleteUrl = secondServer + BASE_DELETE + messageId + "=on";
             String retPage = null;
-            int retry = 0;
-            int start = 0;
+            int retry = 0;            
             boolean ret = true;
 
             try {
@@ -667,7 +665,6 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             Matcher matcher2 = null;
             Matcher matcher3 = null;
             String mailId = "";
-            String mailUrl = "";
             String pageContent = null;
             int mails = 0;
             int cnt = 0;
@@ -681,7 +678,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             while (matcher.find()) {
                 index++;
                 mailId = matcher.group(2);
-                mailUrl = matcher.group(1);
+                //mailUrl = matcher.group(1);
                 if (index % 2 != 0) {
                     //reperimento della dimesione del messaggio
                     cnt = 0;

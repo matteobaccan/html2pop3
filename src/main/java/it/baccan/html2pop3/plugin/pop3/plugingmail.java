@@ -57,8 +57,7 @@ public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
     private boolean bDebug = false;
 
     private String cGmailCookie = "";
-    private String cGlobal8 = "";
-    private String cGlobal3 = "";
+    private String cGlobal8 = "";    
     private String cFolder = "inbox";
     private String cServer = "http://mail.google.com/mail";
     private boolean bLogin = false;
@@ -288,7 +287,7 @@ public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
                     }
 
                     // Prendo il valore che mi serve
-                    cGlobal3 = m.group(3);
+                    //cGlobal3 = m.group(3);
                     cGlobal8 = m.group(8);
                 }
                 log.error("GMail: list end");

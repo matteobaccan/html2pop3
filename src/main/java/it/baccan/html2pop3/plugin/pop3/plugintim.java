@@ -47,10 +47,10 @@ import lombok.extern.slf4j.Slf4j;
 public class plugintim extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
-    private String cServer = "http://webmail1.posta.tim.it";
+    private final String cServer = "http://webmail1.posta.tim.it";
 
     // Property per variabili hidden
-    private Properties p = new Properties();
+    private final Properties p = new Properties();
 
     // Sessione
     private String cSessionCook = "";
