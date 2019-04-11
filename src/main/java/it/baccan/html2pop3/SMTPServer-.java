@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
  * http://www.baccan.it
- * 
+ *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SMTPServer extends baseServer {
 
     private final String cLoginString = "220 HTML2POP3 ESMTP Service (" + version.getVersion() + ") ready";
+
 
     /**
      *
