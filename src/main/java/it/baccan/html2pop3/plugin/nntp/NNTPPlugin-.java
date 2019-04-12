@@ -31,21 +31,22 @@
  */
 package it.baccan.html2pop3.plugin.nntp;
 
-import java.util.*;
-import java.io.*;
+import java.io.OutputStream;
+import java.util.Vector;
+
 
 /**
  *
  * @author matteo
  */
-public interface nntpplugin {
+public interface NNTPPlugin {
 
     /**
      *
-     * @param SO
+     * @param outputStream
      * @return
      */
-    boolean streamList(OutputStream SO);
+    boolean streamList(OutputStream outputStream);
 
     /**
      *

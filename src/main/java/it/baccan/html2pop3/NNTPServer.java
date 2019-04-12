@@ -18,7 +18,7 @@
 package it.baccan.html2pop3;
 
 import it.baccan.html2pop3.plugin.nntp.NNTPBase;
-import it.baccan.html2pop3.plugin.nntp.pluginnntp;
+import it.baccan.html2pop3.plugin.nntp.PluginNNTP;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
 import it.baccan.html2pop3.utils.HTMLTool;
@@ -158,7 +158,7 @@ public class NNTPServer extends BaseServer {
             String cServer = "nntp";
             NNTPBase sp = null;
             if (cServer.equalsIgnoreCase("nntp")) {
-                sp = new pluginnntp();
+                sp = new PluginNNTP();
                 //} else {
                 //log.error( "NNTP server: errore, server mancante." );
                 //sp = new pluginnntp();

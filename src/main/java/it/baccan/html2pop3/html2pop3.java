@@ -19,7 +19,7 @@ package it.baccan.html2pop3;
 
 
 import it.baccan.html2pop3.plugin.PluginBase;
-import it.baccan.html2pop3.plugin.nntp.pluginnntp;
+import it.baccan.html2pop3.plugin.nntp.PluginNNTP;
 import it.baccan.html2pop3.plugin.pop3.PluginTin;
 import it.baccan.html2pop3.plugin.pop3.pluginlibero;
 import it.baccan.html2pop3.plugin.pop3.pluginpop3;
@@ -430,7 +430,7 @@ public class html2pop3 extends Thread {
             pluginrss.setConfig(getConfigPath(), "rss.cfg");
 
             // NNTP
-            pluginnntp.setConfig(getConfigPath(), "nntp.cfg");
+            PluginNNTP.setConfig(getConfigPath(), "nntp.cfg");
 
             // Size del log
             //logStreamMemo.setLogSize(Double.valueOf(p.getProperty("logsize", "2000000")).intValue());

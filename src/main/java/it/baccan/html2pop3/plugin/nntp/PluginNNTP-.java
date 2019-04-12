@@ -51,12 +51,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginnntp extends NNTPBase implements nntpplugin {
+public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
     /**
      *
      */
-    public pluginnntp() {
+    public PluginNNTP() {
     }
 
     private static int nNumMsg = 25;
