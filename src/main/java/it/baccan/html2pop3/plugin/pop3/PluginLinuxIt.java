@@ -247,7 +247,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the message type
          */
-        int getMessageType() {
+        private int getMessageType() {
             return POP3Message.TEXT_MESSAGE;
         }
 
@@ -277,7 +277,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the addressee
          */
-        String getTo() {
+        private String getTo() {
             Pattern pat = Pattern.compile("^To:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = pat.matcher(headers);
             String ret = "not@found";
@@ -293,7 +293,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the CC in mail
          */
-        String getCC() {
+        private String getCC() {
             Pattern pat = Pattern.compile("^CC:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = pat.matcher(headers);
             String ret = "";
@@ -309,7 +309,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the sender of the mail
          */
-        String getFrom() {
+        private String getFrom() {
             Pattern patFrom = Pattern.compile("^From:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = patFrom.matcher(headers);
             String ret = "no@found";
@@ -326,7 +326,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the date
          */
-        String getDate() {
+        private String getDate() {
             Pattern pat = Pattern.compile("^Date:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = pat.matcher(headers);
             String ret = "";
@@ -342,7 +342,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the subject
          */
-        String getSubject() {
+        private String getSubject() {
             Pattern pat = Pattern.compile("^Subject:(.*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
             Matcher mat = pat.matcher(headers);
             String ret = "";
@@ -358,7 +358,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return the body
          */
-        String getBody() {
+        private String getBody() {
             return body;
         }
 
@@ -367,7 +367,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return an HashMap with the attachments
          */
-        HashMap getAttachments() {
+        private HashMap getAttachments() {
             return attachments;
         }
 

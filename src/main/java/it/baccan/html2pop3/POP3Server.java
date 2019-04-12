@@ -533,7 +533,7 @@ public class POP3Server extends BaseServer {
 
                 } else if (cLineUpper.startsWith("STAT")) {
                     // Di default e' attivo, opzionalmente si puo' staccare
-                    if (getParent().getOutlook2002Timeout()) {
+                    if (getParent().isOutlook2002Timeout()) {
                         // Sleep for 1 second
                         // Questa riga sembra stupida e inutile .. vero .. ma Outlook 2002, se gli si risponde
                         // troppo presto ... non riesce a prendere la risposta e a gestirla .. si perde in non

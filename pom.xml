@@ -218,9 +218,9 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <outfile>target/html2pop3-${project.version}.exe</outfile>
-                            <jar>target/html2pop3-${project.version}-jar-with-dependencies.jar</jar>
-                            <errTitle>html2pop3</errTitle>
+                            <outfile>target/HTML2POP3-${project.version}.exe</outfile>
+                            <jar>target/HTML2POP3-${project.version}-jar-with-dependencies.jar</jar>
+                            <errTitle>HTML2POP3</errTitle>
                             <classPath>
                                 <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
                                 <addDependencies>false</addDependencies>
@@ -236,9 +236,9 @@
                                 <copyright>Matteo Baccan</copyright>
                                 <productVersion>${project.version}.0</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
-                                <productName>html2pop3</productName>
-                                <internalName>html2pop3</internalName>
-                                <originalFilename>html2pop3-${project.version}.exe</originalFilename>
+                                <productName>HTML2POP3</productName>
+                                <internalName>HTML2POP3</internalName>
+                                <originalFilename>HTML2POP3-${project.version}.exe</originalFilename>
                             </versionInfo>
                         </configuration>
                     </execution>
