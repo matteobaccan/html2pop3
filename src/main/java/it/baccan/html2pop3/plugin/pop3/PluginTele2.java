@@ -936,7 +936,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
                     lastUrl = getLocation();
 
                     //Se ho una stringa vuota, allora ho un errore nella password
-                    if (lastUrl.equals("")) {
+                    if (lastUrl.isEmpty()) {
                         return false;
                     }
 

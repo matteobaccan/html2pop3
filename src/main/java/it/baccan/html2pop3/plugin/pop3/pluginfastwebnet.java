@@ -45,12 +45,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class pluginfastwebnet extends POP3Base implements POP3Plugin {
 
-    /**
-     *
-     */
-    public pluginfastwebnet() {
-    }
-
     // Server di riferimento
     private String cServer = "http://ms002msg.fastwebnet.it";
 
@@ -61,6 +55,12 @@ public class pluginfastwebnet extends POP3Base implements POP3Plugin {
     private String cLeft = "";
     private String cRight = "";
     private boolean bDebug = false;
+
+    /**
+     *
+     */
+    public pluginfastwebnet() {
+    }
 
     /**
      *

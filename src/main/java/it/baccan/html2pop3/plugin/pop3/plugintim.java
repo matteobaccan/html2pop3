@@ -235,8 +235,8 @@ public class plugintim extends POP3Base implements POP3Plugin {
             cRet = replace(cRet, "&lt;", "<");
             cRet = replace(cRet, "&gt;", ">");
             cRet = replace(cRet, "&#39;", "'");
-            if (corr == true) {
-                if (cRet.equals("\"") || cRet == null || cRet.equals("")) {
+            if (corr) {
+                if (cRet == null || cRet.equals("\"") || cRet.equals("")) {
                     cRet = "\"\"";
                 } else if (!cRet.startsWith("\"") && !cRet.startsWith("<")) {
                     if (cRet.indexOf("<") == -1) {
@@ -246,7 +246,7 @@ public class plugintim extends POP3Base implements POP3Plugin {
                     }
                 }
             }
-            if (cInfo.equals("Data:")) {
+            if ("Data:".equals(cInfo)) {
                 Calendar cal = Calendar.getInstance();
                 cal.set(
                         Integer.parseInt(cRet.substring(0, 4)),

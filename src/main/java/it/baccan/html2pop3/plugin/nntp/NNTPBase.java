@@ -44,13 +44,6 @@ public abstract class NNTPBase extends PluginBase {
 
     /**
      *
-     */
-    public NNTPBase() {
-        super();
-    }
-
-    /**
-     *
      * @param SO
      * @return
      */

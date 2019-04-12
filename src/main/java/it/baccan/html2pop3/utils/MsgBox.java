@@ -97,7 +97,7 @@ public class MsgBox extends JDialog implements ActionListener {
         p.add(ok = new Button("OK"));
         ok.addActionListener(this);
 
-        if (okcan == true) {
+        if (okcan) {
             p.add(can = new Button("Cancel"));
             can.addActionListener(this);
         }

@@ -37,6 +37,12 @@ public abstract class POP3Base extends PluginBase {
     // Vettore email
     private Vector aEmail = new Vector();
     private Vector aSize = new Vector();
+    private String cLastCacheKey = "";
+    private String cLastCacheMsg = "";
+
+    @Getter @Setter private String lastErr = "";
+    @Setter private int maxMessageNum = -1;
+
 
     /**
      *
@@ -79,8 +85,6 @@ public abstract class POP3Base extends PluginBase {
     public int getMessageNum() {
         return aEmail.size();
     }
-
-    @Setter private int maxMessageNum = -1;
 
     /**
      *
@@ -146,9 +150,6 @@ public abstract class POP3Base extends PluginBase {
         return getMessageCache(nPos, nLine, false);
     }
 
-    private String cLastCacheKey = "";
-    private String cLastCacheMsg = "";
-
     private String getMessageCache(int nPos, int nLine, boolean bAll) {
         String cRet = cLastCacheMsg;
         String cCacheKey = "|" + nPos + "|" + nLine + "|" + bAll + "|";
@@ -212,12 +213,14 @@ public abstract class POP3Base extends PluginBase {
      *
      */
     public void delMessageStart() {
+        log.info("delMessageStart: not implemented");
     }
 
     /**
      *
      */
     public void delMessageEnd() {
+        log.info("delMessageEnd: not implemented");
     }
 
     /**
@@ -228,9 +231,8 @@ public abstract class POP3Base extends PluginBase {
      * @throws DeleteMessageException
      */
     public void delMessagesFromTrash() throws DeleteMessageException {
+        log.info("delMessagesFromTrash: not implemented");
     }
-
-    @Getter @Setter private String lastErr = "";
 
     /**
      *

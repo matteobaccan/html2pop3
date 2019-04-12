@@ -54,6 +54,8 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
     private UnirestInstance unirest = null;
 
+    private static boolean bDelete = true;
+
     /**
      *
      */
@@ -496,8 +498,6 @@ public class PluginTin extends POP3Base implements POP3Plugin {
         }
         return bRet;
     }
-
-    private static boolean bDelete = true;
 
     /**
      *

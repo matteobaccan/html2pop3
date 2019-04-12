@@ -45,18 +45,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class plugininfinito extends POP3Base implements POP3Plugin {
 
-    /**
-     *
-     */
-    public plugininfinito() {
-    }
-
     // Server di riferimento
     private String cServer = "http://www.infinito.it";
 
     // Sessione
     private String cSessionCook = "";
     private String cSession = "";
+
+    /**
+     *
+     */
+    public plugininfinito() {
+    }
 
     /**
      *

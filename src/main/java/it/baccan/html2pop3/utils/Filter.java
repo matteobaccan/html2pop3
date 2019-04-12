@@ -104,22 +104,22 @@ public class Filter {
         f.add("allow", new String[]{"pluto"});
         f.add("deny", new String[]{"all"});
 
-        if (f.isAllow(new String[]{"pippo", "127.0.0.1"}) == true) {
+        if (f.isAllow(new String[]{"pippo", "127.0.0.1"})) {
             log.info("Filter 1 error");
         }
-        if (f.isAllow(new String[]{"pippo", "192.168.0.1"}) == false) {
+        if (!f.isAllow(new String[]{"pippo", "192.168.0.1"})) {
             log.info("Filter 2 error");
         }
-        if (f.isAllow(new String[]{"pluto", "192.168.0.1"}) == false) {
+        if (!f.isAllow(new String[]{"pluto", "192.168.0.1"})) {
             log.info("Filter 3 error");
         }
-        if (f.isAllow(new String[]{"xxxxx", "192.168.0.1", ""}) == true) {
+        if (f.isAllow(new String[]{"xxxxx", "192.168.0.1", ""})) {
             log.info("Filter 4 error");
         }
-        if (f.isAllow(new String[]{"xxxxx", "192.168.0.1", "x"}) == true) {
+        if (f.isAllow(new String[]{"xxxxx", "192.168.0.1", "x"})) {
             log.info("Filter 5 error");
         }
-        if (f.isAllow(new String[]{"xxxxx", "127.0.0.1"}) == true) {
+        if (f.isAllow(new String[]{"xxxxx", "127.0.0.1"})) {
             log.info("Filter 6 error");
         }
 
