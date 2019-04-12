@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginnntp extends nntpbase implements nntpplugin {
+public class pluginnntp extends NNTPBase implements nntpplugin {
 
     /**
      *

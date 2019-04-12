@@ -31,23 +31,21 @@
  */
 package it.baccan.html2pop3.plugin.nntp;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
+import it.baccan.html2pop3.plugin.PluginBase;
+import java.io.OutputStream;
+import java.util.Vector;
 
-import it.baccan.html2pop3.utils.*;
-import it.baccan.html2pop3.plugin.*;
 
 /**
  *
  * @author matteo
  */
-public abstract class nntpbase extends PluginBase {
+public abstract class NNTPBase extends PluginBase {
 
     /**
      *
      */
-    public nntpbase() {
+    public NNTPBase() {
         super();
     }
 
@@ -56,14 +54,14 @@ public abstract class nntpbase extends PluginBase {
      * @param SO
      * @return
      */
-    public abstract boolean streamList(OutputStream SO);
+    public abstract boolean streamList(OutputStream outputStream);
 
     /**
      *
      * @param cGroup
      * @return
      */
-    public abstract long[] group(String cGroup);
+    public abstract long[] group(String group);
 
     /**
      *
@@ -71,7 +69,7 @@ public abstract class nntpbase extends PluginBase {
      * @param nTo
      * @return
      */
-    public abstract Vector xover(long nFrom, long nTo);
+    public abstract Vector xover(long from, long to);
 
     /**
      *
