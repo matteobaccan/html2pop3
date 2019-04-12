@@ -23,8 +23,8 @@ import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
 import it.baccan.html2pop3.plugin.smtp.smtpplugin;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
-import it.baccan.html2pop3.utils.htmlTool;
-import it.baccan.html2pop3.utils.version;
+import it.baccan.html2pop3.utils.HTMLTool;
+import it.baccan.html2pop3.utils.Version;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.BindException;
@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SMTPServer extends BaseServer {
 
-    private final String cLoginString = "220 HTML2POP3 ESMTP Service (" + version.getVersion() + ") ready";
+    private final String cLoginString = "220 HTML2POP3 ESMTP Service (" + Version.getVersion() + ") ready";
 
 
     /**
@@ -146,7 +146,7 @@ public class SMTPServer extends BaseServer {
             OutputStream SO = socket.getOutputStream();
 
             // Tool
-            htmlTool html = new htmlTool();
+            HTMLTool html = new HTMLTool();
 
             String cIP = socket.getInetAddress().getHostAddress();
             // IP Filter

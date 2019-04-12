@@ -101,7 +101,7 @@ public class pluginnntp extends NNTPBase implements nntpplugin {
                     if (cLine.endsWith("\r\n")) {
                         cLine = cLine.substring(0, cLine.length() - 2);
                     }
-                    htmlTool html = new htmlTool();
+                    HTMLTool html = new HTMLTool();
                     html.putData(SO, cLine + " 00001 00001 n\r\n");
                 }
             }
@@ -425,7 +425,7 @@ public class pluginnntp extends NNTPBase implements nntpplugin {
 
         log.error("nntp: art end");
 
-        return (cRet == null ? null : lineFormat.format(cRet));
+        return (cRet == null ? null : LineFormat.format(cRet));
     }
 
 }

@@ -17,10 +17,10 @@
  */
 package it.baccan.html2pop3.utils.message;
 
-import it.baccan.html2pop3.utils.contentType;
-import it.baccan.html2pop3.utils.lineFormat;
-import it.baccan.html2pop3.utils.version;
-import it.baccan.html2pop3.utils.string;
+import it.baccan.html2pop3.utils.ContentType;
+import it.baccan.html2pop3.utils.LineFormat;
+import it.baccan.html2pop3.utils.Version;
+import it.baccan.html2pop3.utils.String;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -160,8 +160,8 @@ public class POP3Message extends MasterMessage {
                 oMail.append("Date: ").append(data).append("\r\n");
             }
 
-            oMail.append("User-Agent: HTML2POP3 ").append(version.getVersion()).append("\r\n");
-            oMail.append("X-Mailer: HTML2POP3 ").append(version.getVersion()).append("\r\n");
+            oMail.append("User-Agent: HTML2POP3 ").append(Version.getVersion()).append("\r\n");
+            oMail.append("X-Mailer: HTML2POP3 ").append(Version.getVersion()).append("\r\n");
 
             // Non e' alternative ma mixed
             oMail.append("Content-Type: multipart/mixed;\r\n");
@@ -198,7 +198,7 @@ public class POP3Message extends MasterMessage {
             //body = string.replace( body, "\n.", "\n.." );
             //if( body.startsWith(".") && !body.startsWith("..") )
             //body = "." +body;
-            body = lineFormat.format(body);
+            body = LineFormat.format(body);
 
             oMailBody.append(body);
             //if (messageType == HTML_MESSAGE) {
@@ -218,7 +218,7 @@ public class POP3Message extends MasterMessage {
                 String filename = (String) aName.get(nAttach);
 
                 oMailBody.append("--______BoundaryOfDocument______\r\n");
-                oMailBody.append("Content-Type: ").append(contentType.getInstance().getFromFilename(filename)).append(";\r\n");
+                oMailBody.append("Content-Type: ").append(ContentType.getInstance().getFromFilename(filename)).append(";\r\n");
                 oMailBody.append("      name=\"").append(filename).append("\"\r\n");
                 oMailBody.append("Content-Transfer-Encoding: base64\r\n");
                 oMailBody.append("Content-Disposition: attachment;\r\n");
@@ -275,7 +275,7 @@ public class POP3Message extends MasterMessage {
      * @return
      */
     public String rfc2047(String cStr) {
-        cStr = string.replace(cStr, "&#39;", "'");
+        cStr = String.replace(cStr, "&#39;", "'");
 
         String cRet = cStr;
         // Verifica se ci sono caratteri strani e serve una codifica secondo rfc2047

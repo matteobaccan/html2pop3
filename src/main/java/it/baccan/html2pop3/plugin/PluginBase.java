@@ -17,8 +17,7 @@
  */
 package it.baccan.html2pop3.plugin;
 
-import it.baccan.html2pop3.utils.htmlTool;
-import it.baccan.html2pop3.utils.string;
+import it.baccan.html2pop3.utils.HTMLTool;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -433,7 +432,7 @@ public abstract class PluginBase {
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
         String inputLine;
-        htmlTool html = new htmlTool();
+        HTMLTool html = new HTMLTool();
 
         int nPos = 0;
         while ((inputLine = in.readLine()) != null) {
@@ -910,7 +909,7 @@ public abstract class PluginBase {
         ByteArrayOutputStream cReply;
         // Lettura risultato
         try (
-            InputStream in = con.getInputStream()) {
+                InputStream in = con.getInputStream()) {
             cReply = new ByteArrayOutputStream();
             int c;
             while ((c = in.read()) != -1) {
@@ -1292,7 +1291,7 @@ public abstract class PluginBase {
      * @return
      */
     public static String replace(String s, String s1, String s2) {
-        return string.replace(s, s1, s2);
+        return s.replace(s1, s2);
     }
 
     /**

@@ -107,7 +107,7 @@ public class pluginpop3 extends POP3Base implements POP3Plugin {
             }
 
             String cPost = "action=list&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser) + "&pass=" + URLEncoder.encode(cLocalPwd);
-            cPost += "&ver=" + URLEncoder.encode(version.getVersion());
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
             String sb = postPage(cServer + "msglist.php", "", cPost).toString();
 
             {
@@ -154,7 +154,7 @@ public class pluginpop3 extends POP3Base implements POP3Plugin {
             log.error("Pop3: getmail ID (" + cMsgId + ")");
 
             String cPost = "action=get&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser) + "&pass=" + URLEncoder.encode(cLocalPwd) + "&msgid=" + cMsgId;
-            cPost += "&ver=" + URLEncoder.encode(version.getVersion());
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
             oMail = getPage(cServer + "msglist.php?" + cPost, "", nLine, bAll);
 
             log.error("Pop3: getmail end");
@@ -208,7 +208,7 @@ public class pluginpop3 extends POP3Base implements POP3Plugin {
 
                 String cPost = "msglist=" + oAllMsg.toString();
                 cPost += "&action=delete&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser) + "&pass=" + URLEncoder.encode(cLocalPwd);
-                cPost += "&ver=" + URLEncoder.encode(version.getVersion());
+                cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
 
                 //String cPage = postPage( cServer +"msglist.php?action=delete&server=" +cLocalServer +"&port=" +cLocalPort +"&user=" +URLEncoder.encode(cLocalUser) +"&pass=" +URLEncoder.encode(cLocalPwd), null, cPost ).toString();
                 String cPage = postPage(cServer + "msglist.php", null, cPost).toString();

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class version {
+public class Version {
 
     static String version = null;
 
@@ -30,7 +30,7 @@ public class version {
      */
     static public String getVersion() {
         if (version == null) {
-            Class clazz = version.class;
+            Class clazz = Version.class;
             String className = clazz.getSimpleName() + ".class";
             String classPath = clazz.getResource(className).toString();
             if (classPath.startsWith("jar")) {

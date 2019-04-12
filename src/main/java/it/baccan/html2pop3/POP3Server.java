@@ -35,9 +35,9 @@ import it.baccan.html2pop3.plugin.pop3.pluginsupereva;
 import it.baccan.html2pop3.plugin.pop3.pluginpop3;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
-import it.baccan.html2pop3.utils.htmlTool;
-import it.baccan.html2pop3.utils.string;
-import it.baccan.html2pop3.utils.version;
+import it.baccan.html2pop3.utils.HTMLTool;
+import it.baccan.html2pop3.utils.String;
+import it.baccan.html2pop3.utils.Version;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,7 +59,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class POP3Server extends BaseServer {
 
-    private String cLoginString = "+OK HTML2POP3 server ready (" + version.getVersion() + ")";
+    private String cLoginString = "+OK HTML2POP3 server ready (" + Version.getVersion() + ")";
     private Properties config = new Properties();
 
     /**
@@ -96,8 +96,8 @@ public class POP3Server extends BaseServer {
             cEmail = cEmail.substring(nPos + 1).toLowerCase();
             cRet = config.getProperty(cEmail, "");
             if (cRet.length() > 0) {
-                cRet = string.replace(cRet, "%email%", cUser + "@" + cEmail);
-                cRet = string.replace(cRet, "%user%", cUser);
+                cRet = String.replace(cRet, "%email%", cUser + "@" + cEmail);
+                cRet = String.replace(cRet, "%user%", cUser);
             }
         }
 
@@ -222,7 +222,7 @@ public class POP3Server extends BaseServer {
             OutputStream SO = socket.getOutputStream();
 
             // Tool
-            htmlTool html = new htmlTool();
+            HTMLTool html = new HTMLTool();
             html.setDebug(bDebug);
 
             String cIP = socket.getInetAddress().getHostAddress();

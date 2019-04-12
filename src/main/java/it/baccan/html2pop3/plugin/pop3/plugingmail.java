@@ -431,7 +431,7 @@ public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
             // Estraggo i tag
             String cSub = getTag(cHead, "Subject:"); //"prova";
             //String cBod = cBody.replaceAll(""+(char)13,"").replaceAll(""+(char)10,"");
-            String cBod = string.replace(cBody, "" + (char) 13 + (char) 10, "<br>");
+            String cBod = String.replace(cBody, "" + (char) 13 + (char) 10, "<br>");
             //String cBod = cBody;
 
             //log.error( "SUB: (" +cSub +")" );

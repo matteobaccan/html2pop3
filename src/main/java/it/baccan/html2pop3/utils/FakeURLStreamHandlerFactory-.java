@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class fakeURLStreamHandlerFactory implements URLStreamHandlerFactory {
+public class FakeURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
     // StreamHandler per gestire HTTPS con MS JDK
     static URLStreamHandler WinINetsh = null;

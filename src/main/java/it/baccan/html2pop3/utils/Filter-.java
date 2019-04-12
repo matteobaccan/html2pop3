@@ -17,14 +17,14 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class filter {
+public class Filter {
 
     Vector aRules;
 
     /**
      *
      */
-    public filter() {
+    public Filter() {
         aRules = new Vector();
     }
 
@@ -99,7 +99,7 @@ public class filter {
      * @param args
      */
     public static void main(String[] args) {
-        filter f = new filter();
+        Filter f = new Filter();
         f.add("allow", new String[]{"all", "192.168", "pippo"});
         f.add("allow", new String[]{"pluto"});
         f.add("deny", new String[]{"all"});

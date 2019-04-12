@@ -37,15 +37,15 @@ import lombok.extern.slf4j.Slf4j;
 public class html2pop3 extends Thread {
 
     private static String cConfig = "config.cfg";
-    private filter pop3IpFilter = new filter();
-    private filter pop3PluginFilter = new filter();
-    private filter pop3UserFilter = new filter();
-    private filter pop3GlobalFilter = new filter();
-    private filter smtpIpFilter = new filter();
-    private filter smtpPluginFilter = new filter();
-    private filter smtpUserFilter = new filter();
-    private filter smtpGlobalFilter = new filter();
-    private filter nntpIpFilter = new filter();
+    private Filter pop3IpFilter = new Filter();
+    private Filter pop3PluginFilter = new Filter();
+    private Filter pop3UserFilter = new Filter();
+    private Filter pop3GlobalFilter = new Filter();
+    private Filter smtpIpFilter = new Filter();
+    private Filter smtpPluginFilter = new Filter();
+    private Filter smtpUserFilter = new Filter();
+    private Filter smtpGlobalFilter = new Filter();
+    private Filter nntpIpFilter = new Filter();
     private SortedProperties p = new SortedProperties();
     private String cLocalHost = "127.0.0.1";
     private int cLocalPort = 110;
@@ -108,7 +108,7 @@ public class html2pop3 extends Thread {
     public void trustAll() {
         try {
             // Creo un TrustManager
-            javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[]{new fakeX509TrustManager()};
+            javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[]{new FakeX509TrustManager()};
 
             // Prendo un'istanza di SSLContext
             javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext.getInstance("SSL");
@@ -483,8 +483,8 @@ public class html2pop3 extends Thread {
         return bRet;
     }
 
-    private filter getFilter(String cRoot) {
-        filter ret = new filter();
+    private Filter getFilter(String cRoot) {
+        Filter ret = new Filter();
 
         int nFilter = 1;
         while (true) {
@@ -520,7 +520,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getPOP3IpFilter() {
+    public Filter getPOP3IpFilter() {
         return pop3IpFilter;
     }
 
@@ -528,7 +528,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getPOP3PluginFilter() {
+    public Filter getPOP3PluginFilter() {
         return pop3PluginFilter;
     }
 
@@ -536,7 +536,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getPOP3UserFilter() {
+    public Filter getPOP3UserFilter() {
         return pop3UserFilter;
     }
 
@@ -544,7 +544,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getPOP3GlobalFilter() {
+    public Filter getPOP3GlobalFilter() {
         return pop3GlobalFilter;
     }
 
@@ -552,7 +552,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getSMTPIpFilter() {
+    public Filter getSMTPIpFilter() {
         return smtpIpFilter;
     }
 
@@ -560,7 +560,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getSMTPPluginFilter() {
+    public Filter getSMTPPluginFilter() {
         return smtpPluginFilter;
     }
 
@@ -568,7 +568,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getSMTPUserFilter() {
+    public Filter getSMTPUserFilter() {
         return smtpUserFilter;
     }
 
@@ -576,7 +576,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getSMTPGlobalFilter() {
+    public Filter getSMTPGlobalFilter() {
         return smtpGlobalFilter;
     }
 
@@ -584,7 +584,7 @@ public class html2pop3 extends Thread {
      *
      * @return
      */
-    public filter getNNTPIpFilter() {
+    public Filter getNNTPIpFilter() {
         return nntpIpFilter;
     }
 
@@ -724,7 +724,7 @@ public class html2pop3 extends Thread {
      *
      */
     public void printInfo() {
-        String cVer = version.getVersion();
+        String cVer = Version.getVersion();
         while (cVer.length() < 6) {
             cVer = " " + cVer;
         }

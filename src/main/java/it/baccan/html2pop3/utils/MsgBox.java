@@ -62,7 +62,7 @@ public class MsgBox extends JDialog implements ActionListener {
             }
             if (l.getText().indexOf("<b>") != -1) {
                 l.setFont(new Font("Arial", Font.BOLD, 12));
-                l.setText(string.replace(l.getText(), "<b>", ""));
+                l.setText(String.replace(l.getText(), "<b>", ""));
             }
             //l.setAlignment(Label.CENTER);
             l.setAlignment(Label.LEFT);

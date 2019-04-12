@@ -16,7 +16,7 @@ import java.util.*;
  *
  * @author matteo
  */
-public class lineFormat {
+public class LineFormat {
 
     /**
      *

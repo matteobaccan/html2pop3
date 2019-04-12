@@ -94,13 +94,13 @@ public class htmlgui32 {
 
         final TrayIcon trayIcon = new TrayIcon(createImage("/html2pop3.gif", "tray icon"));
         trayIcon.setImageAutoSize(false);
-        trayIcon.setToolTip("HTML2POP3 " + version.getVersion() + " su " + html2pop3.getHost() + ":" + html2pop3.getPort() + "/" + html2pop3.getPortSMTP() + "/" + html2pop3.getPortNNTP() + ". Esci con click destro");
+        trayIcon.setToolTip("HTML2POP3 " + Version.getVersion() + " su " + html2pop3.getHost() + ":" + html2pop3.getPort() + "/" + html2pop3.getPortSMTP() + "/" + html2pop3.getPortNNTP() + ". Esci con click destro");
 
         final SystemTray tray = SystemTray.getSystemTray();
 
         ///*
         // Create a popup menu components
-        MenuItem aboutItem = new MenuItem("About HTML2POP3 " + version.getVersion());
+        MenuItem aboutItem = new MenuItem("About HTML2POP3 " + Version.getVersion());
         MenuItem baccanItem = new MenuItem("Verifica aggiornamenti su Baccan.it");
         //MenuItem forumItem = new MenuItem("Forum di supporto");
         MenuItem infoItem = new MenuItem("Visualizza html2pop3.log");
@@ -129,7 +129,7 @@ public class htmlgui32 {
 
         aboutItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "HTML2POP3 " + version.getVersion() + " by Matteo Baccan http://www.baccan.it");
+                JOptionPane.showMessageDialog(null, "HTML2POP3 " + Version.getVersion() + " by Matteo Baccan http://www.baccan.it");
             }
         });
 
@@ -154,7 +154,7 @@ public class htmlgui32 {
          */
         infoItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new MsgBox("HTML2POP3 " + version.getVersion() + " win32",
+                new MsgBox("HTML2POP3 " + Version.getVersion() + " win32",
                         "File di log: " + cLogPath + "\nFile di configurazione: " + cCfgPath + "\n", true, readCache(cLogPath));
             }
         });

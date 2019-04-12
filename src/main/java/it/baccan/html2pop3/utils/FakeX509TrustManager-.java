@@ -10,7 +10,7 @@ import java.security.cert.X509Certificate;
  *
  * @author matteo
  */
-public class fakeX509TrustManager implements X509TrustManager {
+public class FakeX509TrustManager implements X509TrustManager {
 
     /**
      *

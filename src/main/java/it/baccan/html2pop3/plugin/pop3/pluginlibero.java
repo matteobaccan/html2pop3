@@ -471,7 +471,7 @@ public class pluginlibero extends POP3Base implements POP3Plugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : lineFormat.format(oMail.toString()));
+        return (oMail == null ? null : LineFormat.format(oMail.toString()));
     }
 
     /**
@@ -500,7 +500,7 @@ public class pluginlibero extends POP3Base implements POP3Plugin {
 
             if (getContentType().equalsIgnoreCase("message/rfc822")) {
                 bRet = true;
-                htmlTool html = new htmlTool();
+                HTMLTool html = new HTMLTool();
                 if (bAll) { // ALL
                     html.putData(SO, "+OK " + getMessageSize(nPos) + " bytes\r\n");
                 } else { // TOP

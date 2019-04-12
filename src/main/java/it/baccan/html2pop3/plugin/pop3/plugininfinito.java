@@ -183,7 +183,7 @@ public class plugininfinito extends POP3Base implements POP3Plugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : lineFormat.format(oMail.toString()));
+        return (oMail == null ? null : LineFormat.format(oMail.toString()));
     }
 
     /**

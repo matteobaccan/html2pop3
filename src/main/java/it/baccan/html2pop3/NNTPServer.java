@@ -21,8 +21,8 @@ import it.baccan.html2pop3.plugin.nntp.NNTPBase;
 import it.baccan.html2pop3.plugin.nntp.pluginnntp;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
-import it.baccan.html2pop3.utils.htmlTool;
-import it.baccan.html2pop3.utils.version;
+import it.baccan.html2pop3.utils.HTMLTool;
+import it.baccan.html2pop3.utils.Version;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.BindException;
@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NNTPServer extends BaseServer {
 
-    private String cLoginString = "200 HTML2POP3 news server (" + version.getVersion() + ") ready";
+    private String cLoginString = "200 HTML2POP3 news server (" + Version.getVersion() + ") ready";
 
     /**
      *
@@ -142,7 +142,7 @@ public class NNTPServer extends BaseServer {
             OutputStream SO = socket.getOutputStream();
 
             // Tool
-            htmlTool html = new htmlTool();
+            HTMLTool html = new HTMLTool();
 
             String cIP = socket.getInetAddress().getHostAddress();
             // IP Filter

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.baccan.html2pop3.utils.contentType;
+import it.baccan.html2pop3.utils.ContentType;
 
 /**
  * Class that rappresent a pop3 message characterized by full pop headers, body
@@ -120,7 +120,7 @@ public class FullHeaderMessage extends MasterMessage {
                 content = (byte[]) attachments.get(fileName);
 
                 sb.append("\r\n--" + boundary + "\r\n");
-                sb.append("Content-Type: " + contentType.getInstance().getFromFilename(fileName) + ";\r\n");
+                sb.append("Content-Type: " + ContentType.getInstance().getFromFilename(fileName) + ";\r\n");
                 sb.append("      name=\"" + fileName + "\"\r\n");
                 sb.append("Content-Transfer-Encoding: " + ENC_BASE_64 + "\r\n");
                 sb.append("Content-Disposition: attachment;\r\n");
