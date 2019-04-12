@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.baccan</groupId>
-    <artifactId>html2pop3</artifactId>
-    <version>3.0.2</version>
+    <artifactId>HTML2POP3</artifactId>
+    <version>3.0.3</version>
     <packaging>jar</packaging>
-    <name>html2pop3 ${project.version}</name>
+    <name>HTML2POP3 ${project.version}</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -160,7 +160,7 @@
                     <minimizeJar>true</minimizeJar>
                     <archive>
                         <manifest>
-                            <mainClass>it.baccan.html2pop3.htmlgui32</mainClass>
+                            <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
@@ -222,7 +222,7 @@
                             <jar>target/html2pop3-${project.version}-jar-with-dependencies.jar</jar>
                             <errTitle>html2pop3</errTitle>
                             <classPath>
-                                <mainClass>it.baccan.html2pop3.htmlgui32</mainClass>
+                                <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
                                 <addDependencies>false</addDependencies>
                                 <preCp>anything</preCp>
                             </classPath>

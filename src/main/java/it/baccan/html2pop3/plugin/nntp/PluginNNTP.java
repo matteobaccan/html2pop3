@@ -33,8 +33,6 @@ package it.baccan.html2pop3.plugin.nntp;
 
 import it.baccan.html2pop3.utils.HTMLTool;
 import it.baccan.html2pop3.utils.LineFormat;
-import java.net.*;
-import java.util.*;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -44,6 +42,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,15 +55,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
-    /**
-     *
-     */
-    public PluginNNTP() {
-    }
 
     private static int nNumMsg = 25;
     private static String cConfigPath = "";
     private static String cConfig = "";
+    private Vector aOver = new Vector();
+    private String cCurrentGroup = "";
+    static Object oLock = new Object();
+    static Properties oLockObj = new Properties();
+    private String lastNum = "";
+    private Properties aArtNum = new Properties();
 
     /**
      *
@@ -126,9 +129,6 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
         //return aGroup;
         return bRet;
     }
-
-    private Vector aOver = new Vector();
-    private String cCurrentGroup = "";
 
     /**
      *
@@ -268,11 +268,6 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
         return aSelm;
     }
-
-    static Object oLock = new Object();
-    static Properties oLockObj = new Properties();
-    private String lastNum = "";
-    private Properties aArtNum = new Properties();
 
     private String getArticle(String cId) {
 

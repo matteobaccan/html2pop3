@@ -33,6 +33,9 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
     private static Properties config = new Properties();
     private static String cCacheFile = "";
     private static Properties cache = new Properties();
+    private Properties p = new Properties();
+    private Properties pXML = new Properties();
+    private String cUser = "";
 
     /**
      *
@@ -64,10 +67,6 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
             log.error("Error", e);
         }
     }
-
-    private Properties p = new Properties();
-    private Properties pXML = new Properties();
-    private String cUser = "";
 
     /**
      *

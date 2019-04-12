@@ -31,11 +31,11 @@
  */
 package it.baccan.html2pop3.plugin.pop3;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-
-import it.baccan.html2pop3.utils.*;
+import it.baccan.html2pop3.utils.Version;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.StringTokenizer;
+import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -52,6 +52,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     private String cLocalPwd = "";
     private String cLocalServer = "";
     private String cLocalPort = "110";
+    private Vector oMsgDel = null;
 
     /**
      *
@@ -61,9 +62,8 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
         cDefaultServer = cS;
     }
 
-    // Vettore email
     /**
-     *
+     *Vettore email.
      * @param cUser
      * @param cPwd
      * @return
@@ -174,8 +174,6 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
         // viene dato un +OK e poi un -ERR
         return bRet;
     }
-
-    private Vector oMsgDel = null;
 
     /**
      *
