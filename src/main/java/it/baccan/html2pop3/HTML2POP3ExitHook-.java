@@ -21,7 +21,7 @@ package it.baccan.html2pop3;
  *
  * @author Matteo
  */
-public interface html2pop3ExitHook {
+public interface HTML2POP3ExitHook {
     // Metodo invocato prima dell'uscita dal programma
 
     /**

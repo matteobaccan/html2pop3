@@ -33,7 +33,7 @@ public class BaseServer extends Thread {
     /**
      *
      */
-    @Getter private html2pop3 parent;
+    @Getter private HTML2POP3 parent;
 
     /**
      *
@@ -49,7 +49,7 @@ public class BaseServer extends Thread {
      *
      * @param p
      */
-    public BaseServer(final html2pop3 p) {
+    public BaseServer(final HTML2POP3 p) {
         parent = p;
     }
 

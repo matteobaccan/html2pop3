@@ -46,7 +46,7 @@ public class NNTPServer extends BaseServer {
      *
      * @param p
      */
-    public NNTPServer(html2pop3 p) {
+    public NNTPServer(HTML2POP3 p) {
         super(p);
     }
 

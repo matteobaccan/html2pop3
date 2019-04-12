@@ -65,7 +65,7 @@ public class POP3Server extends BaseServer {
      *
      * @param p
      */
-    public POP3Server(html2pop3 p) {
+    public POP3Server(HTML2POP3 p) {
         super(p);
 
         String cPath = p.getConfigPath();

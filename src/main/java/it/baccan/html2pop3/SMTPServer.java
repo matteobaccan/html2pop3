@@ -50,7 +50,7 @@ public class SMTPServer extends BaseServer {
      *
      * @param p
      */
-    public SMTPServer(html2pop3 p) {
+    public SMTPServer(HTML2POP3 p) {
         super(p);
     }
 

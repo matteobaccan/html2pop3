@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class html2pop3 extends Thread {
+public class HTML2POP3 extends Thread {
 
     private static String cConfig = "config.cfg";
     private Filter pop3IpFilter = new Filter();
@@ -73,7 +73,7 @@ public class html2pop3 extends Thread {
     private boolean bOutlook2002Timeout = true;
     private int nMaxEmail = -1;
     private boolean bDebug = false;
-    private html2pop3ExitHook parent;
+    private HTML2POP3ExitHook parent;
 
     /**
      *
@@ -81,10 +81,10 @@ public class html2pop3 extends Thread {
      */
     static public void main(String args[]) {
         // Imposto l'eventuale config
-        html2pop3.parseCommandLine(args);
+        HTML2POP3.parseCommandLine(args);
 
         // Partenza
-        html2pop3 html2pop3 = new html2pop3();
+        HTML2POP3 html2pop3 = new HTML2POP3();
         html2pop3.start();
     }
 
@@ -111,7 +111,7 @@ public class html2pop3 extends Thread {
     static public void parseCommandLine(String args[]) {
         for (int nPar = 0; nPar < args.length; nPar++) {
             if (args[nPar].equalsIgnoreCase("-config") && nPar + 1 < args.length) {
-                html2pop3.setConfig(args[nPar + 1]);
+                HTML2POP3.setConfig(args[nPar + 1]);
             }
         }
     }
@@ -175,7 +175,7 @@ public class html2pop3 extends Thread {
     /**
      *
      */
-    public html2pop3() {
+    public HTML2POP3() {
         // Imposta il flag win32, con JDK MS non viene chiamato il metodo
         //setNonWin32();
         // Trust di qualsiasi sito, non controlla la fonte SSL
@@ -846,10 +846,10 @@ public class html2pop3 extends Thread {
     class configChange extends Thread {
 
         long timestamp;
-        html2pop3 parent;
+        HTML2POP3 parent;
         boolean bLoop;
 
-        public configChange(html2pop3 p) {
+        public configChange(HTML2POP3 p) {
             timestamp = 0;
             parent = p;
             bLoop = true;

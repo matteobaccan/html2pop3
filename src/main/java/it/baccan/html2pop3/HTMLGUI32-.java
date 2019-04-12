@@ -45,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Matteo
  */
 @Slf4j
-public class htmlgui32 {
+public class HTMLGUI32 {
 
     /**
      *
@@ -53,10 +53,10 @@ public class htmlgui32 {
      */
     public static void main(String args[]) {
         // Imposto l'eventuale config
-        html2pop3.parseCommandLine(args);
+        HTML2POP3.parseCommandLine(args);
 
         // Lancio il server
-        final html2pop3 html2pop3 = new html2pop3();
+        final HTML2POP3 html2pop3 = new HTML2POP3();
         html2pop3.start();
 
         /* Use an appropriate Look and Feel */
@@ -78,14 +78,14 @@ public class htmlgui32 {
         //adding TrayIcon.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                htmlgui32 g = new htmlgui32();
+                HTMLGUI32 g = new HTMLGUI32();
                 g.createAndShowGUI(html2pop3, html2pop3.getConfigPath() + "html2pop3.log", html2pop3.getConfigPath() + "config.cfg");
             }
         });
 
     }
 
-    private void createAndShowGUI(html2pop3 html2pop3, final String cLogPath, final String cCfgPath) {
+    private void createAndShowGUI(HTML2POP3 html2pop3, final String cLogPath, final String cCfgPath) {
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             log.info("SystemTray is not supported");
@@ -136,13 +136,13 @@ public class htmlgui32 {
 
         regaloItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                htmlgui32.upenUrl("http://www.amazon.it/registry/wishlist/1K93QPV77925P");
+                HTMLGUI32.upenUrl("http://www.amazon.it/registry/wishlist/1K93QPV77925P");
             }
         });
 
         baccanItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                htmlgui32.upenUrl("http://www.baccan.it");
+                HTMLGUI32.upenUrl("http://www.baccan.it");
             }
         });
 
@@ -201,7 +201,7 @@ public class htmlgui32 {
      * @return
      */
     protected static Image createImage(String path, String description) {
-        URL imageURL = htmlgui32.class.getResource(path);
+        URL imageURL = HTMLGUI32.class.getResource(path);
 
         if (imageURL == null) {
             log.error("Resource not found: " + path);

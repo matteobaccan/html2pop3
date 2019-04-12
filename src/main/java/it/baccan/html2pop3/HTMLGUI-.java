@@ -21,17 +21,17 @@ import lombok.extern.slf4j.Slf4j;
  * @author Matteo Baccan
  */
 @Slf4j
-public class htmlgui extends javax.swing.JFrame {
+public class HTMLGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form htmlgui
      */
-    private html2pop3 h2p = null;
+    private HTML2POP3 h2p = null;
 
     /**
      *
      */
-    public htmlgui() {
+    public HTMLGUI() {
         initComponents();
 
         oTab.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -42,7 +42,7 @@ public class htmlgui extends javax.swing.JFrame {
             }
         });
 
-        h2p = new html2pop3();
+        h2p = new HTML2POP3();
         h2p.start();
 
         oHost.setText(h2p.getHost());
@@ -356,7 +356,7 @@ public class htmlgui extends javax.swing.JFrame {
 
         boolean isNew = h2p.isAlive();
         if (!isNew) {
-            h2p = new html2pop3();
+            h2p = new HTML2POP3();
         }
 
         //Codice di restart
@@ -400,7 +400,7 @@ public class htmlgui extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        new htmlgui().show();
+        new HTMLGUI().show();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
