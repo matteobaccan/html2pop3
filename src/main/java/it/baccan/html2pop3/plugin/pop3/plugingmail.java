@@ -57,7 +57,7 @@ public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
     private boolean bDebug = false;
 
     private String cGmailCookie = "";
-    private String cGlobal8 = "";    
+    private String cGlobal8 = "";
     private String cFolder = "inbox";
     private String cServer = "http://mail.google.com/mail";
     private boolean bLogin = false;
@@ -431,7 +431,7 @@ public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
             // Estraggo i tag
             String cSub = getTag(cHead, "Subject:"); //"prova";
             //String cBod = cBody.replaceAll(""+(char)13,"").replaceAll(""+(char)10,"");
-            String cBod = String.replace(cBody, "" + (char) 13 + (char) 10, "<br>");
+            String cBod = cBody.replace("" + (char) 13 + (char) 10, "<br>");
             //String cBod = cBody;
 
             //log.error( "SUB: (" +cSub +")" );

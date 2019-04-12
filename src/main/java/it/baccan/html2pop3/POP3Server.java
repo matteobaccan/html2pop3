@@ -36,7 +36,6 @@ import it.baccan.html2pop3.plugin.pop3.pluginpop3;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
 import it.baccan.html2pop3.utils.HTMLTool;
-import it.baccan.html2pop3.utils.String;
 import it.baccan.html2pop3.utils.Version;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -96,8 +95,8 @@ public class POP3Server extends BaseServer {
             cEmail = cEmail.substring(nPos + 1).toLowerCase();
             cRet = config.getProperty(cEmail, "");
             if (cRet.length() > 0) {
-                cRet = String.replace(cRet, "%email%", cUser + "@" + cEmail);
-                cRet = String.replace(cRet, "%user%", cUser);
+                cRet = cRet.replace( "%email%", cUser + "@" + cEmail);
+                cRet = cRet.replace( "%user%", cUser);
             }
         }
 

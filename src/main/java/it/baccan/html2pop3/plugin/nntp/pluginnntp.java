@@ -31,10 +31,11 @@
  */
 package it.baccan.html2pop3.plugin.nntp;
 
+import it.baccan.html2pop3.utils.HTMLTool;
+import it.baccan.html2pop3.utils.LineFormat;
 import java.net.*;
 import java.util.*;
 
-import it.baccan.html2pop3.utils.*;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;

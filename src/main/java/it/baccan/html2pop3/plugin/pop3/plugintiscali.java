@@ -354,7 +354,7 @@ public class plugintiscali extends POP3Base implements POP3Plugin {
                     // Serve per puntare in modo corretto le immagini dentro le email
                     // 13:20:39 martedi' 19 settembre 2006
                     // Al momento non risolve ancora il problema
-                    cBodyAttach = String.replace(cBodyAttach, "src=\"/cp/ps/Mail/ViewAttachment", "src=\"" + cServer + "/cp/ps/Mail/ViewAttachment");
+                    cBodyAttach = cBodyAttach.replace( "src=\"/cp/ps/Mail/ViewAttachment", "src=\"" + cServer + "/cp/ps/Mail/ViewAttachment");
 
                     POP3Message pop3 = new POP3Message();
                     pop3.setCharset(POP3Message.ISO_8859_1);

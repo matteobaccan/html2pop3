@@ -20,7 +20,6 @@ package it.baccan.html2pop3.utils.message;
 import it.baccan.html2pop3.utils.ContentType;
 import it.baccan.html2pop3.utils.LineFormat;
 import it.baccan.html2pop3.utils.Version;
-import it.baccan.html2pop3.utils.String;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -275,7 +274,7 @@ public class POP3Message extends MasterMessage {
      * @return
      */
     public String rfc2047(String cStr) {
-        cStr = String.replace(cStr, "&#39;", "'");
+        cStr = cStr.replace("&#39;", "'");
 
         String cRet = cStr;
         // Verifica se ci sono caratteri strani e serve una codifica secondo rfc2047

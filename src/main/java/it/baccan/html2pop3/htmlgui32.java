@@ -29,13 +29,14 @@ package it.baccan.html2pop3;
  * @author Matteo Baccan
  * @version 1.0
  */
+import it.baccan.html2pop3.utils.MsgBox;
+import it.baccan.html2pop3.utils.Version;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
 import javax.swing.*;
 
-import it.baccan.html2pop3.utils.*;
 import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 

@@ -17,16 +17,30 @@
  */
 package it.baccan.html2pop3;
 
-import java.io.*;
-import java.util.*;
-import java.text.*;
 
-import it.baccan.html2pop3.utils.*;
-import it.baccan.html2pop3.utils.message.*;
-import it.baccan.html2pop3.plugin.*;
-import it.baccan.html2pop3.plugin.pop3.*;
-import it.baccan.html2pop3.plugin.nntp.*;
-import it.baccan.html2pop3.plugin.smtp.*;
+import it.baccan.html2pop3.plugin.PluginBase;
+import it.baccan.html2pop3.plugin.nntp.pluginnntp;
+import it.baccan.html2pop3.plugin.pop3.PluginTin;
+import it.baccan.html2pop3.plugin.pop3.pluginlibero;
+import it.baccan.html2pop3.plugin.pop3.pluginpop3;
+import it.baccan.html2pop3.plugin.pop3.pluginrss;
+import it.baccan.html2pop3.plugin.pop3.plugintiscali;
+import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
+import it.baccan.html2pop3.utils.FakeX509TrustManager;
+import it.baccan.html2pop3.utils.Filter;
+import it.baccan.html2pop3.utils.Version;
+import it.baccan.html2pop3.utils.message.POP3Message;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.Collator;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
 /**
