@@ -40,14 +40,14 @@ import org.json.JSONObject;
  * @author matteo
  */
 @Slf4j
-public class pluginvirgilio extends PluginTin implements POP3Plugin {
+public class PluginVirgilio extends PluginTin implements POP3Plugin {
 
     private boolean bDebug = false;
 
     /**
      *
      */
-    public pluginvirgilio() {
+    public PluginVirgilio() {
         prop = new HashMap<>();
     }
 

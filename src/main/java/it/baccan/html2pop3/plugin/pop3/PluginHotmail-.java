@@ -33,24 +33,13 @@ package it.baccan.html2pop3.plugin.pop3;
 
 import lombok.extern.slf4j.Slf4j;
 
-//import ballard.httpmail.*;
-//import ballard.httpmail.data.*;
 /**
  *
  * @author matteo
  */
 @Slf4j
-public class pluginhotmail extends POP3Base implements POP3Plugin {
+public class PluginHotmail extends POP3Base implements POP3Plugin {
 
-    /**
-     *
-     */
-    public pluginhotmail() {
-    }
-
-    // Vettore email
-    //private HttpMail hotmail = null;
-    //private FolderInfo fInfo = null;
     /**
      *
      * @param cUser
@@ -172,7 +161,7 @@ public class pluginhotmail extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        pluginhotmail infinito = new pluginhotmail();
+        PluginHotmail infinito = new PluginHotmail();
         if (infinito.login(args[0], args[1])) {
             int nNum = infinito.getMessageNum();
             int nSiz = infinito.getMessageSize();

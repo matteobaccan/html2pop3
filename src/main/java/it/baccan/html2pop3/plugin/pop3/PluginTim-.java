@@ -44,20 +44,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugintim extends POP3Base implements POP3Plugin {
+public class PluginTim extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
     private final String cServer = "http://webmail1.posta.tim.it";
 
     // Sessione
     private String cSessionCook = "";
-
-    //private int nServer = 0;
-    /**
-     *
-     */
-    public plugintim() {
-    }
 
     /**
      *
@@ -323,7 +316,7 @@ public class plugintim extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        plugintim tim = new plugintim();
+        PluginTim tim = new PluginTim();
         if (tim.login(args[0], args[1])) {
             int nNum = tim.getMessageNum();
             int nSiz = tim.getMessageSize();

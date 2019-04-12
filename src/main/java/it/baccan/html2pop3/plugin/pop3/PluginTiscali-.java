@@ -44,13 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugintiscali extends POP3Base implements POP3Plugin {
-
-    /**
-     *
-     */
-    public plugintiscali() {
-    }
+public class PluginTiscali extends POP3Base implements POP3Plugin {
 
     // Server di riferimento  
     private String cServer = "http://mail.tiscali.it";
@@ -588,7 +582,7 @@ public class plugintiscali extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        plugintiscali tiscali = new plugintiscali();
+        PluginTiscali tiscali = new PluginTiscali();
         if (tiscali.login(args[0], args[1])) {
             /*
             tiscali.list();

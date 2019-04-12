@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginfastwebnet extends POP3Base implements POP3Plugin {
+public class PluginFastwebnet extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
     private String cServer = "http://ms002msg.fastwebnet.it";
@@ -59,7 +59,7 @@ public class pluginfastwebnet extends POP3Base implements POP3Plugin {
     /**
      *
      */
-    public pluginfastwebnet() {
+    public PluginFastwebnet() {
     }
 
     /**
@@ -286,7 +286,7 @@ public class pluginfastwebnet extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        pluginfastwebnet fastwebnet = new pluginfastwebnet();
+        PluginFastwebnet fastwebnet = new PluginFastwebnet();
         if (fastwebnet.login(args[0], args[1])) {
             int nNum = fastwebnet.getMessageNum();
             int nSiz = fastwebnet.getMessageSize();

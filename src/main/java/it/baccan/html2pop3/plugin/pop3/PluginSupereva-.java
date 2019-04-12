@@ -43,17 +43,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginsupereva extends POP3Base implements POP3Plugin {
-
-    /**
-     *
-     */
-    public pluginsupereva() {
-    }
+public class PluginSupereva extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
-    //private String cServer = "http://webmail.supereva.com";
-    //private String cServer = "http://it.email.dada.net";
     private String cServer = "http://email.dada.it";
 
     // Property per variabili hidden
@@ -405,7 +397,7 @@ public class pluginsupereva extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        pluginsupereva supereva = new pluginsupereva();
+        PluginSupereva supereva = new PluginSupereva();
         if (supereva.login(args[0], args[1])) {
             int nNum = supereva.getMessageNum();
             int nSiz = supereva.getMessageSize();

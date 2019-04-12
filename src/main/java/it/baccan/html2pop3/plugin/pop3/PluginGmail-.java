@@ -33,7 +33,6 @@ package it.baccan.html2pop3.plugin.pop3;
 
 import java.util.*;
 import java.net.*;
-//import jregex.*;
 
 import it.baccan.html2pop3.utils.*;
 import it.baccan.html2pop3.plugin.smtp.*;
@@ -46,13 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
-
-    /**
-     *
-     */
-    public plugingmail() {
-    }
+public class PluginGmail extends POP3Base implements POP3Plugin, smtpplugin {
 
     private boolean bDebug = false;
 
@@ -509,7 +502,7 @@ public class plugingmail extends POP3Base implements POP3Plugin, smtpplugin {
      * @param args
      */
     public static void main(String[] args) {
-        plugingmail gmail = new plugingmail();
+        PluginGmail gmail = new PluginGmail();
         if (gmail.login(args[0], args[1])) {
             /*
             gmail.list();

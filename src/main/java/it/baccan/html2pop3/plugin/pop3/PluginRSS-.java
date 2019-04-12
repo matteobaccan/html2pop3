@@ -28,13 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginrss extends POP3Base implements POP3Plugin {
-
-    /**
-     *
-     */
-    public pluginrss() {
-    }
+public class PluginRSS extends POP3Base implements POP3Plugin {
 
     private static Properties config = new Properties();
     private static String cCacheFile = "";
@@ -304,7 +298,7 @@ public class pluginrss extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        pluginrss infinito = new pluginrss();
+        PluginRSS infinito = new PluginRSS();
         if (infinito.login(args[0], args[1])) {
             int nNum = infinito.getMessageNum();
             int nSiz = infinito.getMessageSize();

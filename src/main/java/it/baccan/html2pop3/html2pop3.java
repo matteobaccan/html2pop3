@@ -21,10 +21,10 @@ package it.baccan.html2pop3;
 import it.baccan.html2pop3.plugin.PluginBase;
 import it.baccan.html2pop3.plugin.nntp.PluginNNTP;
 import it.baccan.html2pop3.plugin.pop3.PluginTin;
-import it.baccan.html2pop3.plugin.pop3.pluginlibero;
-import it.baccan.html2pop3.plugin.pop3.pluginpop3;
-import it.baccan.html2pop3.plugin.pop3.pluginrss;
-import it.baccan.html2pop3.plugin.pop3.plugintiscali;
+import it.baccan.html2pop3.plugin.pop3.PluginLibero;
+import it.baccan.html2pop3.plugin.pop3.PluginPOP3;
+import it.baccan.html2pop3.plugin.pop3.PluginRSS;
+import it.baccan.html2pop3.plugin.pop3.PluginTiscali;
 import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
 import it.baccan.html2pop3.utils.FakeX509TrustManager;
 import it.baccan.html2pop3.utils.Filter;
@@ -427,7 +427,7 @@ public class html2pop3 extends Thread {
             POP3Message.setAddHTML(p.getProperty("htmlattach", "true").equalsIgnoreCase("true"));
 
             // RSS
-            pluginrss.setConfig(getConfigPath(), "rss.cfg");
+            PluginRSS.setConfig(getConfigPath(), "rss.cfg");
 
             // NNTP
             PluginNNTP.setConfig(getConfigPath(), "nntp.cfg");
@@ -435,15 +435,15 @@ public class html2pop3 extends Thread {
             // Size del log
             //logStreamMemo.setLogSize(Double.valueOf(p.getProperty("logsize", "2000000")).intValue());
             // Plugin specific
-            plugintiscali.setDelete(p.getProperty("tiscali.delete", "true").equalsIgnoreCase("true"));
+            PluginTiscali.setDelete(p.getProperty("tiscali.delete", "true").equalsIgnoreCase("true"));
             PluginTin.setDelete(p.getProperty("tin.delete", "true").equalsIgnoreCase("true"));
-            pluginlibero.setRead(p.getProperty("libero.read", "false").equalsIgnoreCase("true"));
+            PluginLibero.setRead(p.getProperty("libero.read", "false").equalsIgnoreCase("true"));
 
             // RFC2047
             POP3Message.setrfc2047(p.getProperty("rfc2047", "true").equalsIgnoreCase("true"));
 
             // Tunneling server
-            pluginpop3.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
+            PluginPOP3.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
             pluginsmtp.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
 
             // I vecchi JDK non hanno il metodo di modifica delle proprieta' direttamente
@@ -814,9 +814,9 @@ public class html2pop3 extends Thread {
         log.info("-----------------------------------------------------------------------------");
         log.info("Plugin specific setting");
         log.info("-----------------------------------------------------------------------------");
-        log.info("tiscali: modalita' di cancellazione " + (plugintiscali.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
+        log.info("tiscali: modalita' di cancellazione " + (PluginTiscali.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
         log.info("tin: modalita' di cancellazione " + (PluginTin.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
-        log.info("libero: flag di lettura " + (pluginlibero.getRead() ? "ATTIVO" : "DISATTIVO"));
+        log.info("libero: flag di lettura " + (PluginLibero.getRead() ? "ATTIVO" : "DISATTIVO"));
         log.info("outlook 2002: timeout " + (bOutlook2002Timeout ? "ATTIVO" : "DISATTIVO"));
         log.info("supporto per rfc2047: " + (POP3Message.getrfc2047() ? "ATTIVO" : "DISATTIVO"));
         log.info("-----------------------------------------------------------------------------");

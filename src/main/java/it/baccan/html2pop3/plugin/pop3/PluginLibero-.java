@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginlibero extends POP3Base implements POP3Plugin {
+public class PluginLibero extends POP3Base implements POP3Plugin {
 
     /**
      *
@@ -85,7 +85,7 @@ public class pluginlibero extends POP3Base implements POP3Plugin {
      *
      * @param n
      */
-    public pluginlibero(int n) {
+    public PluginLibero(int n) {
         nMail = n;
     }
 
@@ -751,7 +751,7 @@ public class pluginlibero extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        pluginlibero libero = new pluginlibero(MAIL_LIBERO);
+        PluginLibero libero = new PluginLibero(MAIL_LIBERO);
         if (libero.login(args[0], args[1])) {
             /*
              libero.list();

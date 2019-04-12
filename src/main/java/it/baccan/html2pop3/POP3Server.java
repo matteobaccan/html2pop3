@@ -21,18 +21,18 @@ import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
 import it.baccan.html2pop3.plugin.pop3.PluginLinuxIt;
 import it.baccan.html2pop3.plugin.pop3.PluginTele2;
-import it.baccan.html2pop3.plugin.pop3.plugingmail;
-import it.baccan.html2pop3.plugin.pop3.pluginhotmail;
-import it.baccan.html2pop3.plugin.pop3.pluginlibero;
-import it.baccan.html2pop3.plugin.pop3.plugintiscali;
+import it.baccan.html2pop3.plugin.pop3.PluginGmail;
+import it.baccan.html2pop3.plugin.pop3.PluginHotmail;
+import it.baccan.html2pop3.plugin.pop3.PluginLibero;
+import it.baccan.html2pop3.plugin.pop3.PluginTiscali;
 import it.baccan.html2pop3.plugin.pop3.PluginTin;
-import it.baccan.html2pop3.plugin.pop3.pluginfastwebnet;
-import it.baccan.html2pop3.plugin.pop3.pluginrss;
-import it.baccan.html2pop3.plugin.pop3.plugininfinito;
-import it.baccan.html2pop3.plugin.pop3.pluginvirgilio;
-import it.baccan.html2pop3.plugin.pop3.plugintim;
-import it.baccan.html2pop3.plugin.pop3.pluginsupereva;
-import it.baccan.html2pop3.plugin.pop3.pluginpop3;
+import it.baccan.html2pop3.plugin.pop3.PluginFastwebnet;
+import it.baccan.html2pop3.plugin.pop3.PluginRSS;
+import it.baccan.html2pop3.plugin.pop3.PluginInfinito;
+import it.baccan.html2pop3.plugin.pop3.PluginVirgilio;
+import it.baccan.html2pop3.plugin.pop3.PluginTim;
+import it.baccan.html2pop3.plugin.pop3.PluginSupereva;
+import it.baccan.html2pop3.plugin.pop3.PluginPOP3;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
 import it.baccan.html2pop3.utils.HTMLTool;
@@ -196,14 +196,14 @@ public class POP3Server extends BaseServer {
          * @conditional (JVM14)
          */
         private void getHotmail() {
-            hp = new pluginhotmail();
+            hp = new PluginHotmail();
         }
 
         /**
          * @conditional (JVM14)
          */
         private void getGmail() {
-            hp = new plugingmail();
+            hp = new PluginGmail();
         }
 
         /**
@@ -392,29 +392,29 @@ public class POP3Server extends BaseServer {
                         }
 
                         if (cServer.equalsIgnoreCase("libero.it")) {
-                            hp = new pluginlibero(pluginlibero.MAIL_LIBERO);
+                            hp = new PluginLibero(PluginLibero.MAIL_LIBERO);
                         } else if (cServer.equalsIgnoreCase("inwind.it")) {
-                            hp = new pluginlibero(pluginlibero.MAIL_INWIND);
+                            hp = new PluginLibero(PluginLibero.MAIL_INWIND);
                         } else if (cServer.equalsIgnoreCase("blu.it")) {
-                            hp = new pluginlibero(pluginlibero.MAIL_BLU);
+                            hp = new PluginLibero(PluginLibero.MAIL_BLU);
                         } else if (cServer.equalsIgnoreCase("iol.it")) {
-                            hp = new pluginlibero(pluginlibero.MAIL_IOL);
+                            hp = new PluginLibero(PluginLibero.MAIL_IOL);
                         } else if (cServer.equalsIgnoreCase("giallo.it")) {
-                            hp = new pluginlibero(pluginlibero.MAIL_GIALLO);
+                            hp = new PluginLibero(PluginLibero.MAIL_GIALLO);
                         } else if (cServer.equalsIgnoreCase("infinito.it")) {
-                            hp = new plugininfinito();
+                            hp = new PluginInfinito();
                         } else if (cServer.equalsIgnoreCase("tiscali.it")) {
-                            hp = new plugintiscali();
+                            hp = new PluginTiscali();
                         } else if (cServer.equalsIgnoreCase("fastwebnet.it")) {
-                            hp = new pluginfastwebnet();
+                            hp = new PluginFastwebnet();
                             //} else if( cServer.equalsIgnoreCase("email.it") ){
                             //hp = new pluginemail();
                         } else if (cServer.equalsIgnoreCase("tin.it")) {
                             hp = new PluginTin();
                         } else if (cServer.equalsIgnoreCase("virgilio.it")) {
-                            hp = new pluginvirgilio();
+                            hp = new PluginVirgilio();
                         } else if (cServer.equalsIgnoreCase("tim.it")) {
-                            hp = new plugintim();
+                            hp = new PluginTim();
                             //} else if( cServer.equalsIgnoreCase("aliceposta.it") ){
                             //hp = new pluginaliceposta();
                         } else if (cServer.equalsIgnoreCase("hotmail.com")) {
@@ -425,7 +425,7 @@ public class POP3Server extends BaseServer {
                             getHotmail();
 
                         } else if (cServer.equalsIgnoreCase("supereva.it")) {
-                            hp = new pluginsupereva();
+                            hp = new PluginSupereva();
                         } else if (cServer.equalsIgnoreCase("tele2.it")) {
                             //if( getParent().getIsWin32() ) {
                             //   log.error( "Tele2 non supportato nella versione Win32" );
@@ -443,9 +443,9 @@ public class POP3Server extends BaseServer {
                         } else if (cServer.equalsIgnoreCase("linux.it")) {
                             getLinuxIt();
                         } else if (cServer.equalsIgnoreCase("pop3")) {
-                            hp = new pluginpop3();
+                            hp = new PluginPOP3();
                         } else if (cServer.equalsIgnoreCase("rss")) {
-                            hp = new pluginrss();
+                            hp = new PluginRSS();
                         }
 
                         if (hp != null) {

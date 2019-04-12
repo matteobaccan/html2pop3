@@ -17,7 +17,7 @@
  */
 package it.baccan.html2pop3;
 
-import it.baccan.html2pop3.plugin.pop3.plugingmail;
+import it.baccan.html2pop3.plugin.pop3.PluginGmail;
 import it.baccan.html2pop3.plugin.smtp.plugincgiemail;
 import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
 import it.baccan.html2pop3.plugin.smtp.smtpplugin;
@@ -313,7 +313,7 @@ public class SMTPServer extends BaseServer {
                     if (cServer.equalsIgnoreCase("smtp")) {
                         sp = new pluginsmtp();
                     } else if (cServer.equalsIgnoreCase("gmail.com")) {
-                        sp = new plugingmail();
+                        sp = new PluginGmail();
                     } else if (cServer.equalsIgnoreCase("cgiemail")) {
                         sp = new plugincgiemail();
                     } else {

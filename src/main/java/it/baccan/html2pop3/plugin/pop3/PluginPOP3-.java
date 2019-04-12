@@ -43,13 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginpop3 extends POP3Base implements POP3Plugin {
-
-    /**
-     *
-     */
-    public pluginpop3() {
-    }
+public class PluginPOP3 extends POP3Base implements POP3Plugin {
 
     private static String cDefaultServer = "http://www.baccan.it/pop3/";
 
@@ -254,7 +248,7 @@ public class pluginpop3 extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        pluginpop3 infinito = new pluginpop3();
+        PluginPOP3 infinito = new PluginPOP3();
         if (infinito.login(args[0], args[1])) {
             int nNum = infinito.getMessageNum();
             int nSiz = infinito.getMessageSize();

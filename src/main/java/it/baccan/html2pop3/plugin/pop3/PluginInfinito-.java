@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class plugininfinito extends POP3Base implements POP3Plugin {
+public class PluginInfinito extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
     private String cServer = "http://www.infinito.it";
@@ -55,7 +55,7 @@ public class plugininfinito extends POP3Base implements POP3Plugin {
     /**
      *
      */
-    public plugininfinito() {
+    public PluginInfinito() {
     }
 
     /**
@@ -218,7 +218,7 @@ public class plugininfinito extends POP3Base implements POP3Plugin {
      * @param args
      */
     public static void main(String[] args) {
-        plugininfinito infinito = new plugininfinito();
+        PluginInfinito infinito = new PluginInfinito();
         if (infinito.login(args[0], args[1])) {
             int nNum = infinito.getMessageNum();
             int nSiz = infinito.getMessageSize();
