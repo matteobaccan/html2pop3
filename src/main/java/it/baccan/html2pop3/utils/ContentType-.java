@@ -17,22 +17,22 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class contentType {
+public class ContentType {
 
-    static private contentType _instance = null;
+    static private ContentType _instance = null;
 
     /**
      *
      * @return
      */
-    static public contentType getInstance() {
+    static public ContentType getInstance() {
         if (_instance == null) {
-            _instance = new contentType();
+            _instance = new ContentType();
         }
         return _instance;
     }
 
-    private contentType() {
+    private ContentType() {
         //Add mapping list{{{
         addMapping("jpg", "image/jpeg");
         addMapping("jpeg", "image/jpeg");
@@ -229,15 +229,15 @@ public class contentType {
     public static void main(String[] args) {
         String ext = "txt";
 
-        String res = contentType.getInstance().getFromExtension(ext);
+        String res = ContentType.getInstance().getFromExtension(ext);
         log.error("Ext:" + ext + " Type:" + res);
 
         ext = "html";
-        res = contentType.getInstance().getFromExtension(ext);
+        res = ContentType.getInstance().getFromExtension(ext);
         log.error("Ext:" + ext + " Type:" + res);
 
         String filename = "/prova/blabla.txt/file.html";
-        res = contentType.getInstance().getFromFilename(filename);
+        res = ContentType.getInstance().getFromFilename(filename);
         log.error("Filename:" + filename + " Type:" + res);
     }
 
