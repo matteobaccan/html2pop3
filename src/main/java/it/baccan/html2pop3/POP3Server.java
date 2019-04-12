@@ -57,7 +57,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class POP3Server extends baseServer {
+public class POP3Server extends BaseServer {
 
     private String cLoginString = "+OK HTML2POP3 server ready (" + version.getVersion() + ")";
     private Properties config = new Properties();

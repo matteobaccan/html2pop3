@@ -137,7 +137,6 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             final String DOWN_URL = "download.php";
             final String PASSED_ENT_ID = "passed_ent_id=";
             String theBody = null;
-            String buff = null;
             StringBuffer sb = new StringBuffer();
             Pattern patBodyText = Pattern.compile("<pre>(.+)</pre>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
             Pattern p = Pattern.compile("<a[^>]*href=\"(" + DOWN_URL + "[^\"]*)\"[^>]*>");

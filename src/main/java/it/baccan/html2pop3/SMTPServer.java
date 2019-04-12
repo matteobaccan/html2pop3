@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class SMTPServer extends baseServer {
+public class SMTPServer extends BaseServer {
 
     private final String cLoginString = "220 HTML2POP3 ESMTP Service (" + version.getVersion() + ") ready";
 

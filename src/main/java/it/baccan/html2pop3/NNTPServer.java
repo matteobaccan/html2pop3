@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class NNTPServer extends baseServer {
+public class NNTPServer extends BaseServer {
 
     private String cLoginString = "200 HTML2POP3 news server (" + version.getVersion() + ") ready";
 

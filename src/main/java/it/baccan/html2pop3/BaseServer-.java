@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class baseServer extends Thread {
+public class BaseServer extends Thread {
 
     /**
      *
@@ -49,7 +49,7 @@ public class baseServer extends Thread {
      *
      * @param p
      */
-    public baseServer(final html2pop3 p) {
+    public BaseServer(final html2pop3 p) {
         parent = p;
     }
 
