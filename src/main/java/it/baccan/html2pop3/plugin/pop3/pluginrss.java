@@ -228,7 +228,7 @@ public class pluginrss extends POP3Base implements POP3Plugin {
             pop3.setCharset(cEnc);
             pop3.setDa("HTML2POP3 RSS");
             pop3.setA(cUser);
-            pop3.setOggetto("=?" + cEnc + "?B?" + new String(it.baccan.html2pop3.utils.Base64.encode(toHTML(getSubStr(pXML.getProperty(cMsgId), "title"), cEnc).getBytes())) + "?=");
+            pop3.setOggetto("=?" + cEnc + "?B?" + new String(Base64.getEncoder().encodeToString(toHTML(getSubStr(pXML.getProperty(cMsgId), "title"), cEnc).getBytes())) + "?=");
             String cData = getSubStr(pXML.getProperty(cMsgId), "pubDate");
             pop3.setData(cData.length() == 0 ? getCurDate() : cData);
             pop3.setBody(p.getProperty(cMsgId));

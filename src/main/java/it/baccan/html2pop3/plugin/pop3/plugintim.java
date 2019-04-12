@@ -49,9 +49,6 @@ public class plugintim extends POP3Base implements POP3Plugin {
     // Server di riferimento
     private final String cServer = "http://webmail1.posta.tim.it";
 
-    // Property per variabili hidden
-    private final Properties p = new Properties();
-
     // Sessione
     private String cSessionCook = "";
 

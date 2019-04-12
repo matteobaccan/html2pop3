@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
  * http://www.baccan.it
- * 
+ *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
@@ -46,6 +46,20 @@ public class html2pop3 extends Thread {
     private filter smtpUserFilter = new filter();
     private filter smtpGlobalFilter = new filter();
     private filter nntpIpFilter = new filter();
+    private SortedProperties p = new SortedProperties();
+    private String cLocalHost = "127.0.0.1";
+    private int cLocalPort = 110;
+    private int cLocalPortSMTP = 25;
+    private int cLocalPortNNTP = 119;
+    private int nClient = 10;
+    private boolean bDelete = true;
+    private boolean bDeleteOptimized = true;
+    private boolean bGuiError = true;
+    private boolean bLifo = true;
+    private boolean bOutlook2002Timeout = true;
+    private int nMaxEmail = -1;
+    private boolean bDebug = false;
+    private html2pop3ExitHook parent;
 
     /**
      *
@@ -143,22 +157,6 @@ public class html2pop3 extends Thread {
         }
 
     }
-
-    private SortedProperties p = new SortedProperties();
-    private String cLocalHost = "127.0.0.1";
-    private int cLocalPort = 110;
-    private int cLocalPortSMTP = 25;
-    private int cLocalPortNNTP = 119;
-    private int nClient = 10;
-    private boolean bDelete = true;
-    private boolean bDeleteOptimized = true;
-    private boolean bGuiError = true;
-    private boolean bLifo = true;
-    private boolean bOutlook2002Timeout = true;
-    private int nMaxEmail = -1;
-    private boolean bDebug = false;
-
-    private html2pop3ExitHook parent;
 
     /**
      *

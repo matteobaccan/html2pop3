@@ -33,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
@@ -245,12 +246,12 @@ public abstract class PluginBase {
             if (System.getProperty("proxyPassword", "").length() > 0) {
                 cEncode += ":" + System.getProperty("proxyPassword", "");
             }
-            cEncode = new String(it.baccan.html2pop3.utils.Base64.encode(cEncode.getBytes()));
+            cEncode = new String(Base64.getEncoder().encodeToString(cEncode.getBytes()));
             con.setRequestProperty("Proxy-authorization", "Basic " + cEncode);
         }
 
         if (cAuthorization.length() > 0) {
-            String cEncodeA = new String(it.baccan.html2pop3.utils.Base64.encode(cAuthorization.getBytes()));
+            String cEncodeA = new String(Base64.getEncoder().encodeToString(cAuthorization.getBytes()));
             con.setRequestProperty("Authorization", "Basic " + cEncodeA);
         }
 
@@ -322,7 +323,7 @@ public abstract class PluginBase {
             if (System.getProperty("proxyPassword", "").length() > 0) {
                 cEncode += ":" + System.getProperty("proxyPassword", "");
             }
-            cEncode = new String(it.baccan.html2pop3.utils.Base64.encode(cEncode.getBytes()));
+            cEncode = new String(Base64.getEncoder().encodeToString(cEncode.getBytes()));
             con.setRequestProperty("Proxy-authorization", "Basic " + cEncode);
         }
 
@@ -392,7 +393,7 @@ public abstract class PluginBase {
             if (System.getProperty("proxyPassword", "").length() > 0) {
                 cEncode += ":" + System.getProperty("proxyPassword", "");
             }
-            cEncode = new String(it.baccan.html2pop3.utils.Base64.encode(cEncode.getBytes()));
+            cEncode = new String(Base64.getEncoder().encodeToString(cEncode.getBytes()));
             con.setRequestProperty("Proxy-authorization", "Basic " + cEncode);
         }
 
@@ -509,7 +510,7 @@ public abstract class PluginBase {
         if( cEncode.length()>0 ){
            if( System.getProperty("proxyPassword", "").length()>0 )
               cEncode += ":" +System.getProperty("proxyPassword", "");
-           cEncode = new String( Base64.encode( cEncode.getBytes() ) );
+           cEncode = new String( Base64.getEncoder().encodeToString( cEncode.getBytes() ) );
            sb.append( "Proxy-authorization: Basic " +cEncode +"\r\n" );
         }
         sb.append( "\r\n" );
@@ -732,7 +733,7 @@ public abstract class PluginBase {
             if (System.getProperty("proxyPassword", "").length() > 0) {
                 cEncode += ":" + System.getProperty("proxyPassword", "");
             }
-            cEncode = new String(it.baccan.html2pop3.utils.Base64.encode(cEncode.getBytes()));
+            cEncode = new String(Base64.getEncoder().encodeToString(cEncode.getBytes()));
             con.setRequestProperty("Proxy-authorization", "Basic " + cEncode);
         }
 
@@ -893,7 +894,7 @@ public abstract class PluginBase {
             if (System.getProperty("proxyPassword", "").length() > 0) {
                 cEncode += ":" + System.getProperty("proxyPassword", "");
             }
-            cEncode = new String(it.baccan.html2pop3.utils.Base64.encode(cEncode.getBytes()));
+            cEncode = new String(Base64.getEncoder().encodeToString(cEncode.getBytes()));
             con.setRequestProperty("Proxy-authorization", "Basic " + cEncode);
         }
 

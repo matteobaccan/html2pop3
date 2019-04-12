@@ -54,11 +54,6 @@ public class plugininfinito extends POP3Base implements POP3Plugin {
     // Server di riferimento
     private String cServer = "http://www.infinito.it";
 
-    // Vettore email
-    //private Vector aEmail = new Vector();
-    // Property per variabili hidden
-    private Properties p = new Properties();
-
     // Sessione
     private String cSessionCook = "";
     private String cSession = "";

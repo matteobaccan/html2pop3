@@ -80,7 +80,7 @@ public class plugintiscali extends POP3Base implements POP3Plugin {
             log.error("Tiscali: login init");
 
             String cFakeCook = "";//roundcube_sessid=7qlnckkjcharvgmlao4sb2bdl3; __utma=133587473.516011248.1400799269.1400799269.1400799269.1; __utmb=133587473.4.10.1400799269; __utmc=133587473; __utmz=133587473.1400799269.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); CLASS=Z2; TiscaliLastUser=testplugin01; oroscopo_dasboard_mail=ariete; geolocationNew=ipFROM%3D1587941376%2CipTO%3D1587942399%2CcountrySHORT%3DIT%2CcountryLONG%3DITALY%2CipREGION%3DLAZIO%2CipCITY%3DROMA%2CipLATITUDE%3D41.90%2CipLONGITUDE%3D12.48%2CipZIPCODE%3D-%2CipTIMEZONE%3D%2CipISP%3D%2CipDOMAIN%3D%2CipRequest%3D94.166.17.105%2Cerror%3D0%2Cversion%3D2.0; geolocation=ipFROM%3D1587941376%2CipTO%3D1587942399%2CcountrySHORT%3DIT%2CcountryLONG%3DITALY%2CipREGION%3DLAZIO%2CipCITY%3DROMA%2CipLATITUDE%3D41.90%2CipLONGITUDE%3D12.48%2CipZIPCODE%3D-%2CipTIMEZONE%3D%2CipISP%3D%2CipDOMAIN%3D%2CipRequest%3D94.166.17.105%2Cerror%3D0%2Cversion%3D2.0; mailviewsplitter=205; cto_tiscali=meteo300600%2Cansa300%2Cansa728%2Ctis300%2Ctis728%2Ctislp300%2Cmaillp300%2Cansalp300%2Cmeteo300600lp%2Cmail120%2Cmailp120%2Cansa300600%2C; roundcube_sessauth=S6ac8107200cef829e139a4790ccf5f7a9045f34f; ssoUser=testplugin01; ssoDomain=tiscali.it; ssoToken=qyFY1AJA%2FsCPflyytoIi1KPv7Qu4SCDA9Z%2BpvCBRO9NKAYppovLds6s1%2FWrmoWiW;";
-            String fake = getPage("http://mail.tiscali.it/?_action=plugin.tiscali_dashboard&_task=mail", cFakeCook).toString();
+            getPage("http://mail.tiscali.it/?_action=plugin.tiscali_dashboard&_task=mail", cFakeCook).toString();
 
             // Prendo il token
             String sbToken = getPage(cServer).toString();
@@ -141,9 +141,11 @@ public class plugintiscali extends POP3Base implements POP3Plugin {
                     + "__utmb=133587473.4.10.1400796335; "
                     + "cto_tiscali=meteo300600%2Cansa300%2Cansa728%2Ctis300%2Ctis728%2Cuni728%2Cmail300%2Ctislp300%2Cmaillp300%2Cansalp300%2Cmeteo300600lp%2Cmail120%2Cmailp120%2Cansa300600%2C;";            
             //*/
-            String dashboard = getPage(cDshboard, cSessionCook).toString();
+            // Dashboard
+            getPage(cDshboard, cSessionCook).toString();
 
-            String inbox = getPage(cServer + "/?_page=1&_task=mail&_mbox=INBOX", cSessionCook).toString();
+            // INBOX
+            getPage(cServer + "/?_page=1&_task=mail&_mbox=INBOX", cSessionCook).toString();
 
             int nUrl1 = sb.indexOf("&t=");
             int nUrl2 = sb.indexOf("&", nUrl1 + 1);

@@ -53,16 +53,16 @@ public class NNTPServer extends baseServer {
     public void run() {
         nntpThread thread;
         try {
-            if (parent.getPortNNTP() > 0) {
-                ss = new ServerSocket(parent.getPortNNTP(), parent.getClient(), InetAddress.getByName(parent.getHost()));
+            if (getParent().getPortNNTP() > 0) {
+                setServerSocket( new ServerSocket(getParent().getPortNNTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
                 while (true) {
                     // Faccio partire il Thread
                     Socket socket = null;
                     try {
                         // Attendo il client
-                        socket = ss.accept();
+                        socket = getServerSocket().accept();
                     } catch (Throwable e) {
-                        if (isFinish) {
+                        if (isFinish()) {
                             return;
                         } else {
                             throw e;
@@ -80,8 +80,8 @@ public class NNTPServer extends baseServer {
                 }
             }
         } catch (BindException be) {
-            String cLoginStringFound = EchoClient.getLine(parent.getHost(), parent.getPortNNTP());
-            String cError = "Errore! Porta " + parent.getPortNNTP() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server NNTP";
+            String cLoginStringFound = EchoClient.getLine(getParent().getHost(), getParent().getPortNNTP());
+            String cError = "Errore! Porta " + getParent().getPortNNTP() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server NNTP";
 
             try {
                 Thread.sleep(500);
@@ -91,9 +91,9 @@ public class NNTPServer extends baseServer {
 
             if (cLoginString.equals(cLoginStringFound)) {
                 log.info("Exit for double run");
-                parent.exitFromProgram();
+                getParent().exitFromProgram();
             } else {
-                if (parent.getGuiError()) {
+                if (getParent().getGuiError()) {
                     //MsgBox message =
                     new MsgBox("HTML2POP3 server NNTP", cError, false);
                 }
@@ -146,7 +146,7 @@ public class NNTPServer extends baseServer {
 
             String cIP = socket.getInetAddress().getHostAddress();
             // IP Filter
-            if (!parent.getNNTPIpFilter().isAllow(new String[]{cIP})) {
+            if (!getParent().getNNTPIpFilter().isAllow(new String[]{cIP})) {
                 log.error("500 IP (" + cIP + ") deny");
                 html.putData(SO, "500 IP (" + cIP + ") deny\r\n");
                 return;

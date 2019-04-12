@@ -210,7 +210,6 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             String headUpper = headers.toUpperCase();
             String key = null;
             String value = null;
-            String buff = null;
             StringBuffer fullHeaders = new StringBuffer();
             Pattern patHeader = Pattern.compile("<b>.+</b>", Pattern.CASE_INSENSITIVE);
             Pattern pat4Bold = Pattern.compile("<b>(.+)</b>", Pattern.CASE_INSENSITIVE);

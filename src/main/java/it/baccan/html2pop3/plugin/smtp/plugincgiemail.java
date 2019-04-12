@@ -62,8 +62,8 @@ public class plugincgiemail extends smtpbase implements smtpplugin {
 
     private String cError = "";
     private String cServer = "";
-    private String cLocalUser = "";
-    private String cLocalPwd = "";
+    //private String cLocalUser = "";
+    //private String cLocalPwd = "";
 
     /**
      *
@@ -83,8 +83,8 @@ public class plugincgiemail extends smtpbase implements smtpplugin {
         log.error("Smtp: login init");
         cServer = cDefaultServer;
         /* allow/deny policy */
-        cLocalUser = "";
-        cLocalPwd = cPwd;
+        //cLocalUser = "";
+        //cLocalPwd = cPwd;
 
         // ## Sostituire ;; con ; ;
         // per compatibilità con pluginsmtp
@@ -94,7 +94,7 @@ public class plugincgiemail extends smtpbase implements smtpplugin {
             String cTok = st.nextToken();
             nTok++;
             if (nTok == 1) {
-                cLocalUser = cTok.trim();
+                //cLocalUser = cTok.trim();
             } else if (nTok == 2) ;//cLocalServer = cTok.trim();
             else if (nTok == 3) ;//cLocalPort   = cTok.trim();
             else if (nTok == 4) {

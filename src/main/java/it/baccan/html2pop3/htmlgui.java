@@ -1,16 +1,26 @@
 /*
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
+ *
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
+ *
+ */
+ /*
  * htmlgui.java
  *
  * Created on 26 ottobre 2003, 16.39
  */
 package it.baccan.html2pop3;
 
-import it.baccan.html2pop3.utils.message.*;
+import it.baccan.html2pop3.utils.message.POP3Message;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Matteo Baccan
  */
+@Slf4j
 public class htmlgui extends javax.swing.JFrame {
 
     /**
@@ -332,16 +342,16 @@ public class htmlgui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Add your handling code here:
         // Cancellazione dei log di sistema
+        log.info("Event request [{}]", evt.getActionCommand());
         oLog.setText("");
         h2p.printInfo();
         scrollToEnd();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Add your handling code here:
         // Imposta sulla pagina di log
+        log.info("Event request [{}]", evt.getActionCommand());
         oTab.setSelectedIndex(3);
 
         boolean isNew = h2p.isAlive();
@@ -382,6 +392,7 @@ public class htmlgui extends javax.swing.JFrame {
      * Exit the Application
      */
     private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
+        log.info("Event request [{}]", evt.getID());
         System.exit(0);
     }//GEN-LAST:event_exitForm
 

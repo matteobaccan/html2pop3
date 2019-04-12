@@ -3,8 +3,8 @@ package it.baccan.html2pop3.utils.message;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import it.baccan.html2pop3.utils.Base64;
 import it.baccan.html2pop3.utils.CharsetCoding;
+import java.util.Base64;
 
 /**
  * Abstract base class with usefull method for all the PopMessage
@@ -76,7 +76,7 @@ public abstract class MasterMessage implements CharsetCoding, IPopMessage {
             for (int n = 0; n < nLen; n++) {
                 buf[n] = content[nBlock + n];
             }
-            sb.append(Base64.encode(buf)).append("\r\n");
+            sb.append(Base64.getEncoder().encodeToString(buf)).append("\r\n");
         }
         return sb.toString();
     }

@@ -107,16 +107,16 @@ public class POP3Server extends baseServer {
     public void run() {
         pop3Thread thread;
         try {
-            if (parent.getPort() > 0) {
-                ss = new ServerSocket(parent.getPort(), parent.getClient(), InetAddress.getByName(parent.getHost()));
+            if (getParent().getPort() > 0) {
+                setServerSocket( new ServerSocket(getParent().getPort(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
                 while (true) {
                     // Faccio partire il Thread
                     Socket socket = null;
                     try {
                         // Attendo il client
-                        socket = ss.accept();
+                        socket = getServerSocket().accept();
                     } catch (Throwable e) {
-                        if (isFinish) {
+                        if (isFinish()) {
                             return;
                         } else {
                             throw e;
@@ -134,8 +134,8 @@ public class POP3Server extends baseServer {
                 }
             }
         } catch (BindException be) {
-            String cLoginStringFound = EchoClient.getLine(parent.getHost(), parent.getPort());
-            String cError = "Errore! Porta " + parent.getPort() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server POP3";
+            String cLoginStringFound = EchoClient.getLine(getParent().getHost(), getParent().getPort());
+            String cError = "Errore! Porta " + getParent().getPort() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server POP3";
 
             try {
                 Thread.sleep(500);
@@ -145,9 +145,9 @@ public class POP3Server extends baseServer {
 
             if (cLoginString.equals(cLoginStringFound)) {
                 log.info("Exit for double run");
-                parent.exitFromProgram();
+                getParent().exitFromProgram();
             } else {
-                if (parent.getGuiError()) {
+                if (getParent().getGuiError()) {
                     //MsgBox message =
                     new MsgBox("HTML2POP3 server POP3", cError, false);
                 }
@@ -216,7 +216,7 @@ public class POP3Server extends baseServer {
 
         private void manage(Socket socket) throws Throwable {
             // DEBUG
-            boolean bDebug = parent.getDebug();
+            boolean bDebug = getParent().getDebug();
             // Source
             InputStream SI = socket.getInputStream();
             OutputStream SO = socket.getOutputStream();
@@ -227,7 +227,7 @@ public class POP3Server extends baseServer {
 
             String cIP = socket.getInetAddress().getHostAddress();
             // IP Filter
-            if (!parent.getPOP3IpFilter().isAllow(new String[]{cIP})) {
+            if (!getParent().getPOP3IpFilter().isAllow(new String[]{cIP})) {
                 log.error("-ERR IP (" + cIP + ") deny");
                 html.putData(SO, "-ERR IP (" + cIP + ") deny\r\n");
                 return;
@@ -372,21 +372,21 @@ public class POP3Server extends baseServer {
                         log.info("POP3 server: usato " + cServer);
 
                         // Plugin Filter
-                        if (!parent.getPOP3PluginFilter().isAllow(new String[]{cServer})) {
+                        if (!getParent().getPOP3PluginFilter().isAllow(new String[]{cServer})) {
                             log.error("-ERR plugin (" + cServer + ") deny");
                             html.putData(SO, "-ERR plugin (" + cServer + ") deny\r\n");
                             return;
                         }
 
                         // User Filter
-                        if (!parent.getPOP3UserFilter().isAllow(new String[]{cUser})) {
+                        if (!getParent().getPOP3UserFilter().isAllow(new String[]{cUser})) {
                             log.error("-ERR user (" + cUser + ") deny");
                             html.putData(SO, "-ERR user (" + cUser + ") deny\r\n");
                             return;
                         }
 
                         // Global Filter
-                        if (!parent.getPOP3GlobalFilter().isAllow(new String[]{cIP, cServer, cUser})) {
+                        if (!getParent().getPOP3GlobalFilter().isAllow(new String[]{cIP, cServer, cUser})) {
                             log.error("-ERR global (" + cIP + ")(" + cServer + ")(" + cUser + ") deny");
                             html.putData(SO, "-ERR global (" + cIP + ")(" + cServer + ")(" + cUser + ") deny\r\n");
                             return;
@@ -419,7 +419,7 @@ public class POP3Server extends baseServer {
                             //} else if( cServer.equalsIgnoreCase("aliceposta.it") ){
                             //hp = new pluginaliceposta();
                         } else if (cServer.equalsIgnoreCase("hotmail.com")) {
-                            //if( parent.getIsWin32() ) {
+                            //if( getParent().getIsWin32() ) {
                             //   log.error( "Hotmail non supportato nella versione Win32" );
                             //}
 
@@ -428,14 +428,14 @@ public class POP3Server extends baseServer {
                         } else if (cServer.equalsIgnoreCase("supereva.it")) {
                             hp = new pluginsupereva();
                         } else if (cServer.equalsIgnoreCase("tele2.it")) {
-                            //if( parent.getIsWin32() ) {
+                            //if( getParent().getIsWin32() ) {
                             //   log.error( "Tele2 non supportato nella versione Win32" );
                             //}
 
                             getTele2();
 
                         } else if (cServer.equalsIgnoreCase("gmail.com")) {
-                            //if( parent.getIsWin32() ) {
+                            //if( getParent().getIsWin32() ) {
                             //   log.error( "Gmail non supportato nella versione Win32" );
                             //}
 
@@ -451,17 +451,17 @@ public class POP3Server extends baseServer {
 
                         if (hp != null) {
                             // Now I can login on server, depending on requested server
-                            hp.setMaxMessageNum(parent.getMaxEmail());
+                            hp.setMaxMessageNum(getParent().getMaxEmail());
                             // Set Debug
-                            hp.setDebug(parent.getDebug());
+                            hp.setDebug(getParent().getDebug());
 
                             boolean bLogin = hp.login(cUser, cPassword);
 
                             if (bLogin) {
                                 if (hp.list()) {
-                                    //if( parent.getMaxEmail()!=-1 ) hp.setMessageNum(parent.getMaxEmail());
+                                    //if( getParent().getMaxEmail()!=-1 ) hp.setMessageNum(getParent().getMaxEmail());
                                     html.putData(SO, "+OK " + hp.getMessageNum() + " messages\r\n");
-                                    if (!parent.getLifo()) {
+                                    if (!getParent().getLifo()) {
                                         hp.invertSort();
                                     }
                                     log.info(cServer + ": Trovati " + hp.getMessageNum() + " messaggi");
@@ -534,7 +534,7 @@ public class POP3Server extends baseServer {
 
                 } else if (cLineUpper.startsWith("STAT")) {
                     // Di default e' attivo, opzionalmente si puo' staccare
-                    if (parent.getOutlook2002Timeout()) {
+                    if (getParent().getOutlook2002Timeout()) {
                         // Sleep for 1 second
                         // Questa riga sembra stupida e inutile .. vero .. ma Outlook 2002, se gli si risponde
                         // troppo presto ... non riesce a prendere la risposta e a gestirla .. si perde in non
@@ -655,7 +655,7 @@ public class POP3Server extends baseServer {
                     if (cLine.length() == 4) {
                         html.putData(SO, "-ERR Protocol error\r\n");
                     } else {
-                        if (parent.getDelete()) {
+                        if (getParent().getDelete()) {
                             Double nMsg = Double.valueOf(cLine.substring(4).trim()); //.intValue();
                             boolean bDel = true;
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
@@ -681,7 +681,7 @@ public class POP3Server extends baseServer {
                     bExit = true;
 
                     // Ottimizzata, messaggio e chiusura subito, poi eventuale delete
-                    if (parent.getDeleteOptimized()) {
+                    if (getParent().getDeleteOptimized()) {
                         html.putData(SO, "+OK POP3 server closing connection\r\n");
                         try {
                             socket.close();
@@ -691,7 +691,7 @@ public class POP3Server extends baseServer {
 
                     if (hp != null) {
                         // Cancello se devo cancellare
-                        if (parent.getDelete()) {
+                        if (getParent().getDelete()) {
                             if (aDel.size() > 0) {
                                 log.info("Start removing deleted message from queue ...");
                             }
@@ -726,7 +726,7 @@ public class POP3Server extends baseServer {
                     }
 
                     // NON ottimizzata .. messaggio dopo e chiusura dopo
-                    if (!parent.getDeleteOptimized()) {
+                    if (!getParent().getDeleteOptimized()) {
                         html.putData(SO, "+OK POP3 server closing connection\r\n");
                     }
 

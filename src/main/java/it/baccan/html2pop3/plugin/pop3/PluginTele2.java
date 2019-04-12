@@ -841,12 +841,11 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         public boolean delMessage(int pos) {
             String messageId = getMessageID(pos);
             String deleUrl = baseHref + "/mailbox.wssp?Mailbox=INBOX&&MSG=" + messageId + "&Delete=&";
-            String pageData = null;
             boolean ret = true;
 
             log.info("deleting message " + messageId);
             try {
-                pageData = getPage(deleUrl, lastGoodCook).toString();
+                getPage(deleUrl, lastGoodCook).toString();
             } catch (Throwable t) {
                 log.error("error moving message " + messageId + " to trash");
                 log.error("Error", t);
@@ -906,7 +905,6 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         String post = "";
         String retFromPost = "";
         String cookBuff = "";
-        String newUrl = "";
         boolean ret = false;
         boolean err = false;
         byte retry2 = 0;

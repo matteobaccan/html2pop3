@@ -17,7 +17,6 @@
  */
 package it.baccan.html2pop3.utils.message;
 
-import it.baccan.html2pop3.utils.Base64;
 import it.baccan.html2pop3.utils.contentType;
 import it.baccan.html2pop3.utils.lineFormat;
 import it.baccan.html2pop3.utils.version;
@@ -26,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -309,7 +309,7 @@ public class POP3Message extends MasterMessage {
         if (bEncode && bRFC2047) {
             try {
                 // encoded-word = "=?" charset "?" encoding "?" encoded-text "?="
-                cRet = "=?" + getCharset() + "?" + "B" + "?" + java.util.Base64.getEncoder().encodeToString(cStr.getBytes("UTF-8")) + "?=";
+                cRet = "=?" + getCharset() + "?" + "B" + "?" + Base64.getEncoder().encodeToString(cStr.getBytes("UTF-8")) + "?=";
             } catch (UnsupportedEncodingException ex) {
                 log.error("Error encoding, use Q encode", ex);
                 cRet = "=?" + getCharset() + "?" + "Q" + "?" + cEncode + "?=";
@@ -343,7 +343,7 @@ public class POP3Message extends MasterMessage {
             for (int n = 0; n < nLen; n++) {
                 buf[n] = cAttach[nBlock + n];
             }
-            oMailBody.append(Base64.encode(buf)).append("\r\n");
+            oMailBody.append(Base64.getEncoder().encodeToString(buf)).append("\r\n");
         }
     }
 

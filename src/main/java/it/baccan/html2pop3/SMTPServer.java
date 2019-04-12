@@ -32,6 +32,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Base64;
 import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,16 +57,16 @@ public class SMTPServer extends baseServer {
     public void run() {
         smtpThread thread;
         try {
-            if (parent.getPortSMTP() > 0) {
-                ss = new ServerSocket(parent.getPortSMTP(), parent.getClient(), InetAddress.getByName(parent.getHost()));
+            if (getParent().getPortSMTP() > 0) {
+                setServerSocket( new ServerSocket(getParent().getPortSMTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
                 while (true) {
                     // Faccio partire il Thread
                     Socket socket = null;
                     try {
                         // Attendo il client
-                        socket = ss.accept();
+                        socket = getServerSocket().accept();
                     } catch (Throwable e) {
-                        if (isFinish) {
+                        if (isFinish()) {
                             return;
                         } else {
                             throw e;
@@ -83,8 +84,8 @@ public class SMTPServer extends baseServer {
                 }
             }
         } catch (BindException be) {
-            String cLoginStringFound = EchoClient.getLine(parent.getHost(), parent.getPortSMTP());
-            String cError = "Errore! Porta " + parent.getPortSMTP() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server SMTP";
+            String cLoginStringFound = EchoClient.getLine(getParent().getHost(), getParent().getPortSMTP());
+            String cError = "Errore! Porta " + getParent().getPortSMTP() + " in uso,\nValore corrente (" + cLoginStringFound + ")\nCambiare porta nel config.cfg e fare un restart del server SMTP";
 
             try {
                 Thread.sleep(500);
@@ -94,9 +95,9 @@ public class SMTPServer extends baseServer {
 
             if (cLoginString.equals(cLoginStringFound)) {
                 log.info("Exit for double run");
-                parent.exitFromProgram();
+                getParent().exitFromProgram();
             } else {
-                if (parent.getGuiError()) {
+                if (getParent().getGuiError()) {
                     //MsgBox message =
                     new MsgBox("HTML2POP3 server SMTP", cError, false);
                 }
@@ -149,7 +150,7 @@ public class SMTPServer extends baseServer {
 
             String cIP = socket.getInetAddress().getHostAddress();
             // IP Filter
-            if (!parent.getSMTPIpFilter().isAllow(new String[]{cIP})) {
+            if (!getParent().getSMTPIpFilter().isAllow(new String[]{cIP})) {
                 log.error("500 IP (" + cIP + ") deny");
                 html.putData(SO, "500 IP (" + cIP + ") deny\r\n");
                 return;
@@ -197,11 +198,11 @@ public class SMTPServer extends baseServer {
                      */
                 } else if (cLineUpper.startsWith("AUTH LOGIN")) {
                     html.putData(SO, "334 VXNlcm5hbWU6\r\n"); // Username: in base64
-                    cUser = new String(it.baccan.html2pop3.utils.Base64.decode(html.getLineNOCRLF(SI).toCharArray()));
+                    cUser = new String(Base64.getDecoder().decode(html.getLineNOCRLF(SI)));
                     log.error("SMTP server: " + cUser);
 
                     html.putData(SO, "334 UGFzc3dvcmQ6\r\n"); // Password: in base64
-                    cPwd = new String(it.baccan.html2pop3.utils.Base64.decode(html.getLineNOCRLF(SI).toCharArray()));
+                    cPwd = new String(Base64.getDecoder().decode(html.getLineNOCRLF(SI)));
                     String c = "";
                     while (c.length() < cPwd.length()) {
                         c += "*";
@@ -276,21 +277,21 @@ public class SMTPServer extends baseServer {
                     log.error("SMTP server: usato " + cServer);
 
                     // Plugin Filter
-                    if (!parent.getSMTPPluginFilter().isAllow(new String[]{cServer})) {
+                    if (!getParent().getSMTPPluginFilter().isAllow(new String[]{cServer})) {
                         log.error("500 plugin (" + cServer + ") deny");
                         html.putData(SO, "500 plugin (" + cServer + ") deny\r\n");
                         return;
                     }
 
                     // User Filter
-                    if (!parent.getSMTPUserFilter().isAllow(new String[]{cFrom})) {
+                    if (!getParent().getSMTPUserFilter().isAllow(new String[]{cFrom})) {
                         log.error("500 user (" + cFrom + ") deny");
                         html.putData(SO, "500 user (" + cFrom + ") deny\r\n");
                         return;
                     }
 
                     // Global Filter
-                    if (!parent.getSMTPGlobalFilter().isAllow(new String[]{cIP, cServer, cFrom})) {
+                    if (!getParent().getSMTPGlobalFilter().isAllow(new String[]{cIP, cServer, cFrom})) {
                         log.error("500 global (" + cIP + ")(" + cServer + ")(" + cFrom + ") deny");
                         html.putData(SO, "500 global (" + cIP + ")(" + cServer + ")(" + cFrom + ") deny\r\n");
                         return;

@@ -40,10 +40,7 @@ public class MsgBox extends JDialog implements ActionListener {
      * @param cText
      */
     public MsgBox(String title, String msg, boolean okcan, String cText) {
-        //super(new JFrame(""), tit, true);
-        super(null, Dialog.ModalityType.APPLICATION_MODAL);
-        //int nRow = msg.length()-string.replace(msg,"\n","").length();
-        //int nRow = msg.length()-msg.replaceAll("\n","").length();
+        super(null, title, Dialog.ModalityType.APPLICATION_MODAL);
 
         GridBagConstraints c = new GridBagConstraints();
         GridBagLayout gridbag = new GridBagLayout();
