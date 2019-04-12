@@ -42,13 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class pluginsmtp extends smtpbase implements smtpplugin {
-
-    /**
-     *
-     */
-    public pluginsmtp() {
-    }
+public class PluginSMTP extends SMTPBase implements SMTPPlugin {
 
     private static String cDefaultServer = "http://www.baccan.it/pop3/";
 

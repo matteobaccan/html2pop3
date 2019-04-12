@@ -18,9 +18,8 @@
 package it.baccan.html2pop3;
 
 import it.baccan.html2pop3.plugin.pop3.PluginGmail;
-import it.baccan.html2pop3.plugin.smtp.plugincgiemail;
-import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
-import it.baccan.html2pop3.plugin.smtp.smtpplugin;
+import it.baccan.html2pop3.plugin.smtp.PluginCGIEmail;
+import it.baccan.html2pop3.plugin.smtp.PluginSMTP;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
 import it.baccan.html2pop3.utils.HTMLTool;
@@ -35,6 +34,7 @@ import java.net.SocketException;
 import java.util.Base64;
 import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
+import it.baccan.html2pop3.plugin.smtp.SMTPPlugin;
 
 /**
  *
@@ -309,16 +309,16 @@ public class SMTPServer extends BaseServer {
                         cSubLine = html.getLine(SI);
                     }
 
-                    smtpplugin sp = null;
+                    SMTPPlugin sp = null;
                     if (cServer.equalsIgnoreCase("smtp")) {
-                        sp = new pluginsmtp();
+                        sp = new PluginSMTP();
                     } else if (cServer.equalsIgnoreCase("gmail.com")) {
                         sp = new PluginGmail();
                     } else if (cServer.equalsIgnoreCase("cgiemail")) {
-                        sp = new plugincgiemail();
+                        sp = new PluginCGIEmail();
                     } else {
                         log.error("SMTP server: errore, server mancante. Sintassi server;[parameter]. EX smtp;");
-                        sp = new pluginsmtp();
+                        sp = new PluginSMTP();
                     }
 
                     boolean bRet = false;

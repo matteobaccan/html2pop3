@@ -25,7 +25,7 @@ import it.baccan.html2pop3.plugin.pop3.PluginLibero;
 import it.baccan.html2pop3.plugin.pop3.PluginPOP3;
 import it.baccan.html2pop3.plugin.pop3.PluginRSS;
 import it.baccan.html2pop3.plugin.pop3.PluginTiscali;
-import it.baccan.html2pop3.plugin.smtp.pluginsmtp;
+import it.baccan.html2pop3.plugin.smtp.PluginSMTP;
 import it.baccan.html2pop3.utils.FakeX509TrustManager;
 import it.baccan.html2pop3.utils.Filter;
 import it.baccan.html2pop3.utils.Version;
@@ -444,7 +444,7 @@ public class html2pop3 extends Thread {
 
             // Tunneling server
             PluginPOP3.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
-            pluginsmtp.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
+            PluginSMTP.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
 
             // I vecchi JDK non hanno il metodo di modifica delle proprieta' direttamente
             // sul system

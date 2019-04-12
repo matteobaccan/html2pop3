@@ -1,5 +1,5 @@
 /*
- * smtpplugin interface
+ * smtpbase
  *
  * Copyright 2004 Matteo Baccan
  * www - http://www.baccan.it
@@ -21,8 +21,8 @@
  *
  */
 /**
- * Title:        smtpplugin interface
- * Description:  Interfaccia per la costruzione dei plugin
+ * Title:        smtpbase
+ * Description:  Classe base per la costruzione dei plugin
  * Copyright:    Copyright (c) 2004
  * Company:
  *
@@ -31,14 +31,21 @@
  */
 package it.baccan.html2pop3.plugin.smtp;
 
-import java.util.*;
+import it.baccan.html2pop3.plugin.PluginBase;
+import java.util.Vector;
 
 /**
  *
  * @author matteo
  */
-public interface smtpplugin {
-    // Login to the SMTP server
+public abstract class SMTPBase extends PluginBase {
+
+    /**
+     *
+     */
+    public SMTPBase() {
+        super();
+    }
 
     /**
      *
@@ -46,9 +53,10 @@ public interface smtpplugin {
      * @param cPwd
      * @return
      */
-    public boolean login(String cUser, String cPwd);
+    public boolean login(String cUser, String cPwd) {
+        return true;
+    }
 
-    // Send message
     /**
      *
      * @param cFrom
@@ -56,12 +64,14 @@ public interface smtpplugin {
      * @param cMsg
      * @return
      */
-    public boolean sendMessage(String cFrom, Vector aTo, String cMsg);
+    public abstract boolean sendMessage(String cFrom, Vector aTo, String cMsg);
 
-    // Get last error
     /**
      *
      * @return
      */
-    public String getLastErr();
+    public String getLastErr() {
+        return "";
+    }
+
 }

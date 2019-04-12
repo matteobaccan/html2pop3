@@ -45,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author matteo
  */
 @Slf4j
-public class PluginGmail extends POP3Base implements POP3Plugin, smtpplugin {
+public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
 
     private boolean bDebug = false;
 
