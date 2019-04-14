@@ -185,6 +185,9 @@ public class HTML2POP3 extends Thread {
         load();
     }
 
+    /**
+     *
+     */
     public void exitFromProgram() {
         if (parent != null) {
             parent.html2pop3Exit();

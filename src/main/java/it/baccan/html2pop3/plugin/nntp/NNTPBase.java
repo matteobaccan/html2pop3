@@ -44,22 +44,22 @@ public abstract class NNTPBase extends PluginBase {
 
     /**
      *
-     * @param SO
+     * @param outputStream
      * @return
      */
     public abstract boolean streamList(OutputStream outputStream);
 
     /**
      *
-     * @param cGroup
+     * @param group
      * @return
      */
     public abstract long[] group(String group);
 
     /**
      *
-     * @param nFrom
-     * @param nTo
+     * @param from
+     * @param to
      * @return
      */
     public abstract Vector xover(long from, long to);
