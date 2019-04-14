@@ -51,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HTML2POP3 extends Thread {
 
-    private static String cConfig = "config.cfg";
+    private static String config = "config.cfg";
     private Filter pop3IpFilter = new Filter();
     private Filter pop3PluginFilter = new Filter();
     private Filter pop3UserFilter = new Filter();
@@ -64,17 +64,18 @@ public class HTML2POP3 extends Thread {
     private final SortedProperties p = new SortedProperties();
     @Getter @Setter private String host = "127.0.0.1";
     @Getter @Setter private int port = 110;
-    private int cLocalPortSMTP = 25;
-    private int cLocalPortNNTP = 119;
+    @Getter @Setter private int portSMTP = 25;
+    @Getter @Setter private int portNNTP = 119;
     private int nClient = 10;
-    private boolean bDelete = true;
-    private boolean bDeleteOptimized = true;
+    @Getter @Setter private boolean delete = true;
+    @Getter @Setter private boolean deleteOptimized = true;
     @Getter @Setter private boolean guiError = true;
     private boolean bLifo = true;
     @Getter @Setter private boolean outlook2002Timeout = true;
-    private int nMaxEmail = -1;
+    @Getter @Setter private int maxEmail = -1;
     private boolean bDebug = false;
     private configChange cc;
+    private boolean isRestart = false;
 
     /**
      *
@@ -95,7 +96,7 @@ public class HTML2POP3 extends Thread {
      * @return
      */
     static public String getConfig() {
-        return cConfig;
+        return config;
     }
 
     /**
@@ -103,7 +104,7 @@ public class HTML2POP3 extends Thread {
      * @param c
      */
     static public void setConfig(String c) {
-        cConfig = c;
+        config = c;
     }
 
     /**
@@ -196,54 +197,6 @@ public class HTML2POP3 extends Thread {
      *
      * @return
      */
-    public int getPortSMTP() {
-        return cLocalPortSMTP;
-    }
-
-    /**
-     *
-     * @param p
-     */
-    public void setPortSMTP(int p) {
-        cLocalPortSMTP = p;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getPortNNTP() {
-        return cLocalPortNNTP;
-    }
-
-    /**
-     *
-     * @param p
-     */
-    public void setPortNNTP(int p) {
-        cLocalPortNNTP = p;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getMaxEmail() {
-        return nMaxEmail;
-    }
-
-    /**
-     *
-     * @param p
-     */
-    public void setMaxEmail(int p) {
-        nMaxEmail = p;
-    }
-
-    /**
-     *
-     * @return
-     */
     public int getClient() {
         return nClient;
     }
@@ -254,38 +207,6 @@ public class HTML2POP3 extends Thread {
      */
     public void setClient(int p) {
         nClient = p;
-    }
-
-    /**
-     *
-     * @param b
-     */
-    public void setDelete(boolean b) {
-        bDelete = b;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getDelete() {
-        return bDelete;
-    }
-
-    /**
-     *
-     * @param b
-     */
-    public void setDeleteOptimized(boolean b) {
-        bDeleteOptimized = b;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getDeleteOptimized() {
-        return bDeleteOptimized;
     }
 
     /**
@@ -327,8 +248,8 @@ public class HTML2POP3 extends Thread {
     public boolean load() {
         boolean bRet = false;
         try {
-            log.info("Load Config [{}]", cConfig);
-            try (InputStream fis = new FileInputStream(cConfig)) {
+            log.info("Load Config [{}]", config);
+            try (InputStream fis = new FileInputStream(config)) {
                 p.clear();
                 p.load(fis);
             }
@@ -336,17 +257,17 @@ public class HTML2POP3 extends Thread {
             // Host + port
             this.host = p.getProperty("host", "127.0.0.1");
             this.port = Double.valueOf(p.getProperty("port", "110")).intValue();
-            this.cLocalPortSMTP = Double.valueOf(p.getProperty("portsmtp", "25")).intValue();
-            this.cLocalPortNNTP = Double.valueOf(p.getProperty("portnntp", "119")).intValue();
+            this.portSMTP = Double.valueOf(p.getProperty("portsmtp", "25")).intValue();
+            this.portNNTP = Double.valueOf(p.getProperty("portnntp", "119")).intValue();
             this.nClient = Double.valueOf(p.getProperty("concurrentclient", "10")).intValue();
-            this.bDelete = p.getProperty("delete", "true").equalsIgnoreCase("true");
-            this.bDeleteOptimized = p.getProperty("deleteoptimized", "true").equalsIgnoreCase("true");
+            this.delete = p.getProperty("delete", "true").equalsIgnoreCase("true");
+            this.deleteOptimized = p.getProperty("deleteoptimized", "true").equalsIgnoreCase("true");
             this.bLifo = p.getProperty("coda", "lifo").equalsIgnoreCase("lifo");
             setOutlook2002Timeout( p.getProperty("outlook2002.timeout", "true").equalsIgnoreCase("true") );
             this.bDebug = p.getProperty("debug", "false").equalsIgnoreCase("true");
 
             // Email per session
-            this.nMaxEmail = Double.valueOf(p.getProperty("maxdownloadpersession", "-1")).intValue();
+            this.maxEmail = Double.valueOf(p.getProperty("maxdownloadpersession", "-1")).intValue();
 
             // POP3 default
             POP3Message.setAddHTML(p.getProperty("htmlattach", "true").equalsIgnoreCase("true"));
@@ -414,7 +335,7 @@ public class HTML2POP3 extends Thread {
             bRet = true;
         } catch (FileNotFoundException fnf) {
 
-            log.info("Non riesco a leggere il file " + getConfigFullPath() + ", lanciare html2pop3 dalla directory di " + cConfig);
+            log.info("Non riesco a leggere il file " + getConfigFullPath() + ", lanciare html2pop3 dalla directory di " + config);
 
         } catch (IOException e) {
             log.error("Error", e);
@@ -530,7 +451,7 @@ public class HTML2POP3 extends Thread {
     private String getConfigFullPath() {
         String cRet = "";
         try {
-            File file = new File(cConfig);
+            File file = new File(config);
             cRet = file.getAbsolutePath();
         } catch (Throwable e) {
         }
@@ -561,11 +482,11 @@ public class HTML2POP3 extends Thread {
             // Host + port
             p.put("host", host);
             p.put("port", "" + port);
-            p.put("portsmtp", "" + cLocalPortSMTP);
-            p.put("portnntp", "" + cLocalPortNNTP);
+            p.put("portsmtp", "" + portSMTP);
+            p.put("portnntp", "" + portNNTP);
             p.put("concurrentclient", "" + nClient);
-            p.put("delete", "" + bDelete);
-            p.put("deleteoptimized", "" + bDeleteOptimized);
+            p.put("delete", "" + delete);
+            p.put("deleteoptimized", "" + deleteOptimized);
             p.put("debug", "" + bDebug);
 
             if (bLifo) {
@@ -578,7 +499,7 @@ public class HTML2POP3 extends Thread {
             p.put("htmlattach", "" + POP3Message.getAddHTML());
 
             // Email per sessione
-            p.put("maxdownloadpersession", "" + nMaxEmail);
+            p.put("maxdownloadpersession", "" + maxEmail);
 
             // Proxy
             p.put("proxyuser", System.getProperty("proxyUser", ""));
@@ -589,7 +510,7 @@ public class HTML2POP3 extends Thread {
             p.put("proxyport", System.getProperty("http.proxyPort", ""));
 
             // DEPRECATA la uso per retrocompatiblita' con JDK MS e vecchi JDK
-            p.save(new FileOutputStream(cConfig), null);
+            p.save(new FileOutputStream(config), null);
         } catch (Throwable e) {
             log.error("Error", e);
             log.info(e.getMessage());
@@ -683,14 +604,14 @@ public class HTML2POP3 extends Thread {
             log.info("Server POP3 disabled");
         }
 
-        if (cLocalPortSMTP > 0) {
-            log.info("Server SMTP ready at " + host + ":" + cLocalPortSMTP + " max clients: " + nClient);
+        if (portSMTP > 0) {
+            log.info("Server SMTP ready at " + host + ":" + portSMTP + " max clients: " + nClient);
         } else {
             log.info("Server SMTP disabled");
         }
 
-        if (cLocalPortNNTP > 0) {
-            log.info("Server NNTP ready at " + host + ":" + cLocalPortNNTP + " max clients: " + nClient);
+        if (portNNTP > 0) {
+            log.info("Server NNTP ready at " + host + ":" + portNNTP + " max clients: " + nClient);
         } else {
             log.info("Server NNTP disabled");
         }
@@ -708,9 +629,9 @@ public class HTML2POP3 extends Thread {
             }
         }
 
-        if (bDelete) {
+        if (delete) {
             log.info("Le cancellazioni SONO abilitate, il client di posta potra' cancellare la posta");
-            if (bDeleteOptimized) {
+            if (deleteOptimized) {
                 log.info("Le cancellazioni sono fatte DOPO la sconnessione del client di posta");
             } else {
                 log.info("Le cancellazioni sono fatte PRIMA della sconnessione del client di posta");
@@ -730,14 +651,14 @@ public class HTML2POP3 extends Thread {
             log.info("Modalita' di debug disattiva");
         }
         log.info("Attach email originale nella posta emulata: " + POP3Message.getAddHTML());
-        log.info("Numero di download massimi per sessione: " + nMaxEmail);
+        log.info("Numero di download massimi per sessione: " + maxEmail);
         //log.info("Dimensione del file di log: " + logStreamMemo.getLogSize());
         log.info("Tunneling server " + p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
         log.info("-----------------------------------------------------------------------------");
         log.info("Plugin specific setting");
         log.info("-----------------------------------------------------------------------------");
-        log.info("tiscali: modalita' di cancellazione " + (PluginTiscali.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
-        log.info("tin: modalita' di cancellazione " + (PluginTin.getDelete() ? "CANCELLA" : "MUOVE nel cestino"));
+        log.info("tiscali: modalita' di cancellazione " + (PluginTiscali.isDelete() ? "CANCELLA" : "MUOVE nel cestino"));
+        log.info("tin: modalita' di cancellazione " + (PluginTin.isDelete() ? "CANCELLA" : "MUOVE nel cestino"));
         log.info("libero: flag di lettura " + (PluginLibero.getRead() ? "ATTIVO" : "DISATTIVO"));
         log.info("outlook 2002: timeout " + (isOutlook2002Timeout() ? "ATTIVO" : "DISATTIVO"));
         log.info("supporto per rfc2047: " + (POP3Message.getrfc2047() ? "ATTIVO" : "DISATTIVO"));
@@ -751,8 +672,6 @@ public class HTML2POP3 extends Thread {
         }
         log.info("-----------------------------------------------------------------------------");
     }
-
-    private boolean isRestart = false;
 
     /**
      *

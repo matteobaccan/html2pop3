@@ -54,7 +54,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
     private UnirestInstance unirest = null;
 
-    private static boolean bDelete = true;
+    private static boolean delete = true;
 
     /**
      * TIN Plugin Costructor.
@@ -392,9 +392,14 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
                     if (ja != null && ja.length() > 0) {
                         JSONObject row = (JSONObject) ja.get(0);
+
+                        // Estrazione CC
                         pop3.setCc(cleanJSON(row.getString("cc")));
-                        // Uso gli header per migliorare l'email ritonata
+
+                        // Estrazione headers per migliorare l'email ritonata
                         String headerClean = cleanJSON(row.getString("headers"));
+                        
+                        // Per ogni riga
                         StringTokenizer st = new StringTokenizer(headerClean, "\r\n");
                         while (st.hasMoreTokens()) {
                             String cTok = st.nextToken();
@@ -403,20 +408,15 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                                 pop3.setData(date);
                             }
                         }
-                    }
 
-                    if (ja != null && ja.length() > 0) {
-                        JSONObject row = (JSONObject) ja.get(0);
-                        //String yy = getServer() +row.getString( "urlZipDownloader" );
-                        //byte[] xx = getPage( yy, prop.get("cookie") );
-                        //xx=xx; String y = new String(xx);
+                        // Verifico eventuali attach
                         JSONArray jatt = (JSONArray) row.get("attachments");
                         if (jatt != null) {
                             int n = 0;
                             while (n < jatt.length()) {
                                 JSONObject jAttach = (JSONObject) jatt.get(n);
                                 String urlDownloader = getServer() + jAttach.getString("urlDownloader") + "&disposition=attachment";
-
+                                
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 unirest.post(urlDownloader)
                                         .field("u", prop.get("userid"))
@@ -498,15 +498,15 @@ public class PluginTin extends POP3Base implements POP3Plugin {
      * @param b
      */
     public static void setDelete(boolean b) {
-        bDelete = b;
+        delete = b;
     }
 
     /**
      *
      * @return
      */
-    public static boolean getDelete() {
-        return bDelete;
+    public static boolean isDelete() {
+        return delete;
     }
 
     /**

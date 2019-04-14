@@ -81,6 +81,12 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
     // Server di riferimento
     private int nMail = 0;
 
+    // Proprietà di sessione
+    private Properties p;
+
+    // Elenco di tutte le sessioni attive
+    private static final Properties sessions = new Properties();
+
     /**
      *
      * @param n
@@ -88,12 +94,6 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
     public PluginLibero(int n) {
         nMail = n;
     }
-
-    // Proprietà di sessione
-    private Properties p;
-
-    // Elenco di tutte le sessioni attive
-    private static final Properties sessions = new Properties();
 
     /**
      *

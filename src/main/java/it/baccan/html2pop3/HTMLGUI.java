@@ -49,14 +49,14 @@ public class HTMLGUI extends javax.swing.JFrame {
 
         oHost.setText(h2p.getHost());
         oPort.setText("" + h2p.getPort());
-        oDelete.setSelected(h2p.getDelete());
+        oDelete.setSelected(h2p.isDelete());
         oProxyUser.setText(System.getProperty("proxyUser"));
         oProxyPassword.setText(System.getProperty("proxyPassword"));
         oProxyHost.setText(System.getProperty("http.proxyHost"));
         oProxyPort.setText(System.getProperty("http.proxyPort"));
         oConcurrentClient.setText("" + h2p.getClient());
         oCoda.setSelectedItem(h2p.getLifo() ? "lifo" : "fifo");
-        oDeleteOptimized.setSelected(h2p.getDeleteOptimized());
+        oDeleteOptimized.setSelected(h2p.isDeleteOptimized());
         oHTMLAttach.setSelected(POP3Message.getAddHTML());
         oSessionEmail.setText("" + h2p.getMaxEmail());
 

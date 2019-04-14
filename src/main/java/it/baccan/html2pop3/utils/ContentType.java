@@ -9,7 +9,8 @@
  */
 package it.baccan.html2pop3.utils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,6 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ContentType {
 
     static private ContentType _instance = null;
+
+    private Map<String, String> _map;
+    private String _defaultContentType;
 
     /**
      *
@@ -33,7 +37,6 @@ public class ContentType {
     }
 
     private ContentType() {
-        //Add mapping list{{{
         addMapping("jpg", "image/jpeg");
         addMapping("jpeg", "image/jpeg");
         addMapping("aif", "audio/x-aiff");
@@ -171,14 +174,8 @@ public class ContentType {
         addMapping("xwd", "image/x-xwindowdump");
         addMapping("xyz", "chemical/x-pdb");
         addMapping("zip", "application/zip");
-
         setDefault("application/octet-stream");
-        //}}}
     }
-
-    //private HashMap _map;
-    private Properties _map;
-    private String _defaultContentType;
 
     private void setDefault(String type) {
         _defaultContentType = type;
@@ -186,9 +183,8 @@ public class ContentType {
 
     private void addMapping(String ext, String type) {
         if (_map == null) {
-            _map = new Properties();
+            _map = new HashMap<>();
         }
-        //_map = new HashMap();
         _map.put(ext, type);
     }
 
@@ -217,28 +213,7 @@ public class ContentType {
             return _defaultContentType;
         }
 
-        String ext = filename.substring(dotPos + 1);
-
-        return getFromExtension(ext);
-    }
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        String ext = "txt";
-
-        String res = ContentType.getInstance().getFromExtension(ext);
-        log.error("Ext:" + ext + " Type:" + res);
-
-        ext = "html";
-        res = ContentType.getInstance().getFromExtension(ext);
-        log.error("Ext:" + ext + " Type:" + res);
-
-        String filename = "/prova/blabla.txt/file.html";
-        res = ContentType.getInstance().getFromFilename(filename);
-        log.error("Filename:" + filename + " Type:" + res);
+        return getFromExtension(filename.substring(dotPos + 1));
     }
 
 }

@@ -653,7 +653,7 @@ public class POP3Server extends BaseServer {
                     if (cLine.length() == 4) {
                         html.putData(SO, "-ERR Protocol error\r\n");
                     } else {
-                        if (getParent().getDelete()) {
+                        if (getParent().isDelete()) {
                             Double nMsg = Double.valueOf(cLine.substring(4).trim()); //.intValue();
                             boolean bDel = true;
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
@@ -679,7 +679,7 @@ public class POP3Server extends BaseServer {
                     bExit = true;
 
                     // Ottimizzata, messaggio e chiusura subito, poi eventuale delete
-                    if (getParent().getDeleteOptimized()) {
+                    if (getParent().isDeleteOptimized()) {
                         html.putData(SO, "+OK POP3 server closing connection\r\n");
                         try {
                             socket.close();
@@ -689,7 +689,7 @@ public class POP3Server extends BaseServer {
 
                     if (hp != null) {
                         // Cancello se devo cancellare
-                        if (getParent().getDelete()) {
+                        if (getParent().isDelete()) {
                             if (aDel.size() > 0) {
                                 log.info("Start removing deleted message from queue ...");
                             }
@@ -724,7 +724,7 @@ public class POP3Server extends BaseServer {
                     }
 
                     // NON ottimizzata .. messaggio dopo e chiusura dopo
-                    if (!getParent().getDeleteOptimized()) {
+                    if (!getParent().isDeleteOptimized()) {
                         html.putData(SO, "+OK POP3 server closing connection\r\n");
                     }
 

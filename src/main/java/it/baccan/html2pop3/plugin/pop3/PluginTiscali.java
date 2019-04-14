@@ -413,22 +413,22 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
         return (oMail == null ? null : oMail.toString());
     }
 
-    private static boolean bDelete = true;
+    private static boolean delete = true;
 
     /**
      *
      * @param b
      */
     static public void setDelete(boolean b) {
-        bDelete = b;
+        delete = b;
     }
 
     /**
      *
      * @return
      */
-    static public boolean getDelete() {
-        return bDelete;
+    static public boolean isDelete() {
+        return delete;
     }
 
     /**
@@ -466,7 +466,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
         try {
             log.error("Tiscali: delmessageEnd init");
 
-            if (bDelete) {
+            if (delete) {
                 getPage(cServer + "/cp/ps/Mail/EmptyTrash?d=" + p.getProperty("domain") + "&u=" + p.getProperty("userid") + "&an=" + p.getProperty("userid") + "&t=" + getCook(cSessionCook, "ssoToken") + "&l=it&fpX=Trashcan", cSessionCook);
             }
 

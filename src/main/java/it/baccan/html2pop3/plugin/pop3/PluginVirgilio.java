@@ -44,15 +44,15 @@ public class PluginVirgilio extends PluginTin implements POP3Plugin {
 
     private boolean bDebug = false;
 
+    // Property per variabili hidden
+    private final Map<String, String> prop;
+
     /**
      * Virgilio Plugin Costructor.
      */
     public PluginVirgilio() {
         prop = new HashMap<>();
     }
-
-    // Property per variabili hidden
-    private final Map<String, String> prop;
 
     /**
      *
