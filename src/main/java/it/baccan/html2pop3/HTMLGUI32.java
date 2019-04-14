@@ -1,23 +1,9 @@
 /*
- * HTML2POP3 server - win32 gui
+ * Copyright (c) 2019 Matteo Baccan
+ * http://www.baccan.it
  *
- * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
- * their web site at http://www.gnu.org/).
+ * Distributed under the GPL v3 software license, see the accompanying
+ * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
  */
 package it.baccan.html2pop3;
@@ -31,13 +17,26 @@ package it.baccan.html2pop3;
  */
 import it.baccan.html2pop3.utils.MsgBox;
 import it.baccan.html2pop3.utils.Version;
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.net.URL;
-import javax.swing.*;
+import java.awt.AWTException;
+import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -57,18 +56,13 @@ public class HTMLGUI32 {
 
         // Lancio il server
         final HTML2POP3 html2pop3 = new HTML2POP3();
+        html2pop3.setGuiError(true);
         html2pop3.start();
 
         /* Use an appropriate Look and Feel */
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (UnsupportedLookAndFeelException ex) {
-            log.error("Error", ex);
-        } catch (IllegalAccessException ex) {
-            log.error("Error", ex);
-        } catch (InstantiationException ex) {
-            log.error("Error", ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
             log.error("Error", ex);
         }
         /* Turn off metal's use of bold fonts */
@@ -76,11 +70,9 @@ public class HTMLGUI32 {
 
         //Schedule a job for the event-dispatching thread:
         //adding TrayIcon.
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                HTMLGUI32 g = new HTMLGUI32();
-                g.createAndShowGUI(html2pop3, html2pop3.getConfigPath() + "html2pop3.log", html2pop3.getConfigPath() + "config.cfg");
-            }
+        SwingUtilities.invokeLater(() -> {
+            HTMLGUI32 g = new HTMLGUI32();
+            g.createAndShowGUI(html2pop3, html2pop3.getConfigPath() + "html2pop3.log", html2pop3.getConfigPath() + "config.cfg");
         });
 
     }
@@ -99,11 +91,10 @@ public class HTMLGUI32 {
 
         final SystemTray tray = SystemTray.getSystemTray();
 
-        ///*
         // Create a popup menu components
         MenuItem aboutItem = new MenuItem("About HTML2POP3 " + Version.getVersion());
-        MenuItem baccanItem = new MenuItem("Verifica aggiornamenti su Baccan.it");
-        //MenuItem forumItem = new MenuItem("Forum di supporto");
+        MenuItem baccanItem = new MenuItem("Vai al sito dell'autore: Baccan.it");
+        MenuItem githubItem = new MenuItem("Scarica l'ultima versione da Github");
         MenuItem infoItem = new MenuItem("Visualizza html2pop3.log");
         MenuItem regaloItem = new MenuItem("Fai un regalo all'autore");
         MenuItem exitItem = new MenuItem("Exit");
@@ -112,7 +103,7 @@ public class HTMLGUI32 {
         popup.add(aboutItem);
         popup.addSeparator();
         popup.add(baccanItem);
-        //popup.add(forumItem);
+        popup.add(githubItem);
         popup.add(infoItem);
         popup.addSeparator();
         popup.add(regaloItem);
@@ -128,44 +119,31 @@ public class HTMLGUI32 {
             return;
         }
 
-        aboutItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "HTML2POP3 " + Version.getVersion() + " by Matteo Baccan http://www.baccan.it");
-            }
+        aboutItem.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(null, "HTML2POP3 " + Version.getVersion() + " by Matteo Baccan http://www.baccan.it");
         });
 
-        regaloItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                HTMLGUI32.upenUrl("http://www.amazon.it/registry/wishlist/1K93QPV77925P");
-            }
+        regaloItem.addActionListener((ActionEvent e) -> {
+            HTMLGUI32.upenUrl("http://www.amazon.it/registry/wishlist/1K93QPV77925P");
         });
 
-        baccanItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                HTMLGUI32.upenUrl("http://www.baccan.it");
-            }
+        baccanItem.addActionListener((ActionEvent e) -> {
+            HTMLGUI32.upenUrl("http://www.baccan.it");
         });
 
-        /*
-      forumItem.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            htmlgui32.upenUrl("http://freepops.diludovico.it/forumdisplay.php?15-HTML2POP3");
-         }
-      });
-         */
-        infoItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new MsgBox("HTML2POP3 " + Version.getVersion() + " win32",
-                        "File di log: " + cLogPath + "\nFile di configurazione: " + cCfgPath + "\n", true, readCache(cLogPath));
-            }
+        githubItem.addActionListener((ActionEvent e) -> {
+            HTMLGUI32.upenUrl("https://github.com/matteobaccan/html2pop3/releases");
         });
 
-        exitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                log.info("Exit from trybar");
-                tray.remove(trayIcon);
-                System.exit(0);
-            }
+        infoItem.addActionListener((ActionEvent e) -> {
+            new MsgBox("HTML2POP3 " + Version.getVersion() + " win32",
+                    "File di log: " + cLogPath + "\nFile di configurazione: " + cCfgPath + "\n", true, readCache(cLogPath));
+        });
+
+        exitItem.addActionListener((ActionEvent e) -> {
+            log.info("Exit from trybar");
+            tray.remove(trayIcon);
+            System.exit(0);
         });
 
     }
@@ -183,7 +161,7 @@ public class HTMLGUI32 {
                     URI uri = new URI(url);
                     desktop.browse(uri);
                     bRun = true;
-                } catch (Exception ee) {
+                } catch (IOException | URISyntaxException ee) {
                     log.error(ee.getMessage());
                 }
             }
@@ -193,8 +171,8 @@ public class HTMLGUI32 {
         }
     }
 
-    //Obtain the image URL
     /**
+     * Obtain the image URL.
      *
      * @param path
      * @param description
@@ -216,13 +194,13 @@ public class HTMLGUI32 {
         try {
             File oFile = new File(cFile);
             if (oFile.exists()) {
-                FileInputStream fInput = new FileInputStream(cFile);
-                byte[] bufferSO = new byte[fInput.available()];
-                fInput.read(bufferSO);
-                fInput.close();
-                cRet = new String(bufferSO);
+                try (FileInputStream fInput = new FileInputStream(cFile)) {
+                    byte[] bufferSO = new byte[fInput.available()];
+                    fInput.read(bufferSO);
+                    cRet = new String(bufferSO);
+                }
             }
-        } catch (Throwable ex) {
+        } catch (IOException ex) {
             log.info("readCache", ex);
         }
         return cRet;

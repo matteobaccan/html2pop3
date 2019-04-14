@@ -35,6 +35,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         initComponents();
 
         oTab.addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 if (oTab.getSelectedIndex() == 3) {
                     scrollToEnd();
@@ -43,6 +44,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         });
 
         h2p = new HTML2POP3();
+        h2p.setGuiError(true);
         h2p.start();
 
         oHost.setText(h2p.getHost());
@@ -357,6 +359,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         boolean isNew = h2p.isAlive();
         if (!isNew) {
             h2p = new HTML2POP3();
+            h2p.setGuiError(true);
         }
 
         //Codice di restart

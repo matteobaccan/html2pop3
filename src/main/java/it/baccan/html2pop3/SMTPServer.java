@@ -97,8 +97,7 @@ public class SMTPServer extends BaseServer {
                 log.info("Exit for double run");
                 getParent().exitFromProgram();
             } else {
-                if (getParent().getGuiError()) {
-                    //MsgBox message =
+                if (getParent().isGuiError()) {
                     new MsgBox("HTML2POP3 server SMTP", cError, false);
                 }
             }

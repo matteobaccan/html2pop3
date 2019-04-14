@@ -69,12 +69,11 @@ public class HTML2POP3 extends Thread {
     private int nClient = 10;
     private boolean bDelete = true;
     private boolean bDeleteOptimized = true;
-    private boolean bGuiError = true;
+    @Getter @Setter private boolean guiError = true;
     private boolean bLifo = true;
     @Getter @Setter private boolean outlook2002Timeout = true;
     private int nMaxEmail = -1;
     private boolean bDebug = false;
-    private HTML2POP3ExitHook parent;
     private configChange cc;
 
     /**
@@ -87,6 +86,7 @@ public class HTML2POP3 extends Thread {
 
         // Partenza
         HTML2POP3 html2pop3 = new HTML2POP3();
+        html2pop3.setGuiError(false);
         html2pop3.start();
     }
 
@@ -189,9 +189,6 @@ public class HTML2POP3 extends Thread {
      *
      */
     public void exitFromProgram() {
-        if (parent != null) {
-            parent.html2pop3Exit();
-        }
         System.exit(0);
     }
 
@@ -279,22 +276,6 @@ public class HTML2POP3 extends Thread {
      *
      * @param b
      */
-    public void setGuiError(boolean b) {
-        bGuiError = b;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getGuiError() {
-        return bGuiError;
-    }
-
-    /**
-     *
-     * @param b
-     */
     public void setDeleteOptimized(boolean b) {
         bDeleteOptimized = b;
     }
@@ -360,7 +341,6 @@ public class HTML2POP3 extends Thread {
             this.nClient = Double.valueOf(p.getProperty("concurrentclient", "10")).intValue();
             this.bDelete = p.getProperty("delete", "true").equalsIgnoreCase("true");
             this.bDeleteOptimized = p.getProperty("deleteoptimized", "true").equalsIgnoreCase("true");
-            this.bGuiError = p.getProperty("guierror", "true").equalsIgnoreCase("true");
             this.bLifo = p.getProperty("coda", "lifo").equalsIgnoreCase("lifo");
             setOutlook2002Timeout( p.getProperty("outlook2002.timeout", "true").equalsIgnoreCase("true") );
             this.bDebug = p.getProperty("debug", "false").equalsIgnoreCase("true");
@@ -586,7 +566,6 @@ public class HTML2POP3 extends Thread {
             p.put("concurrentclient", "" + nClient);
             p.put("delete", "" + bDelete);
             p.put("deleteoptimized", "" + bDeleteOptimized);
-            p.put("guierror", "" + bGuiError);
             p.put("debug", "" + bDebug);
 
             if (bLifo) {
@@ -740,7 +719,7 @@ public class HTML2POP3 extends Thread {
             log.info("Le cancellazioni NON sono abilitate, il client di posta non potra' cancellare la posta");
         }
 
-        if (bGuiError) {
+        if (guiError) {
             log.info("Errori gravi visualizzati con messagebox GUI e file di log");
         } else {
             log.info("Errori gravi visualizzati solo nel file di log");

@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NNTPServer extends BaseServer {
 
-    private String cLoginString = "200 HTML2POP3 news server (" + Version.getVersion() + ") ready";
+    private final String cLoginString = "200 HTML2POP3 news server (" + Version.getVersion() + ") ready";
 
     /**
      *
@@ -50,6 +50,7 @@ public class NNTPServer extends BaseServer {
         super(p);
     }
 
+    @Override
     public void run() {
         nntpThread thread;
         try {
@@ -93,8 +94,7 @@ public class NNTPServer extends BaseServer {
                 log.info("Exit for double run");
                 getParent().exitFromProgram();
             } else {
-                if (getParent().getGuiError()) {
-                    //MsgBox message =
+                if (getParent().isGuiError()) {
                     new MsgBox("HTML2POP3 server NNTP", cError, false);
                 }
             }
