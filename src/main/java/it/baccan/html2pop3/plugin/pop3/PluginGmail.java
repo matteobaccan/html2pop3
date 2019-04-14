@@ -62,7 +62,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      * @return
      */
     public boolean login(String cUser, String cPwd) {
-        bDebug = getDebug();
+        bDebug = isDebug();
         bLogin = false;
 
         try {

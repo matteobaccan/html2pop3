@@ -73,7 +73,7 @@ public class HTML2POP3 extends Thread {
     private boolean bLifo = true;
     @Getter @Setter private boolean outlook2002Timeout = true;
     @Getter @Setter private int maxEmail = -1;
-    private boolean bDebug = false;
+    @Getter @Setter private boolean debug = false;
     private configChange cc;
     private boolean isRestart = false;
 
@@ -227,22 +227,6 @@ public class HTML2POP3 extends Thread {
 
     /**
      *
-     * @param b
-     */
-    public void setDebug(boolean b) {
-        bDebug = b;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getDebug() {
-        return bDebug;
-    }
-
-    /**
-     *
      * @return
      */
     public boolean load() {
@@ -264,7 +248,7 @@ public class HTML2POP3 extends Thread {
             this.deleteOptimized = p.getProperty("deleteoptimized", "true").equalsIgnoreCase("true");
             this.bLifo = p.getProperty("coda", "lifo").equalsIgnoreCase("lifo");
             setOutlook2002Timeout( p.getProperty("outlook2002.timeout", "true").equalsIgnoreCase("true") );
-            this.bDebug = p.getProperty("debug", "false").equalsIgnoreCase("true");
+            this.debug = p.getProperty("debug", "false").equalsIgnoreCase("true");
 
             // Email per session
             this.maxEmail = Double.valueOf(p.getProperty("maxdownloadpersession", "-1")).intValue();
@@ -487,7 +471,7 @@ public class HTML2POP3 extends Thread {
             p.put("concurrentclient", "" + nClient);
             p.put("delete", "" + delete);
             p.put("deleteoptimized", "" + deleteOptimized);
-            p.put("debug", "" + bDebug);
+            p.put("debug", "" + debug);
 
             if (bLifo) {
                 p.put("coda", "lifo");
@@ -645,7 +629,7 @@ public class HTML2POP3 extends Thread {
         } else {
             log.info("Errori gravi visualizzati solo nel file di log");
         }
-        if (bDebug) {
+        if (debug) {
             log.info("Modalita' di debug ATTIVA");
         } else {
             log.info("Modalita' di debug disattiva");

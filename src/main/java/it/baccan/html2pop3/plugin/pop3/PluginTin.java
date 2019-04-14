@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
  * http://www.baccan.it
- * 
+ *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
@@ -72,7 +72,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
      */
     @Override
     public boolean login(String cUserParam, String cPwd) {
-        bDebug = getDebug();
+        bDebug = isDebug();
 
         boolean bRet = false;
         boolean bErr = false;
@@ -398,7 +398,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
                         // Estrazione headers per migliorare l'email ritonata
                         String headerClean = cleanJSON(row.getString("headers"));
-                        
+
                         // Per ogni riga
                         StringTokenizer st = new StringTokenizer(headerClean, "\r\n");
                         while (st.hasMoreTokens()) {
@@ -416,7 +416,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                             while (n < jatt.length()) {
                                 JSONObject jAttach = (JSONObject) jatt.get(n);
                                 String urlDownloader = getServer() + jAttach.getString("urlDownloader") + "&disposition=attachment";
-                                
+
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 unirest.post(urlDownloader)
                                         .field("u", prop.get("userid"))
@@ -547,7 +547,6 @@ public class PluginTin extends POP3Base implements POP3Plugin {
         return cRet.trim();
     }
 
-    //TODO:
     //From: xxxxxxxxxx <xxxxxxx.xxxxxx@gmail.com>
     private String formatDate(String cDate) {
         String cRet = getCurDate();

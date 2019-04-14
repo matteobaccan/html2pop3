@@ -10,7 +10,7 @@
             <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
         </goals>
         <properties>
-            <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath it.baccan.html2pop3.htmlgui32</exec.args>
+            <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath it.baccan.html2pop3.HTMLGUI32</exec.args>
             <exec.executable>java</exec.executable>
             <jpda.listen>true</jpda.listen>
             <exec.workingdir>work</exec.workingdir>
@@ -54,7 +54,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath it.baccan.html2pop3.htmlgui32</exec.args>
+                <exec.args>-classpath %classpath it.baccan.html2pop3.HTMLGUI32</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>work</exec.workingdir>
             </properties>
@@ -69,7 +69,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath it.baccan.html2pop3.htmlgui32</exec.args>
+                <exec.args>-classpath %classpath it.baccan.html2pop3.HTMLGUI32</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>work</exec.workingdir>
             </properties>

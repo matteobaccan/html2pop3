@@ -47,8 +47,8 @@ public abstract class POP3Base extends PluginBase {
      *
      */
     protected void resetEmailInfo() {
-        aEmail = new Vector();
-        aSize = new Vector();
+        aEmail = new ArrayList<>();
+        aSize = new ArrayList<>();
     }
 
     /**

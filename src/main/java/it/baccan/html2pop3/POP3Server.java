@@ -215,7 +215,7 @@ public class POP3Server extends BaseServer {
 
         private void manage(Socket socket) throws Throwable {
             // DEBUG
-            boolean bDebug = getParent().getDebug();
+            boolean bDebug = getParent().isDebug();
             // Source
             InputStream SI = socket.getInputStream();
             OutputStream SO = socket.getOutputStream();
@@ -452,7 +452,7 @@ public class POP3Server extends BaseServer {
                             // Now I can login on server, depending on requested server
                             hp.setMaxMessageNum(getParent().getMaxEmail());
                             // Set Debug
-                            hp.setDebug(getParent().getDebug());
+                            hp.setDebug(getParent().isDebug());
 
                             boolean bLogin = hp.login(cUser, cPassword);
 

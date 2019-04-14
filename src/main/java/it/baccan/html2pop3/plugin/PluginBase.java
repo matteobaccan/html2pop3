@@ -52,6 +52,7 @@ public abstract class PluginBase {
     @Getter @Setter private String location = "";
     @Getter @Setter private String contentDisposition = "";
     @Getter @Setter private String contentType = "";
+    @Getter @Setter private boolean debug = false;
 
     /**
      * @conditional (JVM14)
@@ -78,7 +79,7 @@ public abstract class PluginBase {
                 String headerKey = con.getHeaderFieldKey(n);
                 String headerVal = con.getHeaderField(n);
 
-                if (bDebug) {
+                if (debug) {
                     log.info("HEAD: " + headerKey + ": " + headerVal);
                 }
 
@@ -213,10 +214,10 @@ public abstract class PluginBase {
         // [YS] Signal End of Header =possibly= at First blank line
         // [YS] il piu' semplice segnale di termine dell' header e' dato dalla prima linea vuota
 
-        if (bDebug) {
+        if (debug) {
             log.info("HTTP/GET: " + cUrl);
         }
-        if (bDebug) {
+        if (debug) {
             log.info("Cookie: " + cCookie);
         }
 
@@ -298,7 +299,7 @@ public abstract class PluginBase {
      * @throws Exception
      */
     protected byte[] getPageBytes(String cUrl, String cCookie) throws Exception {
-        if (bDebug) {
+        if (debug) {
             log.info("HTTP/GETBYTES: " + cUrl);
         }
 
@@ -363,7 +364,7 @@ public abstract class PluginBase {
      * @throws Exception
      */
     protected URLConnection streamPageTop(String cUrl, String cCookie, String cRef) throws Exception {
-        if (bDebug) {
+        if (debug) {
             log.info("HTTP/STREAMPAGETOP: " + cUrl);
         }
         URL urlObject = new URL(cUrl);
@@ -504,10 +505,10 @@ public abstract class PluginBase {
      * @throws Exception
      */
     public StringBuffer postPage(String cUrl, String cCookie, String cPost, String cRef, String cAuthorization, String postMode) throws Exception {
-        if (bDebug) {
+        if (debug) {
             log.info("HTTP/POST: " + cUrl);
         }
-        if (bDebug) {
+        if (debug) {
             log.info("Cookie: " + cCookie);
         }
 
@@ -667,10 +668,10 @@ public abstract class PluginBase {
      * @throws Exception
      */
     public byte[] postPageBytes(String cUrl, String cCookie, String cPost, String cRef, String cAuthorization, String postMode) throws Exception {
-        if (bDebug) {
+        if (debug) {
             log.info("HTTP/POST: " + cUrl);
         }
-        if (bDebug) {
+        if (debug) {
             log.info("Cookie: " + cCookie);
         }
 
@@ -1223,23 +1224,5 @@ public abstract class PluginBase {
         return cRet;
     }
 
-    // Properties di sistema
-    private boolean bDebug = false;
-
-    /**
-     *
-     * @param p
-     */
-    public void setDebug(boolean p) {
-        bDebug = p;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getDebug() {
-        return bDebug;
-    }
 
 }

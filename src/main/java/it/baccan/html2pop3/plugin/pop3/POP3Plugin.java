@@ -196,5 +196,5 @@ public interface POP3Plugin {
      *
      * @return
      */
-    boolean getDebug();
+    boolean isDebug();
 }

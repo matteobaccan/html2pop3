@@ -48,7 +48,7 @@ public class PluginVirgilio extends PluginTin implements POP3Plugin {
      * @return
      */
     public boolean login(String cUserParam, String cPwd) {
-        bDebug = getDebug();
+        bDebug = isDebug();
 
         boolean bRet = false;
         boolean bErr = false;

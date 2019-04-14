@@ -31,7 +31,11 @@
  */
 package it.baccan.html2pop3.utils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,6 +44,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class HTMLTool {
+
+    @Getter @Setter private boolean debug = false;
 
     /**
      *
@@ -299,7 +305,7 @@ public class HTMLTool {
      * @throws Throwable
      */
     public void putData(OutputStream os, String cOut) throws Throwable {
-        if (bDebug) {
+        if (debug) {
             log.info(cOut);
         }
         os.write(cOut.getBytes());
@@ -317,22 +323,4 @@ public class HTMLTool {
         os.flush();
     }
 
-    // Properties di sistema
-    private boolean bDebug = false;
-
-    /**
-     *
-     * @param p
-     */
-    public void setDebug(boolean p) {
-        bDebug = p;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getDebug() {
-        return bDebug;
-    }
 }
