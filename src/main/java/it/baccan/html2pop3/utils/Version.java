@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Version {
 
-    static String version = null;
+    private static String version = null;
 
     /**
      *

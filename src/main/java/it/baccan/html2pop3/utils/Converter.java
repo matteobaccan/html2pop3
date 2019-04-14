@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Converter {
 
-    final static String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "";
 
     /**
      * Convert characters like "&gt;" with the correspective ">"

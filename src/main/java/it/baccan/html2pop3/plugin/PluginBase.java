@@ -789,7 +789,7 @@ public abstract class PluginBase {
 
         ByteArrayOutputStream cReply = new ByteArrayOutputStream();
         // Lettura risultato
-        try (InputStream in = con.getInputStream()) {            
+        try (InputStream in = con.getInputStream()) {
             int c;
             while ((c = in.read()) != -1) {
                 cReply.write(c);
@@ -863,53 +863,12 @@ public abstract class PluginBase {
     }
 
     /**
+     * Firefox simulation.
      *
      * @return
      */
     protected String getAgent() {
-        String cAgent = "";
-        // Millisecondi di sistema
-        long nMill = System.currentTimeMillis();
-        // Modulo 11
-        nMill = nMill % 11;
-        nMill = 5;
-
-        switch ((int) nMill) {
-            case 0:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 5.1; Trident/4.0; GTB6.6; .NET CLR 1.1.4322; InfoPath.1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)";
-                break;
-            case 1:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)";
-                break;
-            case 2:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB6.6; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; eSobiSubscriber 2.0.4.16; .NET4.0C; BRI/2)";
-                break;
-            case 3:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; FunWebProducts; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)";
-                break;
-            case 4:
-                cAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0; BOIE9;ITIT)";
-                break;
-            case 5:
-                cAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0";
-                break;
-            case 6:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6.6; InfoPath.2; .NET CLR 2.0.50727; AskTbCNB/5.9.1.14019)";
-                break;
-            case 7:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; Tablet PC 2.0; InfoPath.2; .NET CLR 3.5.30729; .NET CLR 3.0.30618)";
-                break;
-            case 8:
-                cAgent = "Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 5.1; Trident/4.0; GTB6.6; .NET CLR 1.1.4322; InfoPath.1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)";
-                break;
-            case 9:
-                cAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16";
-                break;
-            case 10:
-                cAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; it; rv:1.9.2.16) Gecko/20110319 Firefox/3.6.16";
-                break;
-        }
-        return cAgent;
+        return "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0";
     }
 
     /**

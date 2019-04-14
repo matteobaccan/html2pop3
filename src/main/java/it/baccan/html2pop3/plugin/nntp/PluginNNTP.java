@@ -55,15 +55,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
-    private static int nNumMsg = 25;
+    private static final int nNumMsg = 25;
     private static String cConfigPath = "";
     private static String cConfig = "";
     private Vector aOver = new Vector();
     private String cCurrentGroup = "";
-    static Object oLock = new Object();
-    static Properties oLockObj = new Properties();
+    private static final Object oLock = new Object();
+    private static final Properties oLockObj = new Properties();
     private String lastNum = "";
-    private Properties aArtNum = new Properties();
+    private final Properties aArtNum = new Properties();
 
     /**
      *

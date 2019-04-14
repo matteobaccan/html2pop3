@@ -42,7 +42,7 @@ public abstract class MasterMessage implements CharsetCoding, IPopMessage {
         return getMessage(0, true);
     }
 
-    String format(String s) {
+    protected String format(String s) {
         String cRet = null;
         try {
             //log.info( s );
@@ -65,7 +65,7 @@ public abstract class MasterMessage implements CharsetCoding, IPopMessage {
         return cRet;
     }
 
-    String get64EncodedAttach(byte[] content) {
+    protected String get64EncodedAttach(byte[] content) {
         StringBuffer sb = new StringBuffer();
         for (int nBlock = 0; nBlock < content.length; nBlock += 60) {
             int nLen = 60;

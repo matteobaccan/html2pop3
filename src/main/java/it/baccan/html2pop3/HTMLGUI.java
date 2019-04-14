@@ -14,6 +14,7 @@
 package it.baccan.html2pop3;
 
 import it.baccan.html2pop3.utils.message.POP3Message;
+import java.io.PrintStream;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,12 +35,9 @@ public class HTMLGUI extends javax.swing.JFrame {
     public HTMLGUI() {
         initComponents();
 
-        oTab.addChangeListener(new javax.swing.event.ChangeListener() {
-            @Override
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                if (oTab.getSelectedIndex() == 3) {
-                    scrollToEnd();
-                }
+        oTab.addChangeListener((javax.swing.event.ChangeEvent evt) -> {
+            if (oTab.getSelectedIndex() == 3) {
+                scrollToEnd();
             }
         });
 
@@ -62,7 +60,7 @@ public class HTMLGUI extends javax.swing.JFrame {
 
     }
 
-    private class PrintStreamMemo extends java.io.PrintStream {
+    private class PrintStreamMemo extends PrintStream {
 
         private java.io.PrintStream pParent = null;
 
@@ -71,18 +69,21 @@ public class HTMLGUI extends javax.swing.JFrame {
             pParent = out;
         }
 
+        @Override
         public void write(byte buf[], int off, int len) {
             pParent.write(buf, off, len);
             oLog.append(new String(buf, off, len));
             scrollToEnd();
         }
 
+        @Override
         public void println(String x) {
             pParent.println(x);
             oLog.append(x + "\r\n");
             scrollToEnd();
         }
 
+        @Override
         public void write(int b) {
             pParent.write(b);
             oLog.append("" + b);
@@ -146,7 +147,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("HTML 2 POP3");
+        setTitle("HTML2POP3");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);
@@ -339,7 +340,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(310, 10, 250, 16);
 
-        setSize(new java.awt.Dimension(599, 338));
+        setSize(new java.awt.Dimension(607, 360));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

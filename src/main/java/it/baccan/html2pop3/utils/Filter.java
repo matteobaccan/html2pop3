@@ -9,7 +9,7 @@
  */
 package it.baccan.html2pop3.utils;
 
-import java.util.*;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Filter {
 
-    Vector aRules;
+    private final ArrayList aRules;
 
     /**
      * Filter class for HTML2POP3 use.
      */
     public Filter() {
-        aRules = new Vector();
+        aRules = new ArrayList();
     }
 
     class filterAtom {
@@ -33,6 +33,7 @@ public class Filter {
         public String cRule = "";
         public String[] aFilter = {};
 
+        @Override
         public String toString() {
             String cFilter = "";
             for (int nPos = 0; nPos < aFilter.length; nPos++) {
@@ -46,12 +47,13 @@ public class Filter {
      *
      * @param rule
      * @param filter
+     * @return
      */
-    public void add(String rule, String[] filter) {
+    public boolean add(String rule, String[] filter) {
         filterAtom fa = new filterAtom();
         fa.cRule = rule;
         fa.aFilter = filter;
-        aRules.addElement(fa);
+        return aRules.add(fa);
     }
 
     /**
@@ -62,18 +64,17 @@ public class Filter {
     public boolean isAllow(String[] filter) {
         boolean bRet = true;
         for (int nPos = 0; nPos < aRules.size(); nPos++) {
-            filterAtom fa = (filterAtom) aRules.elementAt(nPos);
-            //log.info( "Check " +fa );
+            filterAtom fa = (filterAtom) aRules.get(nPos);
             if (fa.cRule.equalsIgnoreCase("allow")) {
                 if (match(filter, fa.aFilter)) {
                     bRet = true;
-                    log.info("Verified: " + fa);
+                    log.debug("Verified: " + fa);
                     break;
                 }
             } else if (fa.cRule.equalsIgnoreCase("deny")) {
                 if (match(filter, fa.aFilter)) {
                     bRet = false;
-                    log.info("Verified: " + fa);
+                    log.debug("Verified: " + fa);
                     break;
                 }
             }
@@ -92,37 +93,6 @@ public class Filter {
             }
         }
         return bRet;
-    }
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Filter f = new Filter();
-        f.add("allow", new String[]{"all", "192.168", "pippo"});
-        f.add("allow", new String[]{"pluto"});
-        f.add("deny", new String[]{"all"});
-
-        if (f.isAllow(new String[]{"pippo", "127.0.0.1"})) {
-            log.info("Filter 1 error");
-        }
-        if (!f.isAllow(new String[]{"pippo", "192.168.0.1"})) {
-            log.info("Filter 2 error");
-        }
-        if (!f.isAllow(new String[]{"pluto", "192.168.0.1"})) {
-            log.info("Filter 3 error");
-        }
-        if (f.isAllow(new String[]{"xxxxx", "192.168.0.1", ""})) {
-            log.info("Filter 4 error");
-        }
-        if (f.isAllow(new String[]{"xxxxx", "192.168.0.1", "x"})) {
-            log.info("Filter 5 error");
-        }
-        if (f.isAllow(new String[]{"xxxxx", "127.0.0.1"})) {
-            log.info("Filter 6 error");
-        }
-
     }
 
 }
