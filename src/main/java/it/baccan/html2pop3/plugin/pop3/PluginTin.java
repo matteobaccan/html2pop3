@@ -141,10 +141,8 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                 // Vado al sito
                 AtomicBoolean foundSession = new AtomicBoolean(false);
                 stringResponse.getHeaders().get("Set-Cookie").forEach(cookie -> {
-                    if (cookie.contains("PAAA_AUTHE")) {
-                        if (cookie.length() > 15) {
-                            foundSession.set(true);
-                        }
+                    if (cookie.contains("PAAA_AUTHE") && cookie.length() > 15) {
+                        foundSession.set(true);
                     }
                 });
 
@@ -357,7 +355,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                         .field("uid", cMsgId)
                         .asString();
                 sb = response.getBody();
-                
+
                 List<Header> headers = response.getHeaders().all();
                 headers.forEach(action -> {
                     log.debug("[{}]=[{}]", action.getName(), action.getValue());
@@ -388,57 +386,53 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     JSONObject jHead = new JSONObject(sbHead);
                     JSONArray ja = (JSONArray) jHead.get("emailheaders");
 
-                    if (ja != null) {
-                        if (ja.length() > 0) {
-                            JSONObject row = (JSONObject) ja.get(0);
-                            pop3.setCc(cleanJSON(row.getString("cc")));
-                            // Uso gli header per migliorare l'email ritonata
-                            String headerClean = cleanJSON(row.getString("headers"));
-                            StringTokenizer st = new StringTokenizer(headerClean, "\r\n");
-                            while (st.hasMoreTokens()) {
-                                String cTok = st.nextToken();
-                                if( cTok.startsWith("Date:") ){
-                                    String date = cTok.substring(5).trim();                                    
-                                    pop3.setData(date);
-                                }
-                            }
-                        }
-                    }
-
                     if (bDebug) {
                         log.info(jHead.toString());
                     }
 
-                    if (ja != null) {
-                        if (ja.length() > 0) {
-                            JSONObject row = (JSONObject) ja.get(0);
-                            //String yy = getServer() +row.getString( "urlZipDownloader" );
-                            //byte[] xx = getPage( yy, prop.get("cookie") );
-                            //xx=xx; String y = new String(xx);
-                            JSONArray jatt = (JSONArray) row.get("attachments");
-                            if (jatt != null) {
-                                int n = 0;
-                                while (n < jatt.length()) {
-                                    JSONObject jAttach = (JSONObject) jatt.get(n);
-                                    String urlDownloader = getServer() + jAttach.getString("urlDownloader") + "&disposition=attachment";
+                    if (ja != null && ja.length() > 0) {
+                        JSONObject row = (JSONObject) ja.get(0);
+                        pop3.setCc(cleanJSON(row.getString("cc")));
+                        // Uso gli header per migliorare l'email ritonata
+                        String headerClean = cleanJSON(row.getString("headers"));
+                        StringTokenizer st = new StringTokenizer(headerClean, "\r\n");
+                        while (st.hasMoreTokens()) {
+                            String cTok = st.nextToken();
+                            if (cTok.startsWith("Date:")) {
+                                String date = cTok.substring(5).trim();
+                                pop3.setData(date);
+                            }
+                        }
+                    }
 
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    unirest.post(urlDownloader)
-                                            .field("u", prop.get("userid"))
-                                            .field("d", prop.get("domain"))
-                                            .field("t", prop.get("t"))
-                                            .thenConsume(consumer -> {
-                                                try {
-                                                    baos.write(consumer.getContentAsBytes());
-                                                } catch (IOException ex) {
-                                                    log.error("Error reading attch", ex);
-                                                }
-                                            });
+                    if (ja != null && ja.length() > 0) {
+                        JSONObject row = (JSONObject) ja.get(0);
+                        //String yy = getServer() +row.getString( "urlZipDownloader" );
+                        //byte[] xx = getPage( yy, prop.get("cookie") );
+                        //xx=xx; String y = new String(xx);
+                        JSONArray jatt = (JSONArray) row.get("attachments");
+                        if (jatt != null) {
+                            int n = 0;
+                            while (n < jatt.length()) {
+                                JSONObject jAttach = (JSONObject) jatt.get(n);
+                                String urlDownloader = getServer() + jAttach.getString("urlDownloader") + "&disposition=attachment";
 
-                                    byte[] cFile = baos.toByteArray();
-                                    pop3.addAttach(cleanJSON(jAttach.getString("name")), cFile);
-                                    n++;
-                                }
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                unirest.post(urlDownloader)
+                                        .field("u", prop.get("userid"))
+                                        .field("d", prop.get("domain"))
+                                        .field("t", prop.get("t"))
+                                        .thenConsume(consumer -> {
+                                            try {
+                                                baos.write(consumer.getContentAsBytes());
+                                            } catch (IOException ex) {
+                                                log.error("Error reading attch", ex);
+                                            }
+                                        });
+
+                                byte[] cFile = baos.toByteArray();
+                                pop3.addAttach(cleanJSON(jAttach.getString("name")), cFile);
+                                n++;
                             }
                         }
                     }
@@ -601,11 +595,10 @@ public class PluginTin extends POP3Base implements POP3Plugin {
             int nSiz = tin.getMessageSize();
             log.info("getMessageNum  :" + nNum);
             log.info("getMessageSize :" + nSiz);
-            for (int nPos = 1; nPos <= nNum; nPos++) {
+            for (int nPos = 1; nPos <= 1; nPos++) {
                 log.info("getMessageID   (" + nPos + "):" + tin.getMessageID(nPos));
                 log.info("getMessageSize (" + nPos + "):" + tin.getMessageSize(nPos));
                 log.info("getMessage     (" + nPos + "):" + tin.getMessage(nPos));
-                break;
             }
         }
     }
