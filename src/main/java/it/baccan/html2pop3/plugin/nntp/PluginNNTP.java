@@ -55,7 +55,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
-
     private static int nNumMsg = 25;
     private static String cConfigPath = "";
     private static String cConfig = "";
@@ -315,9 +314,9 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
             oFile = new File(cCacheID);
             if (oFile.exists()) {
                 try {
-                    FileInputStream fis = new FileInputStream(cCacheID);
-                    cacheID.load(fis);
-                    fis.close();
+                    try (FileInputStream fis = new FileInputStream(cCacheID)) {
+                        cacheID.load(fis);
+                    }
                 } catch (Throwable e) {
                 }
             }

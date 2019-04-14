@@ -95,19 +95,20 @@ public class POP3Server extends BaseServer {
             cEmail = cEmail.substring(nPos + 1).toLowerCase();
             cRet = config.getProperty(cEmail, "");
             if (cRet.length() > 0) {
-                cRet = cRet.replace( "%email%", cUser + "@" + cEmail);
-                cRet = cRet.replace( "%user%", cUser);
+                cRet = cRet.replace("%email%", cUser + "@" + cEmail);
+                cRet = cRet.replace("%user%", cUser);
             }
         }
 
         return cRet;
     }
 
+    @Override
     public void run() {
         pop3Thread thread;
         try {
             if (getParent().getPort() > 0) {
-                setServerSocket( new ServerSocket(getParent().getPort(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
+                setServerSocket(new ServerSocket(getParent().getPort(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
                 while (true) {
                     // Faccio partire il Thread
                     Socket socket = null;
@@ -162,8 +163,8 @@ public class POP3Server extends BaseServer {
         private final Socket socket;
         private POP3Plugin hp = null;
 
-        public pop3Thread(Socket socket) {
-            this.socket = socket;
+        public pop3Thread(Socket s) {
+            socket = s;
         }
 
         // Inizio thread di gestione del socket

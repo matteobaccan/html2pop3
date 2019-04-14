@@ -330,15 +330,13 @@ public abstract class PluginBase {
         processField(con);
 
         // Lettura risultato
-        InputStream in = con.getInputStream();
-
         ByteArrayOutputStream cReply = new ByteArrayOutputStream();
-        int c;
-        while ((c = in.read()) != -1) {
-            cReply.write(c);
+        try (InputStream in = con.getInputStream()) {
+            int c;
+            while ((c = in.read()) != -1) {
+                cReply.write(c);
+            }
         }
-
-        in.close();
 
         return cReply.toByteArray();
     }
@@ -469,120 +467,6 @@ public abstract class PluginBase {
     }
     //*/
 
-    /*
-    // In lavorazione
-    //
-    protected StringBuffer getPage( String cUrl, String cCookie, int nLine, boolean bAll ) throws Throwable {
-        // Informazioni sul proxy
-        boolean bProxy = System.getProperty("http.proxySet","false").equalsIgnoreCase("true");
-        String cProxy = "";
-        int nProxyPort = 0;
-
-        // URL remoto
-        URL oUrl = new URL( cUrl );
-        //URL urlObject = getNewUrl( cUrl );
-
-        // cosa devo prendere?
-        int    nRemotePort = oUrl.getPort();
-        if( nRemotePort==-1 ) nRemotePort=80;
-        String cRemoteHost = oUrl.getHost();
-        String cFile       = oUrl.getFile();
-
-        // Preparo la chiamata
-        StringBuffer sb = new StringBuffer();
-        if( bProxy ) {
-           sb.append( "GET " + cUrl +" HTTP/1.1\r\n" );
-        } else {
-           sb.append( "GET " +cFile +" HTTP/1.1\r\n" );
-        }
-        sb.append( "User-Agent: " +getAgent() +"\r\n" );
-        sb.append( "Pragma: no-cache\r\n" );
-        sb.append( "Accept-Language: it\r\n" );
-        sb.append( "Host: " +cRemoteHost +"\r\n" );
-        if( cCookie!=null  ) sb.append( "Cookie: " +cCookie +"\r\n" );
-
-        // Proxy user e password
-        String cEncode = System.getProperty("proxyUser", "");
-        if( cEncode.length()>0 ){
-           if( System.getProperty("proxyPassword", "").length()>0 )
-              cEncode += ":" +System.getProperty("proxyPassword", "");
-           cEncode = new String( Base64.getEncoder().encodeToString( cEncode.getBytes() ) );
-           sb.append( "Proxy-authorization: Basic " +cEncode +"\r\n" );
-        }
-        sb.append( "\r\n" );
-
-        // Ora mi connetto e sparo la chiamata
-        Socket socket = null;
-        if( bProxy ) {
-           cProxy = System.getProperty("http.proxyHost","");
-           nProxyPort = Double.valueOf( System.getProperty("http.proxyPort","8080") ).intValue();
-           socket = new Socket(cProxy, nProxyPort);
-        } else {
-           // Output
-           socket = new Socket(cRemoteHost, nRemotePort);
-        }
-
-        // Scrivo il dato
-        OutputStream os = socket.getOutputStream();
-        htmlTool html = new htmlTool();
-        html.putData( os, sb.toString() );
-
-        sb = new StringBuffer();
-
-        // Leggo il dato
-        InputStream is = socket.getInputStream();
-
-        // Leggo l'header
-        String cRH = html.getHeader( is );
-        sb.append( is );
-        //sb.append( "\r\n" );
-
-        cookieHeader             = html.setcookie(cRH);
-        locationHeader           = html.location(cRH);
-        contentDispositionHeader = html.contentDisposition(cRH);
-        contentTypeHeader        = html.contentType(cRH);
-
-        sb = new StringBuffer();
-        int nRL = html.contentLength(cRH);
-        if( nRL>0 ){
-           sb.append( html.getData( is, nRL, bAll, nLine ) );
-        } else if( html.isChunked( cRH ) ){
-           ByteArrayOutputStream cRD = new ByteArrayOutputStream();
-           readChunk( html, is, cRD, bAll, nLine );
-           sb.append( cRD );
-        } else if( is.available()>0 ){
-           sb.append( html.getData( is, -1, bAll, nLine ) );
-        }
-
-        try {
-            socket.close();
-        } catch (Throwable e) { }
-
-
-        return sb;
-    }
-
-    private void readChunk( htmlTool html, InputStream SI, OutputStream OO, boolean bAll, int nLine ) throws Throwable {
-
-        ByteArrayOutputStream cRPD;
-        int nLen = 0;
-        do {
-            String cLine = html.getLine( SI );
-            nLen = Integer.parseInt( cLine.trim(), 16 );
-
-            // read len + 2 = CRLF
-            cRPD = html.getData( SI, nLen+2, bAll, nLine );
-
-            // Put output
-            //html.putData( OO, cLine );
-
-            //log.info( cLine+cRPD );
-
-            html.putData( OO, cRPD );
-
-        } while ( nLen>0 );
-    }
-    //*/
     /**
      *
      * @param cUrl
@@ -903,11 +787,9 @@ public abstract class PluginBase {
             out.flush();
         }
 
-        ByteArrayOutputStream cReply;
+        ByteArrayOutputStream cReply = new ByteArrayOutputStream();
         // Lettura risultato
-        try (
-                InputStream in = con.getInputStream()) {
-            cReply = new ByteArrayOutputStream();
+        try (InputStream in = con.getInputStream()) {            
             int c;
             while ((c = in.read()) != -1) {
                 cReply.write(c);

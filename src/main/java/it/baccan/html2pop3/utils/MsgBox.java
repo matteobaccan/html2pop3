@@ -6,9 +6,22 @@
  */
 package it.baccan.html2pop3.utils;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.Rectangle;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JDialog;
+import lombok.Getter;
 
 /**
  *
@@ -16,11 +29,8 @@ import javax.swing.JDialog;
  */
 public class MsgBox extends JDialog implements ActionListener {
 
-    /**
-     *
-     */
-    public boolean id = false;
-    Button ok, can;
+    @Getter private boolean id = false;
+    private Button ok, can;
 
     /**
      *
@@ -39,9 +49,10 @@ public class MsgBox extends JDialog implements ActionListener {
      * @param okcan
      * @param cText
      */
-    public MsgBox(String title, String msg, boolean okcan, String cText) {
+    public MsgBox(String title, String message, boolean okcan, String cText) {
         super(null, title, Dialog.ModalityType.APPLICATION_MODAL);
 
+        String msg = message;
         GridBagConstraints c = new GridBagConstraints();
         GridBagLayout gridbag = new GridBagLayout();
         setLayout(gridbag);
@@ -131,7 +142,7 @@ public class MsgBox extends JDialog implements ActionListener {
      *
      * @param args
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new MsgBox("Titolom", "Ciao\npippo\npluto", true, "xxxxxxxxxxxxxx\r\nssssssssssssss\r\nrrrrrr");
     }
 }

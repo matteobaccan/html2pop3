@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PluginRSS extends POP3Base implements POP3Plugin {
 
-    private static Properties config = new Properties();
+    private static final Properties config = new Properties();
     private static String cCacheFile = "";
-    private static Properties cache = new Properties();
-    private Properties p = new Properties();
-    private Properties pXML = new Properties();
+    private static final Properties cache = new Properties();
+    private final Properties p = new Properties();
+    private final Properties pXML = new Properties();
     private String cUser = "";
 
     /**
@@ -44,9 +44,9 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
      */
     public static void setConfig(String cPath, String cConfig) {
         try {
-            FileInputStream fis = new FileInputStream(cPath + cConfig);
-            config.load(fis);
-            fis.close();
+            try (FileInputStream fis = new FileInputStream(cPath + cConfig)) {
+                config.load(fis);
+            }
 
         } catch (FileNotFoundException fnf) {
 
@@ -58,9 +58,9 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
 
         cCacheFile = cPath + cConfig + "-cache.cache";
         try {
-            FileInputStream fis = new FileInputStream(cCacheFile);
-            cache.load(fis);
-            fis.close();
+            try (FileInputStream fis = new FileInputStream(cCacheFile)) {
+                cache.load(fis);
+            }
         } catch (FileNotFoundException fnf) {
             // Empty cache
         } catch (IOException e) {
