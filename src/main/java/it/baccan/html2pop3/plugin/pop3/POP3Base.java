@@ -35,8 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class POP3Base extends PluginBase {
 
     // Vettore email
-    private Vector aEmail = new Vector();
-    private Vector aSize = new Vector();
+    private List<String> aEmail = new ArrayList<>(10);
+    private List<Double> aSize = new ArrayList<>(10);
     private String cLastCacheKey = "";
     private String cLastCacheMsg = "";
 
@@ -61,8 +61,8 @@ public abstract class POP3Base extends PluginBase {
         boolean bRet = false;
         if (!aEmail.contains(cEmail) && mailIsUnderStorageLimit()) {
             bRet = true;
-            aEmail.addElement(cEmail);
-            aSize.addElement(new Double(nLen));
+            aEmail.add(cEmail);
+            aSize.add(new Double(nLen));
         }
         return bRet;
     }
@@ -99,11 +99,11 @@ public abstract class POP3Base extends PluginBase {
      *
      */
     public void invertSort() {
-        Vector aEmail2 = new Vector();
-        Vector aSize2 = new Vector();
+        List<String> aEmail2 = new ArrayList<>();
+        List<Double> aSize2 = new ArrayList<>();
         for (int n = getMessageNum() - 1; n >= 0; n--) {
-            aEmail2.addElement(aEmail.elementAt(n));
-            aSize2.addElement(aSize.elementAt(n));
+            aEmail2.add(aEmail.get(n));
+            aSize2.add(aSize.get(n));
         }
         aEmail = aEmail2;
         aSize = aSize2;
@@ -115,7 +115,7 @@ public abstract class POP3Base extends PluginBase {
      * @return
      */
     public int getMessageSize(int nPos) {
-        return ((Double) aSize.elementAt(nPos - 1)).intValue();
+        return aSize.get(nPos - 1).intValue();
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class POP3Base extends PluginBase {
      * @return
      */
     public String getMessageID(int nPos) {
-        return (String) aEmail.elementAt(nPos - 1);
+        return aEmail.get(nPos - 1);
     }
 
     // Funzioni di getmail

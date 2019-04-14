@@ -62,9 +62,9 @@ public class HTMLGUI extends javax.swing.JFrame {
 
     private class PrintStreamMemo extends PrintStream {
 
-        private java.io.PrintStream pParent = null;
+        private PrintStream pParent = null;
 
-        public PrintStreamMemo(java.io.PrintStream out) {
+        public PrintStreamMemo(PrintStream out) {
             super(System.out);
             pParent = out;
         }
@@ -108,7 +108,6 @@ public class HTMLGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         jTextPane1 = new javax.swing.JTextPane();
         oTab = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -164,8 +163,8 @@ public class HTMLGUI extends javax.swing.JFrame {
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setLayout(null);
 
-        jTextPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextPane1.setEditable(false);
+        jTextPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextPane1.setText("Tramite questo programma è possibile creare un finto server POP3 in grado di interfacciarsi alle pagine HTML di libero.it o infinito.it e permettere l'uso della posta, anche in presenza di firewall o di chiusura della porta POP3. Fare riferimento alla documentazione per i dettagli");
         jPanel1.add(jTextPane1);
         jTextPane1.setBounds(10, 10, 470, 70);
@@ -191,8 +190,8 @@ public class HTMLGUI extends javax.swing.JFrame {
         jPanel2.add(oPort);
         oPort.setBounds(70, 30, 50, 22);
 
-        jTextPane2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextPane2.setEditable(false);
+        jTextPane2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextPane2.setText("Indicare l'indirizzo e la porta del server POP3 virtuale. Se non sapete cosa mettere e' buon segno, lasciate su localhost");
         jPanel2.add(jTextPane2);
         jTextPane2.setBounds(10, 60, 540, 70);
@@ -340,7 +339,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(310, 10, 250, 16);
 
-        setSize(new java.awt.Dimension(607, 360));
+        setSize(new java.awt.Dimension(607, 366));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -422,7 +421,7 @@ public class HTMLGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
-    private javax.swing.JPanel jPanel1;
+    private final javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
