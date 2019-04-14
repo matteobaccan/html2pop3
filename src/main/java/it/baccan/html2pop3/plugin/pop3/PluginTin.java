@@ -57,7 +57,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
     private static boolean bDelete = true;
 
     /**
-     *
+     * TIN Plugin Costructor.
      */
     public PluginTin() {
         prop = new HashMap<>();

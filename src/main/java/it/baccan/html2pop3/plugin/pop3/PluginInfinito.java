@@ -53,7 +53,7 @@ public class PluginInfinito extends POP3Base implements POP3Plugin {
     private String cSession = "";
 
     /**
-     *
+     * Infinito Plugin Costructor.
      */
     public PluginInfinito() {
     }

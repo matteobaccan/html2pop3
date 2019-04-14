@@ -22,7 +22,7 @@ public class Filter {
     Vector aRules;
 
     /**
-     *
+     * Filter class for HTML2POP3 use.
      */
     public Filter() {
         aRules = new Vector();

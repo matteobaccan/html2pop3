@@ -45,7 +45,7 @@ public class PluginVirgilio extends PluginTin implements POP3Plugin {
     private boolean bDebug = false;
 
     /**
-     *
+     * Virgilio Plugin Costructor.
      */
     public PluginVirgilio() {
         prop = new HashMap<>();
