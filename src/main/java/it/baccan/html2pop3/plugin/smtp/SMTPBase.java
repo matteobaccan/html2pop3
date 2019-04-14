@@ -41,13 +41,6 @@ import java.util.Vector;
 public abstract class SMTPBase extends PluginBase {
 
     /**
-     * Base class for SMTP.
-     */
-    public SMTPBase() {
-        super();
-    }
-
-    /**
      *
      * @param cUser
      * @param cPwd

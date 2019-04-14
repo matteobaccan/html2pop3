@@ -57,12 +57,6 @@ public class PluginFastwebnet extends POP3Base implements POP3Plugin {
     private boolean bDebug = false;
 
     /**
-     * Fastweb Plugin Costructor.
-     */
-    public PluginFastwebnet() {
-    }
-
-    /**
      *
      * @param cUser
      * @param cPwd

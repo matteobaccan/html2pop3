@@ -871,12 +871,6 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
 
     }//MBoxHandling2
 
-    /**
-     * Class constructor
-     */
-    public PluginTele2() {
-        super();
-    }
 
     /* (non-Javadoc)
 	 * @see pop3base#getMessage(int, int, boolean)

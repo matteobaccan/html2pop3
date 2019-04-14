@@ -43,7 +43,6 @@ public abstract class POP3Base extends PluginBase {
     @Getter @Setter private String lastErr = "";
     @Setter private int maxMessageNum = -1;
 
-
     /**
      *
      */
@@ -60,12 +59,10 @@ public abstract class POP3Base extends PluginBase {
      */
     protected boolean addEmailInfo(String cEmail, int nLen) {
         boolean bRet = false;
-        if (!aEmail.contains(cEmail)) {
-            if (mailIsUnderStorageLimit()) {
-                bRet = true;
-                aEmail.addElement(cEmail);
-                aSize.addElement(new Double(nLen));
-            }
+        if (!aEmail.contains(cEmail) && mailIsUnderStorageLimit()) {
+            bRet = true;
+            aEmail.addElement(cEmail);
+            aSize.addElement(new Double(nLen));
         }
         return bRet;
     }

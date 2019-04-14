@@ -436,17 +436,15 @@ public abstract class PluginBase {
 
         int nPos = 0;
         while ((inputLine = in.readLine()) != null) {
-            if (bPoint) {
-                // 23:19:02 mercoledi' 04 agosto 2004
-                // Stupidamente quando faccio lo stream dei messaggi
-                // e la riga inizia con un . lo passo al client
-                // questo comportamento interrompe la comunicazione su alcuni client
-                // la procedura corretta e': se inizio la riga col punto, ne aggiungo
-                // uno in testa.
-                // Questra regola vale sempre non solo per le righe da 1 punto
-                if (inputLine.startsWith(".")) {
-                    inputLine = "." + inputLine;
-                }
+            // 23:19:02 mercoledi' 04 agosto 2004
+            // Stupidamente quando faccio lo stream dei messaggi
+            // e la riga inizia con un . lo passo al client
+            // questo comportamento interrompe la comunicazione su alcuni client
+            // la procedura corretta e': se inizio la riga col punto, ne aggiungo
+            // uno in testa.
+            // Questra regola vale sempre non solo per le righe da 1 punto
+            if (bPoint && inputLine.startsWith(".")) {
+                inputLine = "." + inputLine;
             }
 
             html.putData(SO, inputLine + (char) 13 + (char) 10);
@@ -454,14 +452,13 @@ public abstract class PluginBase {
             if (inputLine.length() == 0) {
                 endOfHdr_1stBlankLine = true;
             }
-            if (!bAll) {
-                if (endOfHdr_1stBlankLine) {
-                    if (nPos == nLine) {
-                        break;
-                    }
-                    nPos++;
+            if (!bAll && endOfHdr_1stBlankLine) {
+                if (nPos == nLine) {
+                    break;
                 }
+                nPos++;
             }
+
         }
 
         // NON va bene .. no no no .. non posso sconnettere col jdk Microsoft!! .. ma siamo fuori?
