@@ -26,7 +26,7 @@ package it.baccan.html2pop3.exceptions;
 public class ParsingMailException extends Exception {
 
     /**
-     *
+     * ParsingMailException constructor.
      */
     public ParsingMailException() {
         super();

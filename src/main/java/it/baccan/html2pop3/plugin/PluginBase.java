@@ -1224,5 +1224,4 @@ public abstract class PluginBase {
         return cRet;
     }
 
-
 }

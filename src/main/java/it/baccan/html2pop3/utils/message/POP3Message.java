@@ -209,7 +209,7 @@ public class POP3Message extends MasterMessage {
 
             // Appendo il base64 del body
             StringBuilder newBody = new StringBuilder();
-            splitAndAttach7bit(newBody, oMailBody.toString().getBytes());
+            splitAndAttach7bit(newBody, oMailBody);
             oMailBody = newBody;
             oMailBody.append("\r\n");
 
@@ -346,21 +346,32 @@ public class POP3Message extends MasterMessage {
         }
     }
 
-    private void splitAndAttach7bit(StringBuilder oMailBody, byte[] cAttach) {
+    private void splitAndAttach7bit(StringBuilder oMailBody, StringBuilder cAttach) {
         // =3D
         int nBlock = 0;
         int line = 0;
-        while (nBlock < cAttach.length) {
+        while (nBlock < cAttach.length()) {
             line++;
-            byte c = cAttach[nBlock];
-            if (c == '=') {
-                oMailBody.append("=3D");
+            char c = cAttach.charAt(nBlock);
+
+            // Carattere = con forzatura
+            if (c == 0x3d) {
+                oMailBody.append("=3d");
                 line += 2;
+                // Caratteri usabili direttamente    
+            } else if (((c >= 0x20 && c <= 0x7a) || c == 0x0d || c == 0x0a)) {
+                oMailBody.append(c);
+                // Caratteri unicode non standard    
             } else {
-                oMailBody.append((char) c);
+                String add = "&#" + (int) c + ";";
+                oMailBody.append(add);
+                line += add.length() - 1;
             }
+
+            // Nuova riga
             if (c == '\n') {
                 line = 0;
+                // Nuova riga    
             } else if (line >= 73) {
                 oMailBody.append("=\r\n");
                 line = 0;

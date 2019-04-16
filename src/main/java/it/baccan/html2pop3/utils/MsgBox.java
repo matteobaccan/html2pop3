@@ -45,7 +45,7 @@ public class MsgBox extends JDialog implements ActionListener {
     /**
      *
      * @param title
-     * @param msg
+     * @param message
      * @param okcan
      * @param cText
      */

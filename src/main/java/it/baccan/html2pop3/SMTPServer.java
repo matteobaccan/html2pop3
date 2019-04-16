@@ -45,7 +45,6 @@ public class SMTPServer extends BaseServer {
 
     private final String cLoginString = "220 HTML2POP3 ESMTP Service (" + Version.getVersion() + ") ready";
 
-
     /**
      *
      * @param p
@@ -58,7 +57,7 @@ public class SMTPServer extends BaseServer {
         smtpThread thread;
         try {
             if (getParent().getPortSMTP() > 0) {
-                setServerSocket( new ServerSocket(getParent().getPortSMTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
+                setServerSocket(new ServerSocket(getParent().getPortSMTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
                 while (true) {
                     // Faccio partire il Thread
                     Socket socket = null;

@@ -50,8 +50,6 @@ public class PluginTin extends POP3Base implements POP3Plugin {
     // Property per variabili hidden
     private final Map<String, String> prop;
 
-    private boolean bDebug = false;
-
     private UnirestInstance unirest = null;
 
     private static boolean delete = true;
@@ -72,8 +70,6 @@ public class PluginTin extends POP3Base implements POP3Plugin {
      */
     @Override
     public boolean login(String cUserParam, String cPwd) {
-        bDebug = isDebug();
-
         boolean bRet = false;
         boolean bErr = false;
 
@@ -149,9 +145,8 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                 // Ora prendo il cookie
                 if (!foundSession.get()) {
                     setLastErr("Errore di autenticazione");
-                    log.error("tin: PAAA_AUTHE empty");
-                    log.error("tin: " + sb);
-                    log.error("tin: login end");
+                    log.error("tin: terminate login for PAAA_AUTHE empty");
+                    log.debug("tin: " + sb);
                     return false;
                 }
 
@@ -337,9 +332,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
             String cMsgId = jEmail.getString("uid");
 
-            if (bDebug) {
-                log.debug("tin: email:" + jEmail);
-            }
+            log.trace("tin: email:" + jEmail);
             log.info("tin: getmail ID [{}]", cMsgId);
 
             String sb = "";
@@ -353,26 +346,26 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                         .field("t", prop.get("t"))
                         .field("u", prop.get("userid"))
                         .field("uid", cMsgId)
+                        .responseEncoding("UTF-8")
                         .asString();
                 sb = response.getBody();
 
                 List<Header> headers = response.getHeaders().all();
                 headers.forEach(action -> {
-                    log.debug("[{}]=[{}]", action.getName(), action.getValue());
+                    log.trace("[{}]=[{}]", action.getName(), action.getValue());
                 });
-                if (bDebug) {
-                    log.debug(sb);
-                }
+                log.trace(sb);
             }
 
-            if (bTop || (!bTop && getMessage(sb).length() > 0)) {
+            String body = getMessage(sb);
+            if (bTop || (!bTop && body.length() > 0)) {
                 POP3Message pop3 = new POP3Message();
                 pop3.setDa("\"" + cleanJSON(jEmail.getString("fromnameoraddress")) + "\" <" + cleanJSON(jEmail.getString("from")) + ">");
                 pop3.setData(formatDate(jEmail.getString("date")));
                 pop3.setA(cleanJSON(jEmail.getString("to")));
                 pop3.setOggetto(cleanJSON(jEmail.getString("subject")));
                 if (!bTop) {
-                    pop3.setBody(getMessage(sb));
+                    pop3.setBody(body);
                 }
 
                 // TOP optimization
@@ -386,9 +379,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     JSONObject jHead = new JSONObject(sbHead);
                     JSONArray ja = (JSONArray) jHead.get("emailheaders");
 
-                    if (bDebug) {
-                        log.info(jHead.toString());
-                    }
+                    log.trace(jHead.toString());
 
                     if (ja != null && ja.length() > 0) {
                         JSONObject row = (JSONObject) ja.get(0);
@@ -470,9 +461,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
             String cMsgId = jEmail.getString("pid");
 
-            if (bDebug) {
-                log.debug("tin: email:" + cEmailJSON);
-            }
+            log.trace("tin: email:" + cEmailJSON);
             log.info("tin: delmessage ID " + cMsgId);
 
             HttpResponse<String> response = unirest.post(getServer() + "/cp/ps/mail/SLcommands/SLDeleteMessage?l=it")

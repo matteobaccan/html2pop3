@@ -63,7 +63,8 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     }
 
     /**
-     *Vettore email.
+     * Vettore email.
+     *
      * @param cUser
      * @param cPwd
      * @return

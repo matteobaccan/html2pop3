@@ -522,7 +522,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             String messageId = getMessageID(pos);
             String deleteUrl = secondServer + BASE_DELETE + messageId + "=on";
             String retPage = null;
-            int retry = 0;            
+            int retry = 0;
             boolean ret = true;
 
             try {

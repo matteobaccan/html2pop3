@@ -24,22 +24,20 @@ public class LineFormat {
      * @return
      */
     public static String format(String s) {
-        String cRet = null;
+        String cRet;
         try {
-            //log.info( s );
-            StringBuffer stringbuffer = new StringBuffer();
+            StringBuilder stringbuffer = new StringBuilder();
 
             BufferedReader in = new BufferedReader(new StringReader(s));
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 if (inputLine.startsWith(".")) {
-                    inputLine = "." + inputLine;
+                    stringbuffer.append(".");
                 }
-                stringbuffer.append(inputLine + (char) 13 + (char) 10);
+                stringbuffer.append(inputLine).append((char) 13).append((char) 10);
             }
             cRet = stringbuffer.toString();
-            //log.info( cRet );
         } catch (Throwable e) {
             cRet = null;
         }

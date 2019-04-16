@@ -30,7 +30,7 @@ public class HTMLGUI extends javax.swing.JFrame {
     private HTML2POP3 h2p = null;
 
     /**
-     *
+     * HTMLGUI constructor.
      */
     public HTMLGUI() {
         initComponents();

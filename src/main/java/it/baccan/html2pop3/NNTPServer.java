@@ -30,7 +30,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Vector;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -55,7 +55,7 @@ public class NNTPServer extends BaseServer {
         nntpThread thread;
         try {
             if (getParent().getPortNNTP() > 0) {
-                setServerSocket( new ServerSocket(getParent().getPortNNTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
+                setServerSocket(new ServerSocket(getParent().getPortNNTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
                 while (true) {
                     // Faccio partire il Thread
                     Socket socket = null;
@@ -159,9 +159,6 @@ public class NNTPServer extends BaseServer {
             NNTPBase sp = null;
             if (cServer.equalsIgnoreCase("nntp")) {
                 sp = new PluginNNTP();
-                //} else {
-                //log.error( "NNTP server: errore, server mancante." );
-                //sp = new pluginnntp();
             }
 
             boolean bExit = false;
@@ -198,11 +195,6 @@ public class NNTPServer extends BaseServer {
                 } else if (cLineUpper.startsWith("LIST")) {
                     html.putData(SO, "215 list of newsgroups follows\r\n");
                     sp.streamList(SO);
-
-                    //Vector aGroup = sp.list();
-                    //for( int nCur=0; nCur<aGroup.size(); nCur++ ){
-                    //html.putData( SO, ((String)aGroup.elementAt( nCur )) +" 00001 00001 n\r\n" );
-                    //}
                     html.putData(SO, ".\r\n");
 
                 } else if (cLineUpper.startsWith("GROUP")) {
@@ -235,11 +227,11 @@ public class NNTPServer extends BaseServer {
                             cTo = cFrom;
                         }
 
-                        Vector aRet = sp.xover(Double.valueOf(cFrom).longValue(), Double.valueOf(cTo).longValue());
+                        ArrayList aRet = sp.xover(Double.valueOf(cFrom).longValue(), Double.valueOf(cTo).longValue());
 
                         html.putData(SO, "224 Overview Information Follows\r\n");
                         for (int nCur = 0; nCur < aRet.size(); nCur++) {
-                            html.putData(SO, ((String) aRet.elementAt(nCur)) + "\r\n");
+                            html.putData(SO, ((String) aRet.get(nCur)) + "\r\n");
                         }
                         html.putData(SO, ".\r\n");
                     }
@@ -260,29 +252,6 @@ public class NNTPServer extends BaseServer {
                         }
                     }
 
-                    //12345678
-                    //} else if( cLineUpper.startsWith("STAT") ){
-                    //if( cLine.length()<=4 ) {
-                    //html.putData( SO, "501 Syntax error in parameters or arguments to STAT command\r\n" );
-                    //} else {
-                    //cArt = cLine.substring(4).trim();
-                    //html.putData( SO, "223 " +cArt +" article retrieved - statistics\r\n" );
-                    //}
-                    //12345678
-                    //} else if( cLineUpper.startsWith("HEAD") ){
-                    //html.putData( SO, "221 " +cArt +" article retrieved - head\r\n" );
-                    //html.putData( SO, "xxxxxxxxxxxxxxx\r\n" );
-                    //html.putData( SO, ".\r\n" );
-                    //12345678
-                    //} else if( cLineUpper.startsWith("BODY") ){
-                    //html.putData( SO, "221 " +cArt +" article retrieved - body\r\n" );
-                    //html.putData( SO, "xxxxxxxxxxxxxxx\r\n" );
-                    //html.putData( SO, ".\r\n" );
-                    //12345678
-                    //} else if( cLineUpper.startsWith("NEXT") ){
-                    //html.putData( SO, "222 " +cArt +" article retrieved - statistics\r\n" );
-                    //html.putData( SO, "xxxxxxxxxxxxxxx\r\n" );
-                    //html.putData( SO, ".\r\n" );
                 } else if (cLineUpper.startsWith("QUIT")) {
                     html.putData(SO, "205 HTML2POP3 QUIT\r\n");
                     bExit = true;
@@ -291,8 +260,6 @@ public class NNTPServer extends BaseServer {
                     html.putData(SO, "500 Syntax Error or Unknown Command\r\n");
                 }
             }
-            //*/
         }
-
     }
 }

@@ -26,7 +26,6 @@ package it.baccan.html2pop3.exceptions;
 public class DeleteMessageException extends Exception {
 
     /**
-     *
      */
     public DeleteMessageException() {
         super();

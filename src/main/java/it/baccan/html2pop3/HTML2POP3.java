@@ -247,7 +247,7 @@ public class HTML2POP3 extends Thread {
             this.delete = p.getProperty("delete", "true").equalsIgnoreCase("true");
             this.deleteOptimized = p.getProperty("deleteoptimized", "true").equalsIgnoreCase("true");
             this.bLifo = p.getProperty("coda", "lifo").equalsIgnoreCase("lifo");
-            setOutlook2002Timeout( p.getProperty("outlook2002.timeout", "true").equalsIgnoreCase("true") );
+            setOutlook2002Timeout(p.getProperty("outlook2002.timeout", "true").equalsIgnoreCase("true"));
             this.debug = p.getProperty("debug", "false").equalsIgnoreCase("true");
 
             // Email per session

@@ -85,9 +85,10 @@ public class POP3Server extends BaseServer {
         return (getTunnelConversion(cEmail).length() > 0);
     }
 
-    private String getTunnelConversion(String cEmail) {
+    private String getTunnelConversion(String fullEmail) {
         String cRet = "";
 
+        String cEmail = fullEmail;
         // Stacco la parte @qualcosa e la cerco nel config
         int nPos = cEmail.indexOf("@");
         if (nPos != -1) {
@@ -671,8 +672,8 @@ public class POP3Server extends BaseServer {
                                 html.putData(SO, "-ERR already deleted\r\n");
                             }
                         } else {
-                            html.putData(SO, "-ERR delete disabled\r\n");
-                            //html.putData(SO, "+OK message marked for deletion\r\n");
+                            //html.putData(SO, "-ERR delete disabled\r\n");
+                            html.putData(SO, "+OK message marked for deletion\r\n");
                         }
                     }
 

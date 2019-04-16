@@ -62,7 +62,7 @@ public class BaseServer extends Thread {
     }
 
     /**
-     *
+     * Close server.
      */
     public final void finish() {
         try {

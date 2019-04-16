@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
- 
+
     /* URL dello script cgiemail */
     private static String cDefaultServer = "";
 

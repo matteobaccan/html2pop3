@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.baccan</groupId>
     <artifactId>HTML2POP3</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
     <packaging>jar</packaging>
     <name>HTML2POP3 ${project.version}</name>
 
@@ -143,7 +143,7 @@
                     </platforms>
                     <programs>
                         <program>
-                            <mainClass>it.baccan.html2pop3.htmlgui32</mainClass>
+                            <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
                             <id>${project.artifactId}-${project.version}</id>
                         </program>
                     </programs>
@@ -158,7 +158,7 @@
                 <version>1.4.0.RELEASE</version>
 
                 <configuration>
-                    <mainClass>it.baccan.html2pop3.htmlgui32</mainClass>
+                    <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
