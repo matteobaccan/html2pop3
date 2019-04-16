@@ -74,6 +74,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         boolean bRet = false;
         try {
@@ -82,18 +83,18 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
             this.cUser = cUser;
             cPwd = config.getProperty(cPwd, cPwd);
 
-            Vector aRss = new Vector();
+            List<String> aRss = new ArrayList<>(10);
             if (cPwd.equalsIgnoreCase("all")) {
                 Enumeration keysEnum = config.keys();
                 while (keysEnum.hasMoreElements()) {
-                    aRss.addElement(config.getProperty((String) keysEnum.nextElement()));
+                    aRss.add(config.getProperty((String) keysEnum.nextElement()));
                 }
             } else {
-                aRss.addElement(cPwd);
+                aRss.add(cPwd);
             }
 
             for (int nRss = 0; nRss < aRss.size(); nRss++) {
-                String cUrl = (String) aRss.elementAt(nRss);
+                String cUrl = (String) aRss.get(nRss);
 
                 log.error("Rss: " + cUrl);
 
@@ -157,7 +158,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
                         cCRCList += "-" + cCrc + "-";
 
                         // Se non l'ho letto nella sessione precedente
-                        if (cCache.indexOf("-" + cCrc + "-") == -1) {
+                        if (!cCache.contains("-" + cCrc + "-")) {
                             p.put(cCrc, cEmail);
                             pXML.put(cCrc, cRss);
                             pXML.put(cCrc + "enc", cEnc);
@@ -178,7 +179,8 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
 
             try {
                 cache.save(new FileOutputStream(cCacheFile), null);
-            } catch (Throwable e) {
+            } catch (FileNotFoundException e) {
+                log.error("FileNotFoundException" ,e);
             }
         } catch (Throwable ex) {
             log.error("Error", ex);
@@ -193,6 +195,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         StringBuffer oMail = new StringBuffer();
         try {
@@ -207,7 +210,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
             pop3.setCharset(cEnc);
             pop3.setDa("HTML2POP3 RSS");
             pop3.setA(cUser);
-            pop3.setOggetto("=?" + cEnc + "?B?" + new String(Base64.getEncoder().encodeToString(toHTML(getSubStr(pXML.getProperty(cMsgId), "title"), cEnc).getBytes())) + "?=");
+            pop3.setOggetto("=?" + cEnc + "?B?" + Base64.getEncoder().encodeToString(toHTML(getSubStr(pXML.getProperty(cMsgId), "title"), cEnc).getBytes()) + "?=");
             String cData = getSubStr(pXML.getProperty(cMsgId), "pubDate");
             pop3.setData(cData.length() == 0 ? getCurDate() : cData);
             pop3.setBody(p.getProperty(cMsgId));
@@ -229,6 +232,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         boolean bRet = true;
         try {

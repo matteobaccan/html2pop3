@@ -672,8 +672,8 @@ public class POP3Server extends BaseServer {
                                 html.putData(SO, "-ERR already deleted\r\n");
                             }
                         } else {
-                            //html.putData(SO, "-ERR delete disabled\r\n");
-                            html.putData(SO, "+OK message marked for deletion\r\n");
+                            html.putData(SO, "-ERR delete disabled\r\n");
+                            //html.putData(SO, "+OK message marked for deletion\r\n");
                         }
                     }
 
