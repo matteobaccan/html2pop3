@@ -13,7 +13,7 @@ JAVA=/usr/bin/java
 HTML2POP3=/root/html2pop3/
 
 # paramentri passati all'interprete java
-COMANDO=" -Djava.net.preferIPv4Stack=true -Dsun.jnu.encoding=Cp1252 -Dfile.encoding=Cp1252 -cp html2pop3.jar it.baccan.html2pop3.html2pop3"
+COMANDO=" -Djava.net.preferIPv4Stack=true -Dsun.jnu.encoding=Cp1252 -Dfile.encoding=Cp1252 -cp html2pop3.jar it.baccan.html2pop3.HTML2POP3"
 
 
 case "$1" in
