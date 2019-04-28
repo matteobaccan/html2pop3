@@ -82,12 +82,15 @@ public class HTML2POP3 extends Thread {
      * @param args
      */
     static public void main(String args[]) {
+        // Creo un oggetto html2pop3
+        HTML2POP3 html2pop3 = HTML2POP3.getInstance();        
         // Imposto l'eventuale config
-        HTML2POP3.parseCommandLine(args);
-
-        // Partenza
-        HTML2POP3 html2pop3 = new HTML2POP3();
+        html2pop3.parseCommandLine(args);
+        // Carico le properties
+        html2pop3.load();
+        // Errori in GUI
         html2pop3.setGuiError(false);
+        // Start demone
         html2pop3.start();
     }
 
@@ -111,7 +114,7 @@ public class HTML2POP3 extends Thread {
      *
      * @param args
      */
-    static public void parseCommandLine(String args[]) {
+    public void parseCommandLine(String args[]) {
         for (int nPar = 0; nPar < args.length; nPar++) {
             if (args[nPar].equalsIgnoreCase("-config") && nPar + 1 < args.length) {
                 HTML2POP3.setConfig(args[nPar + 1]);
@@ -175,15 +178,22 @@ public class HTML2POP3 extends Thread {
 
     }
 
-    /**
-     *
-     */
-    public HTML2POP3() {
+    private static HTML2POP3 instance = null;
+
+    private HTML2POP3() {
         // Trust di qualsiasi sito, non controlla la fonte SSL
         trustAll();
+    }
 
-        // Load configuration file
-        load();
+    /**
+     *
+     * @return
+     */
+    public static HTML2POP3 getInstance() {
+        if (instance == null) {
+            instance = new HTML2POP3();
+        }
+        return instance;
     }
 
     /**

@@ -17,11 +17,7 @@ package it.baccan.html2pop3.plugin.pop3;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.*;
-import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,7 +26,18 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.util.Timer;
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
-import it.baccan.html2pop3.utils.*;
+import it.baccan.html2pop3.utils.HTMLTool;
+import it.baccan.html2pop3.utils.LineFormat;
+import java.io.ByteArrayInputStream;
+import java.io.OutputStream;
+import java.net.SocketException;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Properties;
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.TimerTask;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -78,6 +85,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      * @param n
      */
     public PluginLibero(int n) {
+        super();
         nMail = n;
     }
 
@@ -375,7 +383,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
             // Se ho una socket exception rimango in loop e provo il retry
             setLastErr("Errore di comunicazione. Riprovare fra qualche minuto.");
             log.info("Libero: SocketException " + se.getMessage());
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             log.error("Error", ex);
         }
         return bRet;
@@ -409,7 +417,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      *
      * @param b
      */
-    static public void setRead(boolean b) {
+    public static void setRead(boolean b) {
         bRead = b;
     }
 
@@ -417,7 +425,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      *
      * @return
      */
-    static public boolean getRead() {
+    public static boolean getRead() {
         return bRead;
     }
 
@@ -521,6 +529,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         boolean bRet = false;
         try {
@@ -546,6 +555,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
         return bRet;
     }
 
+    @Override
     public void delMessagesFromTrash() throws DeleteMessageException {
         try {
             log.error("Libero: DelMessageFromTrash ini");
@@ -635,7 +645,6 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
         frame.add(e);
 
         // Non va via proxy
-        //BufferedImage img = ImageIO.read(new URL(cCaptcha));
         BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgb));
         ImageIcon icon = new ImageIcon(img);
         JLabel lbl = new JLabel();
@@ -646,18 +655,14 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
         frame.add(l);
 
         JTextField function = new JTextField(8);
-        function.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
+        function.addActionListener((ActionEvent e1) -> {
+            frame.dispose();
         });
         frame.add(function);
 
         JButton button = new JButton("Conferma");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
+        button.addActionListener((ActionEvent e1) -> {
+            frame.dispose();
         });
         frame.add(button);
 

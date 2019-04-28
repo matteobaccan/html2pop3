@@ -51,12 +51,15 @@ public class HTMLGUI32 {
      * @param args
      */
     public static void main(String args[]) {
+        // Creo un oggetto html2pop3
+        final HTML2POP3 html2pop3 = HTML2POP3.getInstance();        
         // Imposto l'eventuale config
-        HTML2POP3.parseCommandLine(args);
-
-        // Lancio il server
-        final HTML2POP3 html2pop3 = new HTML2POP3();
+        html2pop3.parseCommandLine(args);
+        // Carico le properties
+        html2pop3.load();
+        // Errori in GUI
         html2pop3.setGuiError(true);
+        // Start demone
         html2pop3.start();
 
         /* Use an appropriate Look and Feel */

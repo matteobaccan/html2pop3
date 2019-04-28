@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
  * http://www.baccan.it
- * 
+ *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
  *
@@ -272,13 +272,11 @@ public abstract class PluginBase {
             if (inputLine.length() == 0) {
                 endOfHdr_1stBlankLine = true;
             }
-            if (!bAll) {
-                if (endOfHdr_1stBlankLine) {
-                    if (nPos == nLine) {
-                        break;
-                    }
-                    nPos++;
+            if (!bAll && endOfHdr_1stBlankLine) {
+                if (nPos == nLine) {
+                    break;
                 }
+                nPos++;
             }
         }
 
@@ -497,14 +495,15 @@ public abstract class PluginBase {
      *
      * @param cUrl
      * @param cCookie
-     * @param cPost
+     * @param cPostParam
      * @param cRef
      * @param cAuthorization
      * @param postMode
      * @return
      * @throws Exception
      */
-    public StringBuffer postPage(String cUrl, String cCookie, String cPost, String cRef, String cAuthorization, String postMode) throws Exception {
+    public StringBuffer postPage(final String cUrl, final String cCookie, final String cPostParam, final String cRef, final String cAuthorization, final String postMode) throws Exception {
+        String cPost = cPostParam;
         if (debug) {
             log.info("HTTP/POST: " + cUrl);
         }
@@ -660,14 +659,15 @@ public abstract class PluginBase {
      *
      * @param cUrl
      * @param cCookie
-     * @param cPost
+     * @param cPostParam
      * @param cRef
      * @param cAuthorization
      * @param postMode
      * @return
      * @throws Exception
      */
-    public byte[] postPageBytes(String cUrl, String cCookie, String cPost, String cRef, String cAuthorization, String postMode) throws Exception {
+    public byte[] postPageBytes(final String cUrl, final String cCookie, final String cPostParam, final String cRef, final String cAuthorization, final String postMode) throws Exception {
+        String cPost = cPostParam;
         if (debug) {
             log.info("HTTP/POST: " + cUrl);
         }
@@ -884,18 +884,17 @@ public abstract class PluginBase {
     /**
      *
      * @param y
-     * @param cOn
-     * @param cOff
+     * @param cOnParam
+     * @param cOffParam
      * @return
      */
-    protected String filter(String y, String cOn, String cOff) {
+    protected String filter(final String y, final String cOnParam, final String cOffParam) {
         StringBuilder oBuf = new StringBuilder();
 
         String cUpper = y.toUpperCase();
-        cOn = cOn.toUpperCase();
-        cOff = cOff.toUpperCase();
+        String cOn = cOnParam.toUpperCase();
+        String cOff = cOffParam.toUpperCase();
 
-        //boolean isTag = false;
         for (int nPos = 0; nPos < y.length(); nPos++) {
             while (cUpper.startsWith(cOn, nPos)) {
                 int nLastPos = cUpper.indexOf(cOff, nPos + 1);

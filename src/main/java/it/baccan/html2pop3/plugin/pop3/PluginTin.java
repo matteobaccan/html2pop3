@@ -25,8 +25,6 @@ import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import kong.unirest.Header;
 import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestInstance;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,16 +48,14 @@ public class PluginTin extends POP3Base implements POP3Plugin {
     // Property per variabili hidden
     private final Map<String, String> prop;
 
-    private UnirestInstance unirest = null;
-
     private static boolean delete = true;
 
     /**
      * TIN Plugin Costructor.
      */
     public PluginTin() {
+        super();
         prop = new HashMap<>();
-        unirest = Unirest.spawnInstance();
     }
 
     /**
@@ -71,7 +67,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
     @Override
     public boolean login(String cUserParam, String cPwd) {
         boolean bRet = false;
-        boolean bErr = false;
+        boolean bErr;
 
         String cFolder = "INBOX";
         int nQuestionMark = cUserParam.indexOf("?");
@@ -99,7 +95,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                 log.info("tin: login init ({}|{})", cDomain, nRetry);
                 log.trace("tin: login user ({}|{})", cUser, cPwd);
 
-                HttpResponse<String> stringResponse = unirest.post("https://aaacsc.alice.it/piattaformaAAA/aapm/amI")
+                HttpResponse<String> stringResponse = getUnirest().post("https://aaacsc.alice.it/piattaformaAAA/aapm/amI")
                         .field("usernameDisplay", cUser)
                         .field("dominio", "@" + cDomain)
                         .field("password", cPwd)
@@ -160,7 +156,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     String anchor = sb.substring(href1 + 7, href2);
                     String escaped = HtmlEscape.unescapeHtml(anchor);
                     log.info("tin: forward: [{}]", escaped);
-                    HttpResponse<String> response = unirest.get(escaped).asString();
+                    HttpResponse<String> response = getUnirest().get(escaped).asString();
                     sb = response.getBody();
                 }
 
@@ -174,7 +170,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     setServer(anchor.substring(0, anchor.indexOf("/", 10)));
                     log.info("tin: LocalSSOLogin:" + anchor);
                     log.info("tin: server:" + getServer());
-                    HttpResponse<String> response = unirest.get(anchor).asString();
+                    HttpResponse<String> response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
 
                     String search = " src='";
@@ -185,7 +181,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     }
                     anchor = getServer() + sb.substring(href1 + search.length(), href2);
                     log.info("tin: PreLogin: [{}]", anchor);
-                    response = unirest.get(anchor).asString();
+                    response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
 
                     href1 = sb.indexOf("&t=");
@@ -201,7 +197,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     }
                     String anchor = sb.substring(href1 + 6, href2);
                     log.info("tin: LocalSSOLogin: [{}]", anchor);
-                    HttpResponse<String> response = unirest.get(anchor).asString();
+                    HttpResponse<String> response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
                     String search = "top.location=\"";
                     href1 = sb.indexOf(search);
@@ -211,7 +207,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     }
                     anchor = sb.substring(href1 + search.length(), href2).replace("http://", "https://");
                     log.info("tin: SSOLogin: [{}]", anchor);
-                    response = unirest.get(anchor).asString();
+                    response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
 
                     setServer(anchor.substring(0, anchor.indexOf("/", 10)));
@@ -220,7 +216,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     href2 = sb.indexOf("'", href1 + 6);
                     anchor = getServer() + "/cp/ps/Main/login/" + sb.substring(href1 + 6, href2);
                     log.info("tin: PRELogin: [{}]", anchor);
-                    response = unirest.get(anchor).asString();
+                    response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
 
                     href1 = sb.indexOf("&t=");
@@ -237,7 +233,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                 int nStart = 0;
                 int nPage = 50;
                 while (true) {
-                    HttpResponse<String> response = unirest.post(cUrl2Go)
+                    HttpResponse<String> response = getUnirest().post(cUrl2Go)
                             .field("fp", getFolder())
                             .field("limit", "" + nPage)
                             .field("start", "" + nStart)
@@ -339,7 +335,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
             boolean bTop = !(bAll || nLine > 0);
 
             if (!bTop) {
-                HttpResponse<String> response = unirest.post(getServer() + "/cp/ps/mail/SLcommands/SLEmailBody?l=it")
+                HttpResponse<String> response = getUnirest().post(getServer() + "/cp/ps/mail/SLcommands/SLEmailBody?l=it")
                         .field("bid", "")
                         .field("d", prop.get("domain"))
                         .field("folderpath", getFolder())
@@ -370,7 +366,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
 
                 // TOP optimization
                 if (!bTop) {
-                    HttpResponse<String> response = unirest.post(getServer() + "/cp/ps/mail/SLcommands/SLEmailHeaders?l=it&d=" + prop.get("domain") + "&t=" + prop.get("t") + "&u=" + prop.get("userid"))
+                    HttpResponse<String> response = getUnirest().post(getServer() + "/cp/ps/mail/SLcommands/SLEmailHeaders?l=it&d=" + prop.get("domain") + "&t=" + prop.get("t") + "&u=" + prop.get("userid"))
                             .field("folderpath", getFolder())
                             .field("uid", cMsgId)
                             .asString();
@@ -409,7 +405,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                                 String urlDownloader = getServer() + jAttach.getString("urlDownloader") + "&disposition=attachment";
 
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                unirest.post(urlDownloader)
+                                getUnirest().post(urlDownloader)
                                         .field("u", prop.get("userid"))
                                         .field("d", prop.get("domain"))
                                         .field("t", prop.get("t"))
@@ -464,7 +460,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
             log.trace("tin: email:" + cEmailJSON);
             log.info("tin: delmessage ID " + cMsgId);
 
-            HttpResponse<String> response = unirest.post(getServer() + "/cp/ps/mail/SLcommands/SLDeleteMessage?l=it")
+            HttpResponse<String> response = getUnirest().post(getServer() + "/cp/ps/mail/SLcommands/SLDeleteMessage?l=it")
                     .field("d", prop.get("domain"))
                     .field("t", prop.get("t"))
                     .field("u", prop.get("userid"))
@@ -570,25 +566,6 @@ public class PluginTin extends POP3Base implements POP3Plugin {
         }
 
         return cRet;
-    }
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        PluginTin tin = new PluginTin();
-        if (tin.login(args[0], args[1])) {
-            int nNum = tin.getMessageNum();
-            int nSiz = tin.getMessageSize();
-            log.info("getMessageNum  :" + nNum);
-            log.info("getMessageSize :" + nSiz);
-            for (int nPos = 1; nPos <= 1; nPos++) {
-                log.info("getMessageID   (" + nPos + "):" + tin.getMessageID(nPos));
-                log.info("getMessageSize (" + nPos + "):" + tin.getMessageSize(nPos));
-                log.info("getMessage     (" + nPos + "):" + tin.getMessage(nPos));
-            }
-        }
     }
 
 }

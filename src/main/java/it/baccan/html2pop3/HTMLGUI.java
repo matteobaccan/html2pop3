@@ -27,7 +27,7 @@ public class HTMLGUI extends javax.swing.JFrame {
     /**
      * Creates new form htmlgui
      */
-    private HTML2POP3 h2p = null;
+    private HTML2POP3 html2pop3 = null;
 
     /**
      * HTMLGUI constructor.
@@ -41,22 +41,27 @@ public class HTMLGUI extends javax.swing.JFrame {
             }
         });
 
-        h2p = new HTML2POP3();
-        h2p.setGuiError(true);
-        h2p.start();
+        // Creo un oggetto html2pop3
+        html2pop3 = HTML2POP3.getInstance();
+        // Carico le properties
+        html2pop3.load();
+        // Errori in GUI
+        html2pop3.setGuiError(true);
+        // Start demone
+        html2pop3.start();
 
-        oHost.setText(h2p.getHost());
-        oPort.setText("" + h2p.getPort());
-        oDelete.setSelected(h2p.isDelete());
+        oHost.setText(html2pop3.getHost());
+        oPort.setText("" + html2pop3.getPort());
+        oDelete.setSelected(html2pop3.isDelete());
         oProxyUser.setText(System.getProperty("proxyUser"));
         oProxyPassword.setText(System.getProperty("proxyPassword"));
         oProxyHost.setText(System.getProperty("http.proxyHost"));
         oProxyPort.setText(System.getProperty("http.proxyPort"));
-        oConcurrentClient.setText("" + h2p.getClient());
-        oCoda.setSelectedItem(h2p.getLifo() ? "lifo" : "fifo");
-        oDeleteOptimized.setSelected(h2p.isDeleteOptimized());
+        oConcurrentClient.setText("" + html2pop3.getClient());
+        oCoda.setSelectedItem(html2pop3.getLifo() ? "lifo" : "fifo");
+        oDeleteOptimized.setSelected(html2pop3.isDeleteOptimized());
         oHTMLAttach.setSelected(POP3Message.getAddHTML());
-        oSessionEmail.setText("" + h2p.getMaxEmail());
+        oSessionEmail.setText("" + html2pop3.getMaxEmail());
 
     }
 
@@ -347,7 +352,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         // Cancellazione dei log di sistema
         log.info("Event request [{}]", evt.getActionCommand());
         oLog.setText("");
-        h2p.printInfo();
+        html2pop3.printInfo();
         scrollToEnd();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -356,20 +361,23 @@ public class HTMLGUI extends javax.swing.JFrame {
         log.info("Event request [{}]", evt.getActionCommand());
         oTab.setSelectedIndex(3);
 
-        boolean isNew = h2p.isAlive();
+        boolean isNew = html2pop3.isAlive();
         if (!isNew) {
-            h2p = new HTML2POP3();
-            h2p.setGuiError(true);
+            // TODO: verificare questo codice
+            // Creo un oggetto html2pop3
+            html2pop3 = HTML2POP3.getInstance();
+            // Carico le properties
+            html2pop3.load();
         }
 
         //Codice di restart
-        h2p.setHost(oHost.getText());
-        h2p.setPort(Double.valueOf(oPort.getText()).intValue());
-        h2p.setDelete(oDelete.isSelected());
-        h2p.setClient(Double.valueOf(oConcurrentClient.getText()).intValue());
-        h2p.setLifo(oCoda.getSelectedItem().toString().equalsIgnoreCase("lifo"));
-        h2p.setDeleteOptimized(oDeleteOptimized.isSelected());
-        h2p.setMaxEmail(Double.valueOf(oSessionEmail.getText()).intValue());
+        html2pop3.setHost(oHost.getText());
+        html2pop3.setPort(Double.valueOf(oPort.getText()).intValue());
+        html2pop3.setDelete(oDelete.isSelected());
+        html2pop3.setClient(Double.valueOf(oConcurrentClient.getText()).intValue());
+        html2pop3.setLifo(oCoda.getSelectedItem().toString().equalsIgnoreCase("lifo"));
+        html2pop3.setDeleteOptimized(oDeleteOptimized.isSelected());
+        html2pop3.setMaxEmail(Double.valueOf(oSessionEmail.getText()).intValue());
         POP3Message.setAddHTML(oHTMLAttach.isSelected());
         System.setProperty("proxyUser", oProxyUser.getText());
         System.setProperty("proxyPassword", oProxyPassword.getText());
@@ -380,12 +388,12 @@ public class HTMLGUI extends javax.swing.JFrame {
         } else {
             System.setProperty("http.proxySet", "false");
         }
-        h2p.save();
+        html2pop3.save();
 
         if (!isNew) {
-            h2p.start();
+            html2pop3.start();
         } else {
-            h2p.restart();
+            html2pop3.restart();
         }
 
         scrollToEnd();

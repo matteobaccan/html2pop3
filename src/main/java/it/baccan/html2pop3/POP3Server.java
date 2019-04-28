@@ -100,7 +100,6 @@ public class POP3Server extends BaseServer {
                 cRet = cRet.replace("%user%", cUser);
             }
         }
-
         return cRet;
     }
 

@@ -23,6 +23,8 @@ import java.util.*;
 
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import it.baccan.html2pop3.plugin.*;
+import kong.unirest.UnirestInstance;
+import kong.unirest.Unirest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +41,17 @@ public abstract class POP3Base extends PluginBase {
     private List<Double> aSize = new ArrayList<>(10);
     private String cLastCacheKey = "";
     private String cLastCacheMsg = "";
+    @Getter private UnirestInstance unirest = null;
 
     @Getter @Setter private String lastErr = "";
     @Setter private int maxMessageNum = -1;
+
+    /**
+     *
+     */
+    public POP3Base() {
+        unirest = Unirest.spawnInstance();
+    }
 
     /**
      *
