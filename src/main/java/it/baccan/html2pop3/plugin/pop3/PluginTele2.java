@@ -590,23 +590,23 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
     private class MBoxHandling2 implements BoxHandling {
 
         private String newUrl = null;
-        private Map months = null;
+        private Map<String, Integer> months = null;
         private String baseHref = null;
 
         public MBoxHandling2() {
-            months = new HashMap();
-            months.put("Jan", new Integer(0));
-            months.put("Feb", new Integer(1));
-            months.put("Mar", new Integer(2));
-            months.put("Apr", new Integer(3));
-            months.put("Maj", new Integer(4));
-            months.put("Jun", new Integer(5));
-            months.put("Jul", new Integer(6));
-            months.put("Aug", new Integer(7));
-            months.put("Sep", new Integer(8));
-            months.put("Oct", new Integer(9));
-            months.put("Nov", new Integer(10));
-            months.put("Dec", new Integer(11));
+            months = new HashMap<>();
+            months.put("Jan", Integer.valueOf(0));
+            months.put("Feb", Integer.valueOf(1));
+            months.put("Mar", Integer.valueOf(2));
+            months.put("Apr", Integer.valueOf(3));
+            months.put("Maj", Integer.valueOf(4));
+            months.put("Jun", Integer.valueOf(5));
+            months.put("Jul", Integer.valueOf(6));
+            months.put("Aug", Integer.valueOf(7));
+            months.put("Sep", Integer.valueOf(8));
+            months.put("Oct", Integer.valueOf(9));
+            months.put("Nov", Integer.valueOf(10));
+            months.put("Dec", Integer.valueOf(11));
         }
 
         private int getMonth(String month) {

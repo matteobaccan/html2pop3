@@ -23,6 +23,10 @@ import java.util.*;
 
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import it.baccan.html2pop3.plugin.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import kong.unirest.Header;
+import kong.unirest.HttpResponse;
 import kong.unirest.UnirestInstance;
 import kong.unirest.Unirest;
 import lombok.Getter;
@@ -72,7 +76,7 @@ public abstract class POP3Base extends PluginBase {
         if (!aEmail.contains(cEmail) && mailIsUnderStorageLimit()) {
             bRet = true;
             aEmail.add(cEmail);
-            aSize.add(new Double(nLen));
+            aSize.add(Double.valueOf(nLen));
         }
         return bRet;
     }
@@ -290,6 +294,26 @@ public abstract class POP3Base extends PluginBase {
 
     private String convertXML(String cEle) {
         return replace(URLEncoder.encode(cEle).replace('+', ' '), "%40", "@");
+    }
+
+    protected void logHeaders(final HttpResponse stringResponse) {
+        log.info("Response: [{}]=[{}] -----------------------------------------------------", stringResponse.getStatus(), stringResponse.getStatusText());
+        List<Header> headers = stringResponse.getHeaders().all();
+        headers.forEach(action -> {
+            log.debug("[{}]=[{}]", action.getName(), action.getValue());
+        });
+        log.trace("Body [{}]", stringResponse.getBody());
+    }
+
+    protected String getLocation(final HttpResponse stringResponse) {
+        AtomicReference<String> ret = new AtomicReference<>("");
+        List<Header> headers = stringResponse.getHeaders().all();
+        headers.forEach((Header action) -> {
+            if ("Location".equalsIgnoreCase(action.getName())) {
+                ret.set(action.getValue());
+            }
+        });
+        return ret.get();
     }
 
 }

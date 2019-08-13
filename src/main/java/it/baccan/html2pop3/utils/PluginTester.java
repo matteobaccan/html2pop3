@@ -53,6 +53,7 @@ public final class PluginTester {
                 log.info("getMessageSize [{}]:[{}]", nPos, plugin.getMessageSize(nPos));
                 log.info("getMessage     [{}]:[{}]", nPos, plugin.getMessage(nPos));
             }
+            log.info("getContactXML  [{}]", plugin.getContactXML());
         }
     }
 }
