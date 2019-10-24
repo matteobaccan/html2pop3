@@ -189,7 +189,7 @@ public class HTML2POP3 extends Thread {
      *
      * @return
      */
-    public static HTML2POP3 getInstance() {
+    public synchronized static HTML2POP3 getInstance() {
         if (instance == null) {
             instance = new HTML2POP3();
         }

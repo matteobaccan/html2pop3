@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20180813</version>
+            <version>20190722</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.sourceforge.jregex/jregex -->
         <dependency>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
+            <version>1.18.10</version>
         </dependency>
 
         <dependency>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>2.2.02</version><!-- 2.3.14 -->
+            <version>3.1.02</version><!-- 2.3.14 -->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -245,6 +245,7 @@
                             </classPath>
                             <jre>
                                 <minVersion>1.8.0</minVersion>
+                                <path>%JAVA_HOME%</path>
                             </jre>
                             <versionInfo>
                                 <fileVersion>${project.version}.0</fileVersion>

@@ -363,7 +363,6 @@ public class HTMLGUI extends javax.swing.JFrame {
 
         boolean isNew = html2pop3.isAlive();
         if (!isNew) {
-            // TODO: verificare questo codice
             // Creo un oggetto html2pop3
             html2pop3 = HTML2POP3.getInstance();
             // Carico le properties

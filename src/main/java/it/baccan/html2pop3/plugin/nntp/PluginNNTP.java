@@ -17,6 +17,7 @@
  */
 package it.baccan.html2pop3.plugin.nntp;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.HTMLTool;
 import it.baccan.html2pop3.utils.LineFormat;
 
@@ -28,11 +29,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -255,9 +259,9 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
         return aSelm;
     }
 
-    private String getArticle(String cId) {
+    private String getArticle(String cId) throws UnsupportedEncodingException {
 
-        String cFile = cConfigPath + "nntpcache" + File.separator + cCurrentGroup + File.separator + URLEncoder.encode(cId);
+        String cFile = cConfigPath + "nntpcache" + File.separator + cCurrentGroup + File.separator + URLEncoder.encode(cId,CharsetCoding.UTF_8);
         String cCacheID = cConfigPath + "nntpcache" + File.separator + cCurrentGroup + File.separator + "id-cache.cache";
 
         // Sync global
@@ -403,7 +407,11 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
         String cID = aArtNum.getProperty("" + nId);
         if (cID != null) {
-            cRet = getArticle(cID);
+            try {
+                cRet = getArticle(cID);
+            } catch (UnsupportedEncodingException ex) {
+                log.error("UnsupportedEncodingException article",ex);
+            }
         }
 
         log.error("nntp: art end");
