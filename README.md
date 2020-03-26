@@ -7,6 +7,6 @@
 [![Build Status](https://travis-ci.org/matteobaccan/html2pop3.svg?branch=master)](https://travis-ci.org/matteobaccan/html2pop3)
 [![security status](https://www.meterian.io/badge/gh/matteobaccan/html2pop3/security)](https://www.meterian.io/report/gh/matteobaccan/html2pop3)
 [![stability status](https://www.meterian.io/badge/gh/matteobaccan/html2pop3/stability)](https://www.meterian.io/report/gh/matteobaccan/html2pop3)
-[![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
+[![DepShield Badge](https://depshield.sonatype.org/badges/matteobaccan/html2pop3/depshield.svg)](https://depshield.github.io)
 
 HTML2POP3 is a virtual POP3, SMTP and NNTP server
