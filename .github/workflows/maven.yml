@@ -16,15 +16,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml      
     - name: Meterian Scanner
       uses: MeterianHQ/meterian-github-action@v1.0.5
       env:
          METERIAN_API_TOKEN: ${{ secrets.METERIAN_API_TOKEN }}
       with:
           cli_args: "" #[ Meterian CLI Options ]:  
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml      
