@@ -8,7 +8,8 @@
 [![security status](https://www.meterian.io/badge/gh/matteobaccan/html2pop3/security)](https://www.meterian.io/report/gh/matteobaccan/html2pop3)
 [![stability status](https://www.meterian.io/badge/gh/matteobaccan/html2pop3/stability)](https://www.meterian.io/report/gh/matteobaccan/html2pop3)
 [![DepShield Badge](https://depshield.sonatype.org/badges/matteobaccan/html2pop3/depshield.svg)](https://depshield.github.io)
-![CodeQL](https://github.com/matteobaccan/html2pop3/workflows/CodeQL/badge.svg)
 ![Java CI with Maven](https://github.com/matteobaccan/html2pop3/workflows/Java%20CI%20with%20Maven/badge.svg)
+![vulnerability scan workflow](https://github.com/matteobaccan/html2pop3/workflows/vulnerability%20scan%20workflow/badge.svg)
+![CodeQL](https://github.com/matteobaccan/html2pop3/workflows/CodeQL/badge.svg)
 
 HTML2POP3 is a virtual POP3, SMTP and NNTP server
