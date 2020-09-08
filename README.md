@@ -12,4 +12,11 @@
 ![vulnerability scan workflow](https://github.com/matteobaccan/html2pop3/workflows/vulnerability%20scan%20workflow/badge.svg)
 ![CodeQL](https://github.com/matteobaccan/html2pop3/workflows/CodeQL/badge.svg)
 
+<a href="https://github.com/matteobaccan/html2pop3/stargazers"><img src="https://img.shields.io/github/stars/matteobaccan/html2pop3" alt="Stars Badge"/></a>
+<a href="https://github.com/matteobaccan/html2pop3/network/members"><img src="https://img.shields.io/github/forks/matteobaccan/html2pop3" alt="Forks Badge"/></a>
+<a href="https://github.com/matteobaccan/html2pop3/pulls"><img src="https://img.shields.io/github/issues-pr/matteobaccan/html2pop3" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/matteobaccan/html2pop3/issues"><img src="https://img.shields.io/github/issues/matteobaccan/html2pop3" alt="Issues Badge"/></a>
+<a href="https://github.com/matteobaccan/html2pop3/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/matteobaccan/html2pop3?color=2b9348"></a>
+<a href="https://github.com/matteobaccan/html2pop3/blob/master/LICENSE"><img src="https://img.shields.io/github/license/matteobaccan/html2pop3?color=2b9348" alt="License Badge"/></a>
+
 HTML2POP3 is a virtual POP3, SMTP and NNTP server
