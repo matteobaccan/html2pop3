@@ -31,6 +31,7 @@
  */
 package it.baccan.html2pop3.plugin.pop3;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.Version;
 import java.io.OutputStream;
 import java.net.URLEncoder;
@@ -101,8 +102,8 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
                 cServer += "/";
             }
 
-            String cPost = "action=list&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser) + "&pass=" + URLEncoder.encode(cLocalPwd);
-            cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
+            String cPost = "action=list&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8);
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
             String sb = postPage(cServer + "msglist.php", "", cPost).toString();
 
             {
@@ -148,8 +149,8 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
 
             log.error("Pop3: getmail ID (" + cMsgId + ")");
 
-            String cPost = "action=get&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser) + "&pass=" + URLEncoder.encode(cLocalPwd) + "&msgid=" + cMsgId;
-            cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
+            String cPost = "action=get&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8) + "&msgid=" + cMsgId;
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
             oMail = getPage(cServer + "msglist.php?" + cPost, "", nLine, bAll);
 
             log.error("Pop3: getmail end");
@@ -196,12 +197,12 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
                     if (nPos > 0) {
                         oAllMsg.append("***");
                     }
-                    oAllMsg.append(URLEncoder.encode(cMsgId));
+                    oAllMsg.append(URLEncoder.encode(cMsgId,CharsetCoding.UTF_8));
                 }
 
                 String cPost = "msglist=" + oAllMsg.toString();
-                cPost += "&action=delete&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser) + "&pass=" + URLEncoder.encode(cLocalPwd);
-                cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
+                cPost += "&action=delete&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8);
+                cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
 
                 //String cPage = postPage( cServer +"msglist.php?action=delete&server=" +cLocalServer +"&port=" +cLocalPort +"&user=" +URLEncoder.encode(cLocalUser) +"&pass=" +URLEncoder.encode(cLocalPwd), null, cPost ).toString();
                 String cPage = postPage(cServer + "msglist.php", null, cPost).toString();

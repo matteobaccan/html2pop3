@@ -39,6 +39,7 @@ pagine html;
  */
 package it.baccan.html2pop3.plugin.smtp;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import java.net.*;
 import java.util.*;
 
@@ -115,7 +116,7 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
         boolean bRet = false;
         try {
             log.error("Smtp: sendmail init");
-            String cPost = "source=" + URLEncoder.encode(cMsg);
+            String cPost = "source=" + URLEncoder.encode(cMsg,CharsetCoding.UTF_8);
             String cPage = postPage(cServer, null, cPost).toString();
             bRet = cPage.startsWith("<HEAD><TITLE>Success</TITLE></HEAD>");
             if (!bRet) {

@@ -12,6 +12,7 @@ import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.Converter;
 import it.baccan.html2pop3.utils.message.FullHeaderMessage;
 import it.baccan.html2pop3.utils.message.POP3Message;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -83,11 +84,11 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             final int ALL_OK = 0x03;
             final int DONE = 0x00;
             Pattern patLink = Pattern.compile("<a[^>]*href=\"[^>\"]*\\?([^>\"]*)\"[^>]*>([^>]*)</a>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-            Matcher matLink = null;
-            String onlyAttach = null;
+            Matcher matLink;
+            String onlyAttach;
             String postData = null;
             String fileName = null;
-            HashMap attachments = null;
+            Map<String, byte[]> attachments = null;
             int pos = 0;
             int state = DONE;
             byte[] attachContent = null;
@@ -96,7 +97,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                 //ok abbiamo allegati
                 onlyAttach = thePage.substring(pos);
                 matLink = patLink.matcher(onlyAttach);
-                attachments = new HashMap();
+                attachments = new HashMap<>();
                 while (matLink.find()) {
                     if (!matLink.group(2).equalsIgnoreCase(DOWNLOAD) && !matLink.group(2).equalsIgnoreCase(VIEW)) {
                         //questo è il nome del file

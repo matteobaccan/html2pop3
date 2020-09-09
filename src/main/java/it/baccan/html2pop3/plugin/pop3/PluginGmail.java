@@ -98,8 +98,8 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
             postData = "continue=https%3A%2F%2Fmail.google.com%2Fmail%3Fui%3Dhtml%26zy%3Dl"
                     + "&service=mail&signIn=Sign%20in&rmShown=1&rm=false&ltmplcache=2&ltmpl=default&scc=1&ss=1&PersistentCookie=yes"
                     + "&GALX=" + cGALX
-                    + "&Email=" + URLEncoder.encode(cUser)
-                    + "&Passwd=" + URLEncoder.encode(cPwd);
+                    + "&Email=" + URLEncoder.encode(cUser,CharsetCoding.UTF_8)
+                    + "&Passwd=" + URLEncoder.encode(cPwd,CharsetCoding.UTF_8);
             String cLoc = "https://accounts.google.com/ServiceLoginAuth";
             postReturn = postPage(cLoc, cCookie, postData).toString();
             cCookie += getCookie();

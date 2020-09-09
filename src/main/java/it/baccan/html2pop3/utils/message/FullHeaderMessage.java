@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.baccan.html2pop3.utils.ContentType;
+import java.util.Map;
 
 /**
  * Class that rappresent a pop3 message characterized by full pop headers, body
@@ -38,7 +39,7 @@ public class FullHeaderMessage extends MasterMessage {
     private String boundary = null;
     private String charset = null;
     private String encoding = null;
-    private HashMap attachments = null;
+    private Map<String, byte[]> attachments = null;
 
     /**
      *
@@ -49,11 +50,11 @@ public class FullHeaderMessage extends MasterMessage {
         Pattern patBoundary = Pattern.compile("boundary=\"([^\"]*)\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
         Pattern patCharset = Pattern.compile("charset=([\\da-zA-Z\\-&&[\\S]]*)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
         Pattern patEncoding = Pattern.compile("^\\s*Content-Transfer-Encoding:[\\s&&[^\\da-zA-Z\\-]]*([\\da-zA-Z\\-&&[\\S]]*).*$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-        Matcher matcher = null;
+        Matcher matcher;
 
         this.headers = headers;
         this.body = format(body);
-        attachments = new HashMap();
+        attachments = new HashMap<>();
 
         //is there a boundary? what is it?
         matcher = patBoundary.matcher(headers);
@@ -84,7 +85,7 @@ public class FullHeaderMessage extends MasterMessage {
      * @param body
      * @param attachments
      */
-    public FullHeaderMessage(String headers, String body, HashMap attachments) {
+    public FullHeaderMessage(String headers, String body, Map<java.lang.String,byte[]> attachments) {
         this(headers, body);
         this.attachments = attachments;
     }
@@ -98,52 +99,54 @@ public class FullHeaderMessage extends MasterMessage {
      * @param all
      * @return
      */
+    @Override
     public String getMessage(int line, boolean all) {
-        StringBuffer sb = new StringBuffer();
-        Iterator iterator = null;
-        String fileName = null;
-        byte[] content = null;
+        StringBuilder sb = new StringBuilder();
+        Iterator iterator;
+        String fileName;
+        byte[] content;
 
-        sb.append(headers + "\r\n");
+        sb.append(headers).append("\r\n");
 
         if (boundary != null) {
-            sb.append("\r\n--" + boundary + "\r\n");
-            sb.append("Content-Type: text/plain; charset=\"" + charset + "\"\r\n");
-            sb.append("Content-Transfer-Encoding: " + encoding + "\r\n");
+            sb.append("\r\n--").append(boundary).append("\r\n");
+            sb.append("Content-Type: text/plain; charset=\"").append(charset).append("\"\r\n");
+            sb.append("Content-Transfer-Encoding: ").append(encoding).append("\r\n");
         }
-        sb.append("\r\n" + body);
+        sb.append("\r\n").append(body);
 
         if ((attachments != null) && (attachments.size() > 0)) {
             iterator = attachments.keySet().iterator();
             while (iterator.hasNext()) {
                 fileName = (String) iterator.next();
-                content = (byte[]) attachments.get(fileName);
+                content = attachments.get(fileName);
 
-                sb.append("\r\n--" + boundary + "\r\n");
-                sb.append("Content-Type: " + ContentType.getInstance().getFromFilename(fileName) + ";\r\n");
-                sb.append("      name=\"" + fileName + "\"\r\n");
+                sb.append("\r\n--").append(boundary).append("\r\n");
+                sb.append("Content-Type: ").append(ContentType.getInstance().getFromFilename(fileName)).append(";\r\n");
+                sb.append("      name=\"").append(fileName).append("\"\r\n");
                 sb.append("Content-Transfer-Encoding: " + ENC_BASE_64 + "\r\n");
                 sb.append("Content-Disposition: attachment;\r\n");
-                sb.append("      filename=\"" + fileName + "\"\r\n\r\n");
+                sb.append("      filename=\"").append(fileName).append("\"\r\n\r\n");
                 sb.append(get64EncodedAttach(content));
                 sb.append("\r\n");
             }
         }
 
         if (boundary != null) {
-            sb.append("--" + boundary + "--\r\n\r\n");
+            sb.append("--").append(boundary).append("--\r\n\r\n");
         }
         return sb.toString();
     }
 
-    /* (non-Javadoc)
-	 * @see it.baccan.utils.message.IPopMessage#addAttach(java.lang.String, byte[])
-     */
     /**
      *
      * @param fileName
      * @param contentAttach
+     *
+     * @see it.baccan.utils.message.IPopMessage#addAttach(java.lang.String,
+     * byte[])
      */
+    @Override
     public void addAttach(String fileName, byte[] contentAttach) {
         attachments.put(fileName, contentAttach);
     }

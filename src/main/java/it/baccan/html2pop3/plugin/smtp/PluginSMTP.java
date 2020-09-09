@@ -123,9 +123,9 @@ public class PluginSMTP extends SMTPBase implements SMTPPlugin {
             }
 
             //log.error( "Smtp: sendmail " +cMsg );
-            String cPost = "server=" + URLEncoder.encode(cLocalServer) + "&port=" + URLEncoder.encode(cLocalPort) + "&user=" + URLEncoder.encode(cLocalUser) + "&pwd=" + URLEncoder.encode(cLocalPwd);
-            cPost += "&from=" + URLEncoder.encode(cFrom) + "&to=" + URLEncoder.encode(cTo) + "&msg=" + URLEncoder.encode(cMsg);
-            cPost += "&ver=" + URLEncoder.encode(Version.getVersion());
+            String cPost = "server=" + URLEncoder.encode(cLocalServer,CharsetCoding.UTF_8) + "&port=" + URLEncoder.encode(cLocalPort,CharsetCoding.UTF_8) + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pwd=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8);
+            cPost += "&from=" + URLEncoder.encode(cFrom,CharsetCoding.UTF_8) + "&to=" + URLEncoder.encode(cTo,CharsetCoding.UTF_8) + "&msg=" + URLEncoder.encode(cMsg,CharsetCoding.UTF_8);
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
 
             String cPage = postPage(cServer + "postmsg.php", null, cPost).toString();
 

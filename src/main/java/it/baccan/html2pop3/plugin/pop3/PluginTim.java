@@ -31,6 +31,7 @@
  */
 package it.baccan.html2pop3.plugin.pop3;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -68,10 +69,10 @@ public class PluginTim extends POP3Base implements POP3Plugin {
             // Preparo I parametri
             String cPost
                     = "USERNAME="
-                    + URLEncoder.encode(cUser)
+                    + URLEncoder.encode(cUser,CharsetCoding.UTF_8)
                     + "@tim.it"
                     + "&PASSWORD="
-                    + URLEncoder.encode(cPwd)
+                    + URLEncoder.encode(cPwd,CharsetCoding.UTF_8)
                     + "&LOCALE=it_IT-TIM&SELECTEDLOCALE=it_IT-TIM";
 
             // Apro la pagina di posta

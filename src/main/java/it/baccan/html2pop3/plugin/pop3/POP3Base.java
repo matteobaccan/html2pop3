@@ -23,6 +23,7 @@ import java.util.*;
 
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import it.baccan.html2pop3.plugin.*;
+import it.baccan.html2pop3.utils.CharsetCoding;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import kong.unirest.Header;
@@ -292,8 +293,8 @@ public abstract class POP3Base extends PluginBase {
         return oRet.toString();
     }
 
-    private String convertXML(String cEle) {
-        return replace(URLEncoder.encode(cEle).replace('+', ' '), "%40", "@");
+    private String convertXML(String cEle) throws UnsupportedEncodingException {
+        return replace(URLEncoder.encode(cEle,CharsetCoding.UTF_8).replace('+', ' '), "%40", "@");
     }
 
     protected void logHeaders(final HttpResponse stringResponse) {

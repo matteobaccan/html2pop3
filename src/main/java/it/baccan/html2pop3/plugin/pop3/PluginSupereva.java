@@ -31,6 +31,7 @@
  */
 package it.baccan.html2pop3.plugin.pop3;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import java.net.*;
 import java.util.*;
 
@@ -73,7 +74,7 @@ public class PluginSupereva extends POP3Base implements POP3Plugin {
             // Preparo I parametri
             //String cPost = "username=" +URLEncoder.encode( cUser ) +"&password=" +URLEncoder.encode( cPwd ) +"&Submite=%20%20Entra%20%20&prov=";
             //String cPost = "username=" +URLEncoder.encode( cUser ) +"&password=" +URLEncoder.encode( cPwd ) +"&uri=http%3A%2F%2Fit.email.dada.net%2Fcgi-bin%2Flogin.chm&act=1&dontask=1";
-            String cPost = "username=" + URLEncoder.encode(cUser) + "&password=" + URLEncoder.encode(cPwd) + "&uri=http%3A%2F%2Femail.dada.it%2Fcgi-bin%2Flogin.chm&act=1&dontask=1";
+            String cPost = "username=" + URLEncoder.encode(cUser,CharsetCoding.UTF_8) + "&password=" + URLEncoder.encode(cPwd,CharsetCoding.UTF_8) + "&uri=http%3A%2F%2Femail.dada.it%2Fcgi-bin%2Flogin.chm&act=1&dontask=1";
 
             //String cLogin = postPage( cServer +"/cgi-bin/login.chm", null, cPost ).toString();
             String cLogin = postPage("http://sso.dada.it/cgi-bin/sso/login.cgi", null, cPost).toString();
@@ -301,7 +302,7 @@ public class PluginSupereva extends POP3Base implements POP3Plugin {
                 int nM2 = cMsgId.indexOf("&", nM);
                 if (nM2 != -1) {
                     cMsg = cMsgId.substring(nM + 7, nM2);
-                    String cPost = "mailfolder=in&max_msg=1&MSG0=" + URLEncoder.encode(cMsg) + "&plmove=Sposta+il+messaggio+in&tobox=trash&tobox=sent";
+                    String cPost = "mailfolder=in&max_msg=1&MSG0=" + URLEncoder.encode(cMsg,CharsetCoding.UTF_8) + "&plmove=Sposta+il+messaggio+in&tobox=trash&tobox=sent";
 
                     //String cDelete =
                     postPage(cServer + "/cgi-bin/del_mov.cgi", cSessionCook, cPost).toString();
