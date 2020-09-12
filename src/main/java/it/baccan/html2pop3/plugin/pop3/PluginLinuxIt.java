@@ -12,7 +12,6 @@ import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.Converter;
 import it.baccan.html2pop3.utils.message.FullHeaderMessage;
 import it.baccan.html2pop3.utils.message.POP3Message;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -88,16 +87,16 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             String onlyAttach;
             String postData = null;
             String fileName = null;
-            Map<String, byte[]> attachments = null;
-            int pos = 0;
+            HashMap<String, byte[]> attachmentsMap = null;
+            int pos;
             int state = DONE;
-            byte[] attachContent = null;
+            byte[] attachContent;
 
             if ((pos = thePage.indexOf("<b>Attachments:</b>")) >= 0) {
                 //ok abbiamo allegati
                 onlyAttach = thePage.substring(pos);
                 matLink = patLink.matcher(onlyAttach);
-                attachments = new HashMap<>();
+                attachmentsMap = new HashMap<>();
                 while (matLink.find()) {
                     if (!matLink.group(2).equalsIgnoreCase(DOWNLOAD) && !matLink.group(2).equalsIgnoreCase(VIEW)) {
                         //questo è il nome del file
@@ -115,7 +114,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                         state = DONE;
                         try {
                             attachContent = getPageBytes(URL_DOWNLOAD + "?" + postData, lastGoodCook);
-                            attachments.put(fileName, attachContent);
+                            attachmentsMap.put(fileName, attachContent);
                         } catch (Exception e) {
                             log.error("LinuxIt::MailMessage::getAttachments() Exception: error while downloading attachment");
                             log.error("Error", e);
@@ -124,7 +123,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                     }
                 }
             }
-            return attachments;
+            return attachmentsMap;
         }
 
         /**
