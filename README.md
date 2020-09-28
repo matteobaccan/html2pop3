@@ -11,6 +11,7 @@
 ![Java CI with Maven](https://github.com/matteobaccan/html2pop3/workflows/Java%20CI%20with%20Maven/badge.svg)
 ![Meterian vulnerability scan workflow](https://github.com/matteobaccan/html2pop3/workflows/Meterian%20vulnerability%20scan%20workflow/badge.svg)
 ![CodeQL](https://github.com/matteobaccan/html2pop3/workflows/CodeQL/badge.svg)
+[![StyleCI](https://github.styleci.io/repos/179081117/shield?branch=master)](https://github.styleci.io/repos/179081117?branch=master)
 
 <a href="https://github.com/matteobaccan/html2pop3/stargazers"><img src="https://img.shields.io/github/stars/matteobaccan/html2pop3" alt="Stars Badge"/></a>
 <a href="https://github.com/matteobaccan/html2pop3/network/members"><img src="https://img.shields.io/github/forks/matteobaccan/html2pop3" alt="Forks Badge"/></a>
