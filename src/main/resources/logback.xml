@@ -10,20 +10,6 @@
     -->
     <property name="logpattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-20.20thread | %-5level | %-5.5line | %-20.20logger{0} | %msg%n"/>
 
-    <!--
-    - %dbdate |
-    - %-10mdc{instanceId}:%-15.15thread |
-    %-5mdc{serviceId}:%-15mdc{processId} |
-    %-40.40mdc{activityId}:%-15.15mdc{payloadId} |
-    %-48.48mdc{mqmdMessageId} |
-    %-100.100mdc{commId} |
-    %-9.9mdc{restarted} |
-    - %-5level |
-    - %-30.30logger{0} |
-    - %msg |
-    %mdc{additionalInfo}%n
-    -->
-
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%-20.20logger{0}|%msg%n</pattern>
