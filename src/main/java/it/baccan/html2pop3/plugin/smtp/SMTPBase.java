@@ -32,7 +32,7 @@
 package it.baccan.html2pop3.plugin.smtp;
 
 import it.baccan.html2pop3.plugin.PluginBase;
-import java.util.Vector;
+import java.util.List;
 
 /**
  *
@@ -57,7 +57,7 @@ public abstract class SMTPBase extends PluginBase {
      * @param cMsg
      * @return
      */
-    public abstract boolean sendMessage(String cFrom, Vector aTo, String cMsg);
+    public abstract boolean sendMessage(String cFrom, List<String> aTo, String cMsg);
 
     /**
      *

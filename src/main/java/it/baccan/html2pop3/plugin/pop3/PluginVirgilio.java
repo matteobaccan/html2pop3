@@ -15,6 +15,7 @@
  */
 package it.baccan.html2pop3.plugin.pop3;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class PluginVirgilio extends PluginTin implements POP3Plugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUserParam, String cPwd) {
         bDebug = isDebug();
 
@@ -56,7 +58,12 @@ public class PluginVirgilio extends PluginTin implements POP3Plugin {
         String cFolder = "";
         int nQuestionMark = cUserParam.indexOf("?");
         if (nQuestionMark != -1) {
-            cFolder = URLEncoder.encode(getPar(cUserParam.substring(nQuestionMark), "folder", "INBOX"));
+            String folderParameter = getPar(cUserParam.substring(nQuestionMark), "folder", "INBOX");
+            try {
+                cFolder = URLEncoder.encode(folderParameter, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+                log.error("Unable to encode [{}]", folderParameter);
+            }
             cUserParam = cUserParam.substring(0, nQuestionMark);
         } else {
             cFolder = "INBOX";

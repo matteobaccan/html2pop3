@@ -32,9 +32,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Base64;
-import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 import it.baccan.html2pop3.plugin.smtp.SMTPPlugin;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -162,7 +163,7 @@ public class SMTPServer extends BaseServer {
             String cUser = "";
             String cPwd = "";
             String cFrom = "";
-            Vector aTo = new Vector();
+            List<String> aTo = new ArrayList<>();
             // main loop
             while (!bExit) {
                 String cLine = html.getLineNOCRLF(SI);
@@ -236,7 +237,7 @@ public class SMTPServer extends BaseServer {
                         if (cTo.endsWith(">")) {
                             cTo = cTo.substring(0, cTo.length() - 1);
                         }
-                        aTo.addElement(cTo);
+                        aTo.add(cTo);
                         html.putData(SO, "250 RCPT TO:" + cTo + " OK\r\n");
                     }
 
@@ -247,7 +248,7 @@ public class SMTPServer extends BaseServer {
                     cUser = "";
                     cPwd = "";
                     cFrom = "";
-                    aTo = new Vector();
+                    aTo = new ArrayList<>();
                     html.putData(SO, "250 RSET\r\n");
 
                 } else if (cLineUpper.startsWith("HELP")) {
@@ -333,7 +334,7 @@ public class SMTPServer extends BaseServer {
                     }
 
                     // Reset old value
-                    aTo = new Vector();
+                    aTo = new ArrayList<>();
                     cFrom = "";
 
                 } else if (cLineUpper.startsWith("QUIT")) {

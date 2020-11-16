@@ -31,7 +31,7 @@
  */
 package it.baccan.html2pop3.plugin.smtp;
 
-import java.util.Vector;
+import java.util.List;
 
 /**
  *
@@ -56,7 +56,7 @@ public interface SMTPPlugin {
      * @param cMsg
      * @return
      */
-    public boolean sendMessage(String cFrom, Vector aTo, String cMsg);
+    public boolean sendMessage(String cFrom, List<String> aTo, String cMsg);
 
     // Get last error
     /**

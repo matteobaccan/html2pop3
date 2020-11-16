@@ -362,6 +362,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         boolean bRet = false;
         try {
@@ -399,14 +400,15 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      * @param cMsg
      * @return
      */
-    public boolean sendMessage(String cFrom, Vector aTo, String cMsg) {
+    @Override
+    public boolean sendMessage(String cFrom, List<String> aTo, String cMsg) {
         boolean bRet = false;
         try {
             log.error("Gmail: sendMessage");
 
             String cTo = "";
             for (int nPos = 0; nPos < aTo.size(); nPos++) {
-                cTo += (nPos > 0 ? ";" : "") + ((String) aTo.elementAt(nPos)).trim();
+                cTo += (nPos > 0 ? ";" : "") + aTo.get(nPos).trim();
             }
 
             //log.info( cMsg );

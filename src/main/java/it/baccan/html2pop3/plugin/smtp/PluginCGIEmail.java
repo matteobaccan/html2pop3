@@ -112,7 +112,8 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
      * @param cMsg
      * @return
      */
-    public boolean sendMessage(String cFrom, Vector aTo, String cMsg) {
+    @Override
+    public boolean sendMessage(String cFrom, List<String> aTo, String cMsg) {
         boolean bRet = false;
         try {
             log.error("Smtp: sendmail init");

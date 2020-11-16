@@ -10,6 +10,7 @@
 package it.baccan.html2pop3.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,16 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Filter {
 
-    private final ArrayList aRules;
+    private final List<FilterAtom> aRules;
 
     /**
      * Filter class for HTML2POP3 use.
      */
     public Filter() {
-        aRules = new ArrayList();
+        aRules = new ArrayList<>();
     }
 
-    class filterAtom {
+    class FilterAtom {
 
         public String cRule = "";
         public String[] aFilter = {};
@@ -50,7 +51,7 @@ public class Filter {
      * @return
      */
     public boolean add(String rule, String[] filter) {
-        filterAtom fa = new filterAtom();
+        FilterAtom fa = new FilterAtom();
         fa.cRule = rule;
         fa.aFilter = filter;
         return aRules.add(fa);
@@ -64,7 +65,7 @@ public class Filter {
     public boolean isAllow(String[] filter) {
         boolean bRet = true;
         for (int nPos = 0; nPos < aRules.size(); nPos++) {
-            filterAtom fa = (filterAtom) aRules.get(nPos);
+            FilterAtom fa = (FilterAtom) aRules.get(nPos);
             if (fa.cRule.equalsIgnoreCase("allow")) {
                 if (match(filter, fa.aFilter)) {
                     bRet = true;

@@ -53,7 +53,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     private String cLocalPwd = "";
     private String cLocalServer = "";
     private String cLocalPort = "110";
-    private Vector oMsgDel = null;
+    private Vector<String> oMsgDel = null;
 
     /**
      *
@@ -181,7 +181,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
      *
      */
     public void delMessageStart() {
-        oMsgDel = new Vector();
+        oMsgDel = new Vector<>();
     }
 
     /**
@@ -193,7 +193,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
             if (oMsgDel.size() > 0) {
                 StringBuffer oAllMsg = new StringBuffer();
                 for (int nPos = 0; nPos < oMsgDel.size(); nPos++) {
-                    String cMsgId = (String) oMsgDel.elementAt(nPos);
+                    String cMsgId = oMsgDel.elementAt(nPos);
                     if (nPos > 0) {
                         oAllMsg.append("***");
                     }

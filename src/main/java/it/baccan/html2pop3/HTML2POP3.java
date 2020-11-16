@@ -35,8 +35,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -62,18 +64,38 @@ public class HTML2POP3 extends Thread {
     private Filter smtpGlobalFilter = new Filter();
     private Filter nntpIpFilter = new Filter();
     private final SortedProperties p = new SortedProperties();
-    @Getter @Setter private String host = "127.0.0.1";
-    @Getter @Setter private int port = 110;
-    @Getter @Setter private int portSMTP = 25;
-    @Getter @Setter private int portNNTP = 119;
+    @Getter
+    @Setter
+    private String host = "127.0.0.1";
+    @Getter
+    @Setter
+    private int port = 110;
+    @Getter
+    @Setter
+    private int portSMTP = 25;
+    @Getter
+    @Setter
+    private int portNNTP = 119;
     private int nClient = 10;
-    @Getter @Setter private boolean delete = true;
-    @Getter @Setter private boolean deleteOptimized = true;
-    @Getter @Setter private boolean guiError = true;
+    @Getter
+    @Setter
+    private boolean delete = true;
+    @Getter
+    @Setter
+    private boolean deleteOptimized = true;
+    @Getter
+    @Setter
+    private boolean guiError = true;
     private boolean bLifo = true;
-    @Getter @Setter private boolean outlook2002Timeout = true;
-    @Getter @Setter private int maxEmail = -1;
-    @Getter @Setter private boolean debug = false;
+    @Getter
+    @Setter
+    private boolean outlook2002Timeout = true;
+    @Getter
+    @Setter
+    private int maxEmail = -1;
+    @Getter
+    @Setter
+    private boolean debug = false;
     private configChange cc;
     private boolean isRestart = false;
 
@@ -83,7 +105,7 @@ public class HTML2POP3 extends Thread {
      */
     static public void main(String args[]) {
         // Creo un oggetto html2pop3
-        HTML2POP3 html2pop3 = HTML2POP3.getInstance();        
+        HTML2POP3 html2pop3 = HTML2POP3.getInstance();
         // Imposto l'eventuale config
         html2pop3.parseCommandLine(args);
         // Carico le properties
@@ -147,32 +169,12 @@ public class HTML2POP3 extends Thread {
     class SortedProperties extends Properties {
 
         public synchronized Enumeration keys() {
-
             Enumeration keysEnum = super.keys();
-            Vector keyList = new Vector();
+            Vector<String> keyList = new Vector<String>();
             while (keysEnum.hasMoreElements()) {
-                keyList.addElement(keysEnum.nextElement());
+                keyList.add((String) keysEnum.nextElement());
             }
-
-            boolean bSort;
-            do {
-                bSort = true;
-                for (int nPos = 0; nPos < keyList.size() - 1; nPos++) {
-                    Object a = keyList.elementAt(nPos);
-                    Object b = keyList.elementAt(nPos + 1);
-
-                    Collator c = Collator.getInstance();
-
-                    if (c.compare((String) a, (String) b) > 0) {
-                        keyList.setElementAt(a, nPos + 1);
-                        keyList.setElementAt(b, nPos);
-                        bSort = false;
-                    }
-                }
-            } while (!bSort);
-
-            // Not 1.1.4 compatibile
-            //Collections.sort(keyList);
+            Collections.sort(keyList);
             return keyList.elements();
         }
 
@@ -243,7 +245,7 @@ public class HTML2POP3 extends Thread {
         boolean bRet = false;
         try {
             log.info("Load Config [{}]", config);
-            try (InputStream fis = new FileInputStream(config)) {
+            try ( InputStream fis = new FileInputStream(config)) {
                 p.clear();
                 p.load(fis);
             }
@@ -352,15 +354,15 @@ public class HTML2POP3 extends Thread {
             String cRule = cFilter.substring(0, nSep);
             cFilter = cFilter.substring(nSep + 1);
 
-            Vector v = new Vector();
+            List<String> v = new ArrayList<>();
             StringTokenizer st = new StringTokenizer(cFilter, ";");
             while (st.hasMoreTokens()) {
-                v.addElement(st.nextToken());
+                v.add(st.nextToken());
             }
 
             String[] o = new String[v.size()];
             for (int nPos = 0; nPos < o.length; nPos++) {
-                o[nPos] = (String) v.elementAt(nPos);
+                o[nPos] = v.get(nPos);
             }
 
             ret.add(cRule, o);
@@ -504,7 +506,7 @@ public class HTML2POP3 extends Thread {
             p.put("proxyport", System.getProperty("http.proxyPort", ""));
 
             // DEPRECATA la uso per retrocompatiblita' con JDK MS e vecchi JDK
-            p.save(new FileOutputStream(config), null);
+            p.store(new FileOutputStream(config), null);
         } catch (Throwable e) {
             log.error("Error", e);
             log.info(e.getMessage());

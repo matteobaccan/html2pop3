@@ -35,8 +35,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -49,7 +47,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
     private static final int nNumMsg = 25;
     private static String cConfigPath = "";
     private static String cConfig = "";
-    private Vector aOver = new Vector();
+    private Vector<String> aOver = new Vector<>();
     private String cCurrentGroup = "";
     private static final Object oLock = new Object();
     private static final Properties oLockObj = new Properties();
@@ -128,7 +126,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
     public long[] group(String cGroup) {
         long[] nRet = {0, 0};
         cCurrentGroup = cGroup;
-        aOver = new Vector();
+        aOver = new Vector<>();
 
         log.error("nntp: group init");
 
@@ -143,7 +141,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
         try {
             String cPage = getPage("http://groups.google.it/groups?hl=it&lr=&ie=UTF-8&num=" + nNumMsg + "&group=" + cGroup).toString();
-            Vector aSelm = getSelm(cPage, true);
+            Vector<String> aSelm = getSelm(cPage, true);
 
             long nPosMin = 0;
             long nPosMax = 1;
@@ -191,9 +189,9 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
             do {
                 bSort = true;
                 for (int nPos = 0; nPos < aOver.size() - 1; nPos++) {
-                    Object a = aOver.elementAt(nPos);
-                    Object b = aOver.elementAt(nPos + 1);
-                    if (((String) a).compareTo((String) b) > 0) {
+                    String a = aOver.elementAt(nPos);
+                    String b = aOver.elementAt(nPos + 1);
+                    if (a.compareTo(b) > 0) {
                         aOver.setElementAt(a, nPos + 1);
                         aOver.setElementAt(b, nPos);
                         bSort = false;
@@ -208,8 +206,8 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
         return nRet;
     }
 
-    private Vector getSelm(String cPage, boolean bTH) {
-        Vector aSelm = new Vector();
+    private Vector<String> getSelm(String cPage, boolean bTH) {
+        Vector<String> aSelm = new Vector<>();
 
         int nPos = 0;
         //String cRef = "";
@@ -243,7 +241,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
                         if (cTh.length() > 0) {
                             cSubPage = getPage("http://groups.google.it/groups?dq=&hl=it&lr=&ie=UTF-8&th=" + cTh).toString();
-                            Vector aSub = getSelm(cSubPage, false);
+                            Vector<String> aSub = getSelm(cSubPage, false);
                             for (int nPosEle = 0; nPosEle < aSub.size(); nPosEle++) {
                                 aSelm.addElement(aSub.elementAt(nPosEle));
                             }
@@ -334,7 +332,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
                 cacheID.put(cId, "" + nMax);
                 try {
                     FileOutputStream fos = new FileOutputStream(cCacheID);
-                    cacheID.save(fos, null);
+                    cacheID.store(fos, null);
                     fos.close();
                 } catch (Throwable e) {
                 }
