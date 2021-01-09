@@ -1,0 +1,22 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: GitHub metrics as SVG image
+      uses: lowlighter/metrics@latest
+      with:
+        token: METRICS_TOKEN
+        plugins_errors_fatal: yes
+        dryrun: yes
+        use_mocked_data: yes
+        verify: yes
