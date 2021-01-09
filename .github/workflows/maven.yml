@@ -18,12 +18,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B package --file pom.xml      
-    - name: GitHub metrics as SVG image
-      uses: lowlighter/metrics@latest
-      with:
-        token: METRICS_TOKEN
-        plugins_errors_fatal: yes
-        dryrun: yes
-        use_mocked_data: yes
-        verify: yes
+      run: mvn -B package --file pom.xml          
