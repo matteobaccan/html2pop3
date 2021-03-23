@@ -267,6 +267,27 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+                <groupId>net.jsign</groupId>
+                <artifactId>jsign-maven-plugin</artifactId>
+                <version>3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <file>./target/HTML2POP3-${project.version}.exe</file>
+                            <name>HTML2POP3</name>
+                            <url>https://www.baccan.it</url>
+                            <keystore>./doc/key/keystore.pfx</keystore>
+                            <alias>html2pop3</alias>
+                            <storepass>password</storepass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!--
             <plugin>
