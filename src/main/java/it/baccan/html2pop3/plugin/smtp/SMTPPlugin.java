@@ -2,7 +2,7 @@
  * smtpplugin interface
  *
  * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
+ * www - https://www.baccan.it
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

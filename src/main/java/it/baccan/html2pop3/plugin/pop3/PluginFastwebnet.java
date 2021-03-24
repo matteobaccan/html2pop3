@@ -2,7 +2,7 @@
  * fastwebnet plugin
  *
  * Copyright 2003 Matteo Baccan
- * www - http://www.baccan.it
+ * www - https://www.baccan.it
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@ package it.baccan.html2pop3.plugin.pop3;
 
 import it.baccan.html2pop3.utils.CharsetCoding;
 import java.net.*;
-import java.util.*;
 
 import it.baccan.html2pop3.utils.message.*;
 import java.io.FileNotFoundException;

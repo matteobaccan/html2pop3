@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
- * http://www.baccan.it
+ * https://www.baccan.it
  *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
@@ -407,8 +407,8 @@ public class POP3Server extends BaseServer {
                             hp = new PluginTiscali();
                         } else if (cServer.equalsIgnoreCase("fastwebnet.it")) {
                             hp = new PluginFastwebnet();
-                            //} else if( cServer.equalsIgnoreCase("email.it") ){
-                            //hp = new pluginemail();
+                        } else if( cServer.equalsIgnoreCase("email.it") ){
+                            hp = new pluginemail();
                         } else if (cServer.equalsIgnoreCase("tin.it")) {
                             hp = new PluginTin();
                         } else if (cServer.equalsIgnoreCase("virgilio.it")) {
@@ -479,7 +479,7 @@ public class POP3Server extends BaseServer {
                         } else {
                             log.error("POP3 server: errore, server (" + cServer + ") non implementato al momento.");
                             log.error("Controllare che la sintassi sia server;username. EX libero.it;pippo@libero.it");
-                            log.error("Eventualmente controllare su http://www.baccan.it che non sia stato rilasciato un aggiornamento che implementa tale server");
+                            log.error("Eventualmente controllare su https://www.baccan.it che non sia stato rilasciato un aggiornamento che implementa tale server");
                             html.putData(SO, "-ERR invalid configuration. Read manual for correct user setting\r\n");
                             bExit = true;
                         }

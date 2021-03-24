@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
- * http://www.baccan.it
+ * https://www.baccan.it
  *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
@@ -41,8 +41,6 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kong.unirest.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 

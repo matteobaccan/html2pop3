@@ -2,7 +2,7 @@
  * HTTP/SMTP generic plugin
  *
  * Copyright 2004 Matteo Baccan
- * www - http://www.baccan.it
+ * www - https://www.baccan.it
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PluginSMTP extends SMTPBase implements SMTPPlugin {
 
-    private static String cDefaultServer = "http://www.baccan.it/pop3/";
+    private static String cDefaultServer = "https://www.baccan.it/pop3/";
 
     private String cError = "";
 

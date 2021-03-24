@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Matteo Baccan
+ * Copyright (c) 2021 Matteo Baccan
  * https://www.baccan.it
  *
  * Distributed under the GPL v3 software license, see the accompanying
@@ -38,7 +38,7 @@ import org.unbescape.html.HtmlEscape;
  * @author matteo
  */
 @Slf4j
-public class PluginTin extends POP3Base implements POP3Plugin {
+public class PluginEmailIt extends POP3Base implements POP3Plugin {
 
     // Server di riferimento
     @Getter @Setter private String server = "";
@@ -53,7 +53,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
     /**
      * TIN Plugin Costructor.
      */
-    public PluginTin() {
+    public PluginEmailIt() {
         super();
         prop = new HashMap<>();
     }

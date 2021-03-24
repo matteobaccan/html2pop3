@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
- * http://www.baccan.it
+ * https://www.baccan.it
  *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
@@ -285,8 +285,8 @@ public class HTML2POP3 extends Thread {
             POP3Message.setrfc2047(p.getProperty("rfc2047", "true").equalsIgnoreCase("true"));
 
             // Tunneling server
-            PluginPOP3.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
-            PluginSMTP.setDefaultServer(p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
+            PluginPOP3.setDefaultServer(p.getProperty("tunnelingserver", "https://www.baccan.it/pop3/"));
+            PluginSMTP.setDefaultServer(p.getProperty("tunnelingserver", "https://www.baccan.it/pop3/"));
 
             // I vecchi JDK non hanno il metodo di modifica delle proprieta' direttamente
             // sul system
@@ -583,7 +583,7 @@ public class HTML2POP3 extends Thread {
         }
         log.info("+---------------------------------------------------------------------------+");
         log.info("| POP3/SMTP/NNTP simulation server                           Version " + cVer + " |");
-        log.info("| Matteo Baccan Opensource Software                    http://www.baccan.it |");
+        log.info("| Matteo Baccan Opensource Software                    https://www.baccan.it |");
         log.info("+---------------------------------------------------------------------------+");
         //if( bIsWin32 ){
         //    log.info( "Java Version: " +System.getProperty("java.version") );
@@ -649,7 +649,7 @@ public class HTML2POP3 extends Thread {
         log.info("Attach email originale nella posta emulata: " + POP3Message.getAddHTML());
         log.info("Numero di download massimi per sessione: " + maxEmail);
         //log.info("Dimensione del file di log: " + logStreamMemo.getLogSize());
-        log.info("Tunneling server " + p.getProperty("tunnelingserver", "http://www.baccan.it/pop3/"));
+        log.info("Tunneling server " + p.getProperty("tunnelingserver", "https://www.baccan.it/pop3/"));
         log.info("-----------------------------------------------------------------------------");
         log.info("Plugin specific setting");
         log.info("-----------------------------------------------------------------------------");

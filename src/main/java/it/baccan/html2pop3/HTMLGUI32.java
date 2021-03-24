@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2019 Matteo Baccan
- * http://www.baccan.it
+ * https://www.baccan.it
  *
  * Distributed under the GPL v3 software license, see the accompanying
  * file LICENSE or http://www.gnu.org/licenses/gpl.html.
@@ -123,7 +123,7 @@ public class HTMLGUI32 {
         }
 
         aboutItem.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(null, "HTML2POP3 " + Version.getVersion() + " by Matteo Baccan http://www.baccan.it");
+            JOptionPane.showMessageDialog(null, "HTML2POP3 " + Version.getVersion() + " by Matteo Baccan https://www.baccan.it");
         });
 
         regaloItem.addActionListener((ActionEvent e) -> {
@@ -131,7 +131,7 @@ public class HTMLGUI32 {
         });
 
         baccanItem.addActionListener((ActionEvent e) -> {
-            HTMLGUI32.upenUrl("http://www.baccan.it");
+            HTMLGUI32.upenUrl("https://www.baccan.it");
         });
 
         githubItem.addActionListener((ActionEvent e) -> {
