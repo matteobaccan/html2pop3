@@ -19,6 +19,7 @@ package it.baccan.html2pop3;
 
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
+import it.baccan.html2pop3.plugin.pop3.PluginEmailIt;
 import it.baccan.html2pop3.plugin.pop3.PluginLinuxIt;
 import it.baccan.html2pop3.plugin.pop3.PluginTele2;
 import it.baccan.html2pop3.plugin.pop3.PluginGmail;
@@ -363,6 +364,8 @@ public class POP3Server extends BaseServer {
                                 cServer = "rss";
                             } else if (cUser.toUpperCase().indexOf("@LINUX.IT") != -1) {
                                 cServer = "linux.it";
+                            } else if (cUser.toUpperCase().indexOf("@EMAIL.IT") != -1) {
+                                cServer = "email.it";
                             } else {
                                 cServer = "libero.it";
                             }
@@ -408,7 +411,7 @@ public class POP3Server extends BaseServer {
                         } else if (cServer.equalsIgnoreCase("fastwebnet.it")) {
                             hp = new PluginFastwebnet();
                         } else if( cServer.equalsIgnoreCase("email.it") ){
-                            hp = new pluginemail();
+                            hp = new PluginEmailIt();
                         } else if (cServer.equalsIgnoreCase("tin.it")) {
                             hp = new PluginTin();
                         } else if (cServer.equalsIgnoreCase("virgilio.it")) {
