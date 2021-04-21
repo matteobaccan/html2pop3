@@ -18,15 +18,16 @@ import it.baccan.html2pop3.utils.LineFormat;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import kong.unirest.HttpResponse;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -36,9 +37,14 @@ import org.jsoup.select.Elements;
 @Slf4j
 public class PluginEmailIt extends POP3Base implements POP3Plugin {
 
+    /**
+     * Url di base di Email.it.
+     */
     static final String EMAILIT_DOMAIN = "https://irin.email.it/";
 
-    // Server di riferimento
+    /**
+     * Server di riferimento
+     */
     @Getter
     @Setter
     private String server = "";
@@ -47,13 +53,14 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
     @Setter
     private String folder = "INBOX";
 
+    private String crumb = "";
+    private String sfi = "";
+
     static final String ZM_AUTH_TOKEN = "ZM_AUTH_TOKEN";
-    AtomicReference<String> auth = new AtomicReference<>("");
+    private AtomicReference<String> auth = new AtomicReference<>("");
 
     // Property per variabili hidden
     private final Map<String, String> prop;
-
-    private static boolean delete = true;
 
     /**
      * TIN Plugin Costructor.
@@ -70,7 +77,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
      * @return
      */
     @Override
-    public boolean login(String cUserParam, String cPwd) {
+    public final boolean login(String cUserParam, String cPwd) {
         boolean bRet = false;
         boolean bErr;
 
@@ -114,7 +121,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                         //.header("Content-Type", "application/x-www-form-urlencoded")
                         .asString();
 
-                // Prendo auth                
+                // Prendo auth
                 stringResponse.getHeaders().get("Set-Cookie").forEach(cookie -> {
                     if (cookie.startsWith(ZM_AUTH_TOKEN)) {
                         int endCokie = cookie.indexOf(";");
@@ -126,24 +133,43 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                 // FIXME migliorare il controllo
                 String homepageUrl = stringResponse.getHeaders().get("Location").get(0);
 
+                log.info("email.it: home [{}]", homepageUrl);
                 HttpResponse<String> homepage = getUnirest().get(homepageUrl).asString();
 
                 // Creo il DOM
                 String sb = homepage.getBody();
 
                 Document strongDoc = Jsoup.parse(sb);
-                Elements trs = strongDoc.getElementsByClass("ZhRow");
-                trs.forEach(tr -> {
-                    Elements as = tr.getElementsByTag("a");
-                    as.forEach(a -> {
-                        String href = a.attr("href");
-                        String token = "&id=";
-                        if (href.contains(token)) {
-                            String id = href.substring(href.indexOf(token) + token.length());
-                            addEmailInfo(id, 1000);
-                        }
-                    });
-                });
+                addEmails(strongDoc);
+
+                crumb = strongDoc.getElementsByAttributeValue("name", "crumb").get(0).val();
+                sfi = strongDoc.getElementsByAttributeValue("title", "Inbox").get(0).parent().attr("href");
+                sfi = sfi.substring(sfi.indexOf("sfi=") + 4);
+
+                /*
+                <a id="NEXT_PAGE" href="/h/search?si=0&amp;so=10&amp;sc=38611&amp;sfi=4&amp;st=message">
+                    <img src="/img/zimbra/ImgRightArrow.png" title="vai alla pagina successiva" alt="vai alla pagina successiva" border="0">
+                </a>
+                 */
+                while (true) {
+                    Element nextPage = strongDoc.getElementById("NEXT_PAGE");
+                    if (nextPage == null) {
+                        break;
+                    }
+                    String href = nextPage.attr("href");
+                    if (!href.contains("&so")) {
+                        break;
+                    }
+
+                    String so = href.substring(href.indexOf("&s0="));
+                    so = so.substring(0, so.indexOf("&" + 1));
+
+                    HttpResponse<String> page = getUnirest().get(EMAILIT_DOMAIN + "h/search?sfi=" + sfi + so).asString();
+                    strongDoc = Jsoup.parse(page.getBody());
+                    if (!addEmails(strongDoc)) {
+                        break;
+                    }
+                }
 
                 bRet = true;
 
@@ -163,6 +189,8 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                     }
                 } catch (InterruptedException ex) {
                     log.error("Pause error", ex);
+                    // Restore interrupted state...
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -179,24 +207,25 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         StringBuffer oMail = new StringBuffer();
         try {
-            log.error("Infinito: getmail init");
+            log.error("email.it: getmail init");
 
             String cMsgId = getMessageID(nPos);
 
-            log.error("Infinito: getmail ID (" + cMsgId + ")");
+            log.error("email.it: getmail ID (" + cMsgId + ")");
 
-            String cSessionCook = ZM_AUTH_TOKEN +"="+ auth.get();
+            String cSessionCook = ZM_AUTH_TOKEN + "=" + auth.get();
 
-            oMail = getPage("https://irin.email.it/service/home/~/?auth=co&view=text&id=" + cMsgId, cSessionCook, nLine, bAll);
+            oMail = getPage(EMAILIT_DOMAIN + "service/home/~/?auth=co&view=text&id=" + cMsgId, cSessionCook, nLine, bAll);
 
             if (getContentType().indexOf("text/plain") == -1) {
                 oMail = null;
             }
 
-            log.error("Infinito: getmail end");
+            log.error("email.it: getmail end");
 
         } catch (FileNotFoundException fnf) {
             oMail = null;
@@ -213,32 +242,43 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
      * @return
      */
     @Override
-    public boolean delMessage(int nPos) {
+    public final boolean delMessage(int nPos) {
         boolean bRet = false;
         try {
-            log.info("tin: delmessage init");
+            log.info("email.it: delmessage init");
 
-            String cEmailJSON = getMessageID(nPos);
+            String cMsgId = getMessageID(nPos);
 
-            JSONObject jEmail = new JSONObject(cEmailJSON);
+            log.info("email.it: delmessage ID " + cMsgId);
 
-            String cMsgId = jEmail.getString("pid");
-
-            log.trace("tin: email:" + cEmailJSON);
-            log.info("tin: delmessage ID " + cMsgId);
-
-            HttpResponse<String> response = getUnirest().post(getServer() + "/cp/ps/mail/SLcommands/SLDeleteMessage?l=it")
-                    .field("d", prop.get("domain"))
-                    .field("t", prop.get("t"))
-                    .field("u", prop.get("userid"))
-                    .field("selection", cMsgId)
+            HttpResponse<String> response = getUnirest().post(EMAILIT_DOMAIN + "h/search")
+                    .queryString("si", "0")
+                    .queryString("so", "0")
+                    .queryString("sc", "38434")
+                    .queryString("sfi", sfi)
+                    .queryString("st", "message")
+                    .field("actionDelete", "Elimina")
+                    .field("dragTargetFolder", "")
+                    .field("dragMsgId", "")
+                    .field("folderId", "")
+                    .field("actionOp", "")
+                    .field("contextFolderId", "4")
+                    .field("actionSort", "dateAsc")
+                    .field("id", cMsgId)
+                    .field("dragTargetFolder", "")
+                    .field("dragMsgId", "")
+                    .field("folderId", "")
+                    .field("actionOp", "")
+                    .field("contextFolderId", "4")
+                    .field("doMessageAction", "1")
+                    .field("crumb", crumb)
+                    .field("selectedRow", "0")
                     .asString();
             String sb = response.getBody();
 
-            JSONObject jDelete = new JSONObject(sb);
-            bRet = jDelete.getBoolean("success");
+            bRet = true;
 
-            log.info("tin: delmessage end");
+            log.info("email.it: delmessage end");
         } catch (Throwable ex) {
             log.error("Error", ex);
         }
@@ -249,18 +289,28 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
      *
      */
     @Override
-    public void delMessageEnd() {
+    public final void delMessageEnd() {
+        log.info("email.it: delmessageEnd init");
+        log.info("email.it: delmessageEnd end");
+    }
 
-        try {
-            log.info("tin: delmessageEnd init");
-
-            // 15:35:22 martedi' 26 giugno 2012
-            // per ora non faccio la pulizia del cestino, tanto e' dopo 7 giorni
-            //if( bDelete ) getPage( cServer +"/cp/ps/Mail/EmptyTrash?fp=Cestino&d=" +prop.get("domain") +"&an=" +prop.get("an") +"&u=" +prop.get("userid") +"&t=" +prop.get("t") +"&IAmInEmailList=true&style=&l=it&s=" +prop.get("s") );
-            log.info("tin: delmessageEnd end");
-        } catch (Throwable ex) {
-            log.error("Error", ex);
-        }
+    private boolean addEmails(final Document strongDoc) {
+        AtomicBoolean ret = new AtomicBoolean(false);
+        Elements trs = strongDoc.getElementsByClass("ZhRow");
+        trs.forEach(tr -> {
+            Elements as = tr.getElementsByTag("a");
+            as.forEach(a -> {
+                String href = a.attr("href");
+                String token = "&id=";
+                if (href.contains(token)) {
+                    String id = href.substring(href.indexOf(token) + token.length());
+                    if (addEmailInfo(id, 1000)) {
+                        ret.set(true);
+                    }
+                }
+            });
+        });
+        return ret.get();
     }
 
 }

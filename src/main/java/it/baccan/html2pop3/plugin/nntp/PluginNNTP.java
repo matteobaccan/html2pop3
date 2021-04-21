@@ -80,28 +80,26 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      */
     public boolean streamList(OutputStream SO) {
         boolean bRet = false;
-        //Properties config = new Properties();
-        try {
-            FileInputStream fis = new FileInputStream(cConfigPath + cConfig);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            InputStreamReader isr = new InputStreamReader(bis);
-            BufferedReader br = new BufferedReader(isr);
+        try (FileInputStream fis = new FileInputStream(cConfigPath + cConfig)) {
 
-            String cLine;
-            while ((cLine = br.readLine()) != null) {
-                if (!cLine.startsWith("#")) {
-                    if (cLine.endsWith("\r\n")) {
-                        cLine = cLine.substring(0, cLine.length() - 2);
+            try (BufferedInputStream bis = new BufferedInputStream(fis)) {
+                try (InputStreamReader isr = new InputStreamReader(bis)) {
+                    try (BufferedReader br = new BufferedReader(isr)) {
+
+                        String cLine;
+                        while ((cLine = br.readLine()) != null) {
+                            if (!cLine.startsWith("#")) {
+                                if (cLine.endsWith("\r\n")) {
+                                    cLine = cLine.substring(0, cLine.length() - 2);
+                                }
+                                HTMLTool html = new HTMLTool();
+                                html.putData(SO, cLine + " 00001 00001 n\r\n");
+                            }
+                        }
+
                     }
-                    HTMLTool html = new HTMLTool();
-                    html.putData(SO, cLine + " 00001 00001 n\r\n");
                 }
             }
-
-            br.close();
-            isr.close();
-            bis.close();
-            fis.close();
             bRet = true;
         } catch (FileNotFoundException fnf) {
             log.info("Non riesco a leggere il file " + cConfigPath + cConfig);
@@ -259,7 +257,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
     private String getArticle(String cId) throws UnsupportedEncodingException {
 
-        String cFile = cConfigPath + "nntpcache" + File.separator + cCurrentGroup + File.separator + URLEncoder.encode(cId,CharsetCoding.UTF_8);
+        String cFile = cConfigPath + "nntpcache" + File.separator + cCurrentGroup + File.separator + URLEncoder.encode(cId, CharsetCoding.UTF_8);
         String cCacheID = cConfigPath + "nntpcache" + File.separator + cCurrentGroup + File.separator + "id-cache.cache";
 
         // Sync global
@@ -408,7 +406,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
             try {
                 cRet = getArticle(cID);
             } catch (UnsupportedEncodingException ex) {
-                log.error("UnsupportedEncodingException article",ex);
+                log.error("UnsupportedEncodingException article", ex);
             }
         }
 

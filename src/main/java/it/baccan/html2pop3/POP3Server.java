@@ -656,12 +656,12 @@ public class POP3Server extends BaseServer {
                 } else if (cLineUpper.startsWith("DELE")) {   //DELE num
                     if (cLine.length() == 4) {
                         html.putData(SO, "-ERR Protocol error\r\n");
-                    } else {
+                    } else {//getParent().setDelete(true);
                         if (getParent().isDelete()) {
-                            Double nMsg = Double.valueOf(cLine.substring(4).trim()); //.intValue();
+                            Double nMsg = Double.valueOf(cLine.substring(4).trim());
                             boolean bDel = true;
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
-                                Double n = ((Double) aDel.get(nCur));
+                                Double n = aDel.get(nCur);
                                 if (n.equals(nMsg)) {
                                     bDel = false;
                                 }
@@ -675,7 +675,6 @@ public class POP3Server extends BaseServer {
                             }
                         } else {
                             html.putData(SO, "-ERR delete disabled\r\n");
-                            //html.putData(SO, "+OK message marked for deletion\r\n");
                         }
                     }
 
@@ -694,12 +693,12 @@ public class POP3Server extends BaseServer {
                     if (hp != null) {
                         // Cancello se devo cancellare
                         if (getParent().isDelete()) {
-                            if (aDel.size() > 0) {
+                            if (!aDel.isEmpty()) {
                                 log.info("Start removing deleted message from queue ...");
                             }
                             hp.delMessageStart();
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
-                                int nMsg = ((Double) aDel.get(nCur)).intValue();
+                                int nMsg = aDel.get(nCur).intValue();
                                 if (hp.delMessage(nMsg)) {
                                     log.info("POP3 server: deleted " + nMsg);
                                 } else {
@@ -708,20 +707,20 @@ public class POP3Server extends BaseServer {
                             }
 
                             // Pulisco il cestino, solo se ho cancellato qualcosa
-                            if (aDel.size() > 0) {
+                            if (!aDel.isEmpty()) {
                                 try {
                                     hp.delMessagesFromTrash();
                                 } catch (DeleteMessageException dme) {
-                                    log.error("POP3 server: Error while emptying web trash. DeleteMessageException: " + dme.getMessage());
+                                    log.error("POP3 server: Error while emptying web trash. DeleteMessageException: [{}]", dme.getMessage());
                                 }
                             }
 
                             hp.delMessageEnd();
-                            if (aDel.size() > 0) {
+                            if (!aDel.isEmpty()) {
                                 log.info("End removing deleted message from queue ...");
                             }
                         } else {
-                            if (aDel.size() > 0) {
+                            if (!aDel.isEmpty()) {
                                 log.info("POP3 server: delete disabled");
                             }
                         }
@@ -732,7 +731,6 @@ public class POP3Server extends BaseServer {
                         html.putData(SO, "+OK POP3 server closing connection\r\n");
                     }
 
-                    //} else if( cLineUpper.length()==0 ){
                 } else {
                     html.putData(SO, "-ERR Syntax Error or Unknown Command\r\n");
                 }

@@ -53,28 +53,17 @@ public class EchoClient {
      * @return
      */
     public static String getLine(String cHost, int nPort) {
-        String cRet = null;
-        try {
-            Socket echoSocket = null;
-            BufferedReader in = null;
-
-            try {
-                echoSocket = new Socket(cHost, nPort);
-                echoSocket.setSoTimeout(5000);
-                in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
-            } catch (UnknownHostException e) {
-                cRet = "Don't know about host: " + cHost + ":" + nPort;
-            } catch (IOException e) {
-                cRet = "Couldn't get I/O for the connection to: " + cHost + ":" + nPort;
-            }
-            if (cRet == null) {
+        String cRet;
+        
+        try (Socket echoSocket = new Socket(cHost, nPort)) {
+            echoSocket.setSoTimeout(5000);
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()))) {
                 cRet = in.readLine();
             }
-
-            in.close();
-            echoSocket.close();
-        } catch (Throwable e) {
-            //log.error("Error " +cHost +":" +nPort );
+        } catch (UnknownHostException e) {
+            cRet = "Don't know about host: " + cHost + ":" + nPort;
+        } catch (IOException e) {
+            cRet = "Couldn't get I/O for the connection to: " + cHost + ":" + nPort;
         }
 
         return cRet;

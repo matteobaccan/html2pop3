@@ -151,7 +151,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                 while (m.find()) {
                     //there are some url that allow you to download the body as text.
                     //let's try to use it
-                    if (m.group(1).indexOf(PASSED_ENT_ID) > 0) {
+                    if (m.group(1).contains(PASSED_ENT_ID)) {
                         ok4TheBody = true;
                         //ok, we have a link where download the body.
                         //May be more than one so I'll append to a StringBuffer to get

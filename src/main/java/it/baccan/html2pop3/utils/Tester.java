@@ -47,59 +47,37 @@ public class Tester {
     public static void main(String[] args) {
         final String ADDRESS = "127.0.0.1";
         final int PORT = 110;
-        int retr = 1;
-        byte[] buff = null;
-        Socket sk = null;
-        BufferedOutputStream bos = null;
-        BufferedInputStream bis = null;
-        Pattern p = Pattern.compile("[\\d]+");
-        Matcher m = null;
 
-        try {
-            sk = new Socket(ADDRESS, PORT);
-            bos = new BufferedOutputStream(sk.getOutputStream());
-            bis = new BufferedInputStream(sk.getInputStream());
-            printBisData(bis);
+        try (Socket sk = new Socket(ADDRESS, PORT)) {
+            try (BufferedOutputStream bos = new BufferedOutputStream(sk.getOutputStream())) {
+                try (BufferedInputStream bis = new BufferedInputStream(sk.getInputStream())) {
+                    printBisData(bis);
 
-            //sending user and password
-            printBosData(bos, "user " + args[0] + "\r\n");
-            printBisData(bis);
-            printBosData(bos, "pass " + args[1] + "\r\n");
-            printBisData(bis);
+                    //sending user and password
+                    printBosData(bos, "user " + args[0] + "\r\n");
+                    printBisData(bis);
+                    printBosData(bos, "pass " + args[1] + "\r\n");
+                    printBisData(bis);
 
-            //retrieve the first (oldest) message received
-            m = p.matcher(lastMsg);
-            if (m.find()) {
-                retr = Integer.parseInt(m.group());
+                    //retrieve the first (oldest) message received
+                    Pattern p = Pattern.compile("[\\d]+");
+                    Matcher m = p.matcher(lastMsg);
+                    int retr = 1;
+                    if (m.find()) {
+                        retr = Integer.parseInt(m.group());
+                    }
+
+                    //sending retr
+                    printBosData(bos, "retr " + (retr) + "\r\n");
+                    printBisData(bis);
+                    printBisData(bis);
+                    printBosData(bos, "quit\r\n");
+                }
             }
-
-            //sending retr
-            printBosData(bos, "retr " + (retr) + "\r\n");
-            printBisData(bis);
-            printBisData(bis);
-
-            //sending dele
-//			printBosData(bos, "dele " + retr + "\r\n");
-//			printBisData(bis);
-            //sending quit command
-            printBosData(bos, "quit\r\n");
         } catch (UnknownHostException uhe) {
             log.error("Error", uhe);
         } catch (IOException ioe) {
             log.error("Error", ioe);
-        } finally {
-            try {
-                bos.close();
-            } catch (Exception e) {
-            }
-            try {
-                bis.close();
-            } catch (Exception e) {
-            }
-            try {
-                sk.close();
-            } catch (Exception e) {
-            }
         }
 
         log.info("Done!");
