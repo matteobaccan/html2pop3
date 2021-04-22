@@ -40,10 +40,9 @@ public class EchoClient {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        EchoClient ec = new EchoClient();
-        log.info(ec.getLine("localhost", 110));
-        log.info(ec.getLine("localhost", 25));
-        log.info(ec.getLine("localhost", 119));
+        log.info(EchoClient.getLine("localhost", 110));
+        log.info(EchoClient.getLine("localhost", 25));
+        log.info(EchoClient.getLine("localhost", 119));
     }
 
     /**

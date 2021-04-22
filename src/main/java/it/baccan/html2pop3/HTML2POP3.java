@@ -168,9 +168,10 @@ public class HTML2POP3 extends Thread {
 
     class SortedProperties extends Properties {
 
+        @Override
         public synchronized Enumeration keys() {
             Enumeration keysEnum = super.keys();
-            Vector<String> keyList = new Vector<String>();
+            Vector<String> keyList = new Vector<>();
             while (keysEnum.hasMoreElements()) {
                 keyList.add((String) keysEnum.nextElement());
             }

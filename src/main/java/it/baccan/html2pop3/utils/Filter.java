@@ -68,7 +68,6 @@ public class Filter {
             FilterAtom fa = (FilterAtom) aRules.get(nPos);
             if (fa.cRule.equalsIgnoreCase("allow")) {
                 if (match(filter, fa.aFilter)) {
-                    bRet = true;
                     log.debug("Verified: " + fa);
                     break;
                 }

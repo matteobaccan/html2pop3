@@ -143,8 +143,6 @@ public class PluginVirgilio extends PluginTin implements POP3Plugin {
 
                 sb = getPage("http://webmail.virgilio.it/cp/default.jsp", cCook).toString();
 
-                sb = sb;
-
                 nUrl1 = sb.indexOf("<iframe name=\"main\" id=\"main\" src=\"");
                 nUrl2 = sb.indexOf("\" width=", nUrl1 + 1);
                 String inboxUrl = sb.substring(nUrl1 + 35, nUrl2);

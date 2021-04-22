@@ -190,7 +190,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     public void delMessageEnd() {
 
         try {
-            if (oMsgDel.size() > 0) {
+            if (!oMsgDel.isEmpty()) {
                 StringBuffer oAllMsg = new StringBuffer();
                 for (int nPos = 0; nPos < oMsgDel.size(); nPos++) {
                     String cMsgId = oMsgDel.elementAt(nPos);

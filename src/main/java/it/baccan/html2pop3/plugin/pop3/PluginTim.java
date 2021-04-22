@@ -236,7 +236,7 @@ public class PluginTim extends POP3Base implements POP3Plugin {
                     if (cRet.indexOf("<") == -1) {
                         cRet = "<" + cRet + ">";
                     } else {
-                        cRet = cRet = "\"" + replace(cRet, "<", "\"<");
+                        cRet = "\"" + replace(cRet, "<", "\"<");
                     }
                 }
             }
