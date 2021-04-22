@@ -20,20 +20,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ContentType {
 
-    static private ContentType _instance = null;
+    static private ContentType instance = null;
 
-    private Map<String, String> _map;
-    private String _defaultContentType;
+    private Map<String, String> map;
+    private String defaultContentType;
 
     /**
      *
      * @return
      */
     static public ContentType getInstance() {
-        if (_instance == null) {
-            _instance = new ContentType();
+        if (instance == null) {
+            instance = new ContentType();
         }
-        return _instance;
+        return instance;
     }
 
     private ContentType() {
@@ -178,14 +178,14 @@ public class ContentType {
     }
 
     private void setDefault(String type) {
-        _defaultContentType = type;
+        defaultContentType = type;
     }
 
     private void addMapping(String ext, String type) {
-        if (_map == null) {
-            _map = new HashMap<>();
+        if (map == null) {
+            map = new HashMap<>();
         }
-        _map.put(ext, type);
+        map.put(ext, type);
     }
 
     /**
@@ -194,9 +194,9 @@ public class ContentType {
      * @return
      */
     public String getFromExtension(String ext) {
-        Object value = _map.get(ext);
+        Object value = map.get(ext);
         if (value == null) {
-            return _defaultContentType;
+            return defaultContentType;
         }
         return (String) value;
     }
@@ -210,7 +210,7 @@ public class ContentType {
         int dotPos = filename.lastIndexOf('.');
 
         if (dotPos < 0) {
-            return _defaultContentType;
+            return defaultContentType;
         }
 
         return getFromExtension(filename.substring(dotPos + 1));

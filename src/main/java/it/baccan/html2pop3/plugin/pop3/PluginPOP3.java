@@ -35,8 +35,8 @@ import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.Version;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,7 +53,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     private String cLocalPwd = "";
     private String cLocalServer = "";
     private String cLocalPort = "110";
-    private Vector<String> oMsgDel = null;
+    private ArrayList<String> oMsgDel = null;
 
     /**
      *
@@ -70,6 +70,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         boolean bRet = false;
         try {
@@ -102,8 +103,8 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
                 cServer += "/";
             }
 
-            String cPost = "action=list&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8);
-            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
+            String cPost = "action=list&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser, CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd, CharsetCoding.UTF_8);
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(), CharsetCoding.UTF_8);
             String sb = postPage(cServer + "msglist.php", "", cPost).toString();
 
             {
@@ -141,7 +142,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
      * @return
      */
     public String getMessage(int nPos, int nLine, boolean bAll) {
-        StringBuffer oMail = null;
+        StringBuilder oMail;
         try {
             log.error("Pop3: getmail init");
 
@@ -149,9 +150,11 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
 
             log.error("Pop3: getmail ID (" + cMsgId + ")");
 
-            String cPost = "action=get&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8) + "&msgid=" + cMsgId;
-            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
-            oMail = getPage(cServer + "msglist.php?" + cPost, "", nLine, bAll);
+            String cPost = "action=get&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser, CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd, CharsetCoding.UTF_8) + "&msgid=" + cMsgId;
+            cPost += "&ver=" + URLEncoder.encode(Version.getVersion(), CharsetCoding.UTF_8);
+            
+            oMail = new StringBuilder();
+            oMail.append(getPage(cServer + "msglist.php?" + cPost, "", nLine, bAll));
 
             log.error("Pop3: getmail end");
         } catch (Throwable ex) {
@@ -162,15 +165,17 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     }
 
     /**
+     * Stream a message.
      *
-     * @param SO
+     * @param outputStream
      * @param nPos
      * @param nLine
      * @param bAll
      * @return
      * @throws Exception
      */
-    public boolean streamMessage(OutputStream SO, int nPos, int nLine, boolean bAll) throws Exception {
+    @Override
+    public boolean streamMessage(OutputStream outputStream, int nPos, int nLine, boolean bAll) throws Exception {
         boolean bRet = false;
         // Non si puo' fare, perche', nel caso ci sia un errore di connessione al POP3, vengono restituiti messaggi vuoti
         // viene dato un +OK e poi un -ERR
@@ -181,7 +186,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
      *
      */
     public void delMessageStart() {
-        oMsgDel = new Vector<>();
+        oMsgDel = new ArrayList<>();
     }
 
     /**
@@ -193,16 +198,16 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
             if (!oMsgDel.isEmpty()) {
                 StringBuffer oAllMsg = new StringBuffer();
                 for (int nPos = 0; nPos < oMsgDel.size(); nPos++) {
-                    String cMsgId = oMsgDel.elementAt(nPos);
+                    String cMsgId = oMsgDel.get(nPos);
                     if (nPos > 0) {
                         oAllMsg.append("***");
                     }
-                    oAllMsg.append(URLEncoder.encode(cMsgId,CharsetCoding.UTF_8));
+                    oAllMsg.append(URLEncoder.encode(cMsgId, CharsetCoding.UTF_8));
                 }
 
                 String cPost = "msglist=" + oAllMsg.toString();
-                cPost += "&action=delete&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser,CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd,CharsetCoding.UTF_8);
-                cPost += "&ver=" + URLEncoder.encode(Version.getVersion(),CharsetCoding.UTF_8);
+                cPost += "&action=delete&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser, CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd, CharsetCoding.UTF_8);
+                cPost += "&ver=" + URLEncoder.encode(Version.getVersion(), CharsetCoding.UTF_8);
 
                 //String cPage = postPage( cServer +"msglist.php?action=delete&server=" +cLocalServer +"&port=" +cLocalPort +"&user=" +URLEncoder.encode(cLocalUser) +"&pass=" +URLEncoder.encode(cLocalPwd), null, cPost ).toString();
                 String cPage = postPage(cServer + "msglist.php", null, cPost).toString();
@@ -232,7 +237,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
 
             log.error("Pop3: delmessage " + cMsgId);
 
-            oMsgDel.addElement(cMsgId);
+            oMsgDel.add(cMsgId);
 
             bRet = true;
 
