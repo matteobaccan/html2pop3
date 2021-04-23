@@ -17,6 +17,6 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt' # See 'Supported distributions' for available options
-        java-version: 1.8
+        java-version: 8
     - name: Build with Maven
       run: mvn -B package --file pom.xml          
