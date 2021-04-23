@@ -239,7 +239,7 @@
                 <version>2.1.0</version>
                 <executions>
                     <execution>
-                        <id>l4j-clui</id>
+                        <id>l4j-html2pop3</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
@@ -273,7 +273,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>net.jsign</groupId>
                 <artifactId>jsign-maven-plugin</artifactId>
