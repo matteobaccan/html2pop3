@@ -246,7 +246,7 @@ public class HTML2POP3 extends Thread {
         boolean bRet = false;
         try {
             log.info("Load Config [{}]", config);
-            try ( InputStream fis = new FileInputStream(config)) {
+            try (InputStream fis = new FileInputStream(config)) {
                 p.clear();
                 p.load(fis);
             }

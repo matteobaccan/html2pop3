@@ -410,7 +410,7 @@ public class POP3Server extends BaseServer {
                             hp = new PluginTiscali();
                         } else if (cServer.equalsIgnoreCase("fastwebnet.it")) {
                             hp = new PluginFastwebnet();
-                        } else if( cServer.equalsIgnoreCase("email.it") ){
+                        } else if (cServer.equalsIgnoreCase("email.it")) {
                             hp = new PluginEmailIt();
                         } else if (cServer.equalsIgnoreCase("tin.it")) {
                             hp = new PluginTin();

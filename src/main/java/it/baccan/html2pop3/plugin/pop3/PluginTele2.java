@@ -120,7 +120,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
                                     Integer.parseInt(matDate.group(3)), //day
                                     hour, //hour
                                     Integer.parseInt(matDate.group(6)), //minutes
-                                    Integer.parseInt(matDate.group(7)));	//seconds
+                                    Integer.parseInt(matDate.group(7)));//seconds
                             date = formatDate(gc.getTime());
                         }
                     } catch (Exception ex) {
@@ -325,7 +325,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             return textMsg;
         }
 
-    }//end MailMessage
+    }
+
+//end MailMessage
 
     /* ******************************************************************************* */
  /* ******************************************************************************* */
@@ -345,7 +347,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         public int extractMail(String post) throws Exception;
 
         public void delMessagesFromTrash() throws DeleteMessageException;
-    }//BoxHandling
+    }
+
+//BoxHandling
 
     /* ******************************************************************************* */
  /* ******************************************************************************* */
@@ -582,7 +586,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             }
         }
 
-    }//MBoxHandling1
+    }
+
+//MBoxHandling1
 
     /* ******************************************************************************* */
  /* ******************************************************************************* */
@@ -869,7 +875,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
             }
         }
 
-    }//MBoxHandling2
+    }
+
+//MBoxHandling2
 
 
     /* (non-Javadoc)

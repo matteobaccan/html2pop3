@@ -85,8 +85,8 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
             // Trovo il SID
             String cCook = getCookie();
             String cDomain = cUser.substring(cUser.indexOf("@") + 1).toLowerCase();
-            cUser = URLEncoder.encode(cUser.substring(0, cUser.indexOf("@")).toLowerCase(),CharsetCoding.UTF_8);
-            cPwd = URLEncoder.encode(cPwd,CharsetCoding.UTF_8);
+            cUser = URLEncoder.encode(cUser.substring(0, cUser.indexOf("@")).toLowerCase(), CharsetCoding.UTF_8);
+            cPwd = URLEncoder.encode(cPwd, CharsetCoding.UTF_8);
 
             p.put("userid", cUser);
             p.put("password", cPwd);

@@ -293,7 +293,7 @@ public abstract class POP3Base extends PluginBase {
     }
 
     private String convertXML(String cEle) throws UnsupportedEncodingException {
-        return replace(URLEncoder.encode(cEle,CharsetCoding.UTF_8).replace('+', ' '), "%40", "@");
+        return replace(URLEncoder.encode(cEle, CharsetCoding.UTF_8).replace('+', ' '), "%40", "@");
     }
 
     protected void logHeaders(final HttpResponse stringResponse) {

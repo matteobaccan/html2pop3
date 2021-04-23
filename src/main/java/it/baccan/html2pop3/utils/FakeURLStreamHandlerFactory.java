@@ -34,7 +34,7 @@ public class FakeURLStreamHandlerFactory implements URLStreamHandlerFactory {
             }
             s1 += "com.ms.net.www.protocol|";
             s1 += "sun.net.www.protocol";
-            for (StringTokenizer stringtokenizer = new StringTokenizer(s1, "|"); urlstreamhandler == null && stringtokenizer.hasMoreTokens();) {
+            for (StringTokenizer stringtokenizer = new StringTokenizer(s1, "|"); urlstreamhandler == null && stringtokenizer.hasMoreTokens(); ) {
                 String s2 = stringtokenizer.nextToken().trim();
                 try {
                     String s3 = s2 + "." + s + ".Handler";

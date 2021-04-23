@@ -48,11 +48,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class PluginBase {
 
-    @Getter @Setter private String cookie = "";
-    @Getter @Setter private String location = "";
-    @Getter @Setter private String contentDisposition = "";
-    @Getter @Setter private String contentType = "";
-    @Getter @Setter private boolean debug = false;
+    @Getter
+    @Setter
+    private String cookie = "";
+    @Getter
+    @Setter
+    private String location = "";
+    @Getter
+    @Setter
+    private String contentDisposition = "";
+    @Getter
+    @Setter
+    private String contentType = "";
+    @Getter
+    @Setter
+    private boolean debug = false;
 
     /**
      * @conditional (JVM14)

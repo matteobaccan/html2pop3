@@ -57,6 +57,7 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
 
     private String cError = "";
     private String cServer = "";
+
     //private String cLocalUser = "";
     //private String cLocalPwd = "";
 
@@ -90,11 +91,11 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
             nTok++;
             if (nTok == 1) {
                 //cLocalUser = cTok.trim();
-            } else if (nTok == 2) ;//cLocalServer = cTok.trim();
-            else if (nTok == 3) ;//cLocalPort   = cTok.trim();
-            else if (nTok == 4) {
-                cServer = cTok.trim();
-            }
+            } else if (nTok == 2) ;     //cLocalServer = cTok.trim();
+                else if (nTok == 3) ;         //cLocalPort   = cTok.trim();
+                    else if (nTok == 4) {
+                        cServer = cTok.trim();
+                    }
         }
 
         /* put here allow/deny policy code */
@@ -117,7 +118,7 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
         boolean bRet = false;
         try {
             log.error("Smtp: sendmail init");
-            String cPost = "source=" + URLEncoder.encode(cMsg,CharsetCoding.UTF_8);
+            String cPost = "source=" + URLEncoder.encode(cMsg, CharsetCoding.UTF_8);
             String cPage = postPage(cServer, null, cPost).toString();
             bRet = cPage.startsWith("<HEAD><TITLE>Success</TITLE></HEAD>");
             if (!bRet) {

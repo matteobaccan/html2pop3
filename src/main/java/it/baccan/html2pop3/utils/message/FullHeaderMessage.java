@@ -85,7 +85,7 @@ public class FullHeaderMessage extends MasterMessage {
      * @param body
      * @param attachments
      */
-    public FullHeaderMessage(String headers, String body, Map<java.lang.String,byte[]> attachments) {
+    public FullHeaderMessage(String headers, String body, Map<java.lang.String, byte[]> attachments) {
         this(headers, body);
         this.attachments = attachments;
     }

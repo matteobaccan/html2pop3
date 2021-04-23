@@ -81,7 +81,7 @@ public class PluginFastwebnet extends POP3Base implements POP3Plugin {
                 String cSid = sb.substring(nSid + 19, nSid + 19 + 40);
 
                 // Preparo I parametri per il post
-                String cPost = "AUTH=&ACT=&SEQ=&SID=" + cSid + "&FLIST=timezone&timezone=-60&userid=" + URLEncoder.encode(cUser,CharsetCoding.UTF_8) + "&password=" + URLEncoder.encode(cPwd,CharsetCoding.UTF_8) + "&style=default&domain=default";
+                String cPost = "AUTH=&ACT=&SEQ=&SID=" + cSid + "&FLIST=timezone&timezone=-60&userid=" + URLEncoder.encode(cUser, CharsetCoding.UTF_8) + "&password=" + URLEncoder.encode(cPwd, CharsetCoding.UTF_8) + "&style=default&domain=default";
                 String cCookie = ""; //"WEBUSER=" +URLEncoder.encode( cUser ) +"; WEBPASS=" +URLEncoder.encode( cPwd ) +"; ss=1; TEMPLATE=default";
 
                 sb = postPage(cServer + "/mail/LoginPlain", cCookie, cPost).toString();

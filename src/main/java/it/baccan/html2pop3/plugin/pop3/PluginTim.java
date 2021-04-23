@@ -69,10 +69,10 @@ public class PluginTim extends POP3Base implements POP3Plugin {
             // Preparo I parametri
             String cPost
                     = "USERNAME="
-                    + URLEncoder.encode(cUser,CharsetCoding.UTF_8)
+                    + URLEncoder.encode(cUser, CharsetCoding.UTF_8)
                     + "@tim.it"
                     + "&PASSWORD="
-                    + URLEncoder.encode(cPwd,CharsetCoding.UTF_8)
+                    + URLEncoder.encode(cPwd, CharsetCoding.UTF_8)
                     + "&LOCALE=it_IT-TIM&SELECTEDLOCALE=it_IT-TIM";
 
             // Apro la pagina di posta
@@ -90,8 +90,8 @@ public class PluginTim extends POP3Base implements POP3Plugin {
                     //12345678 9012345678901234567890123456789012345678
                     nPos
                             = cPage.indexOf(
-                                    "<a href=\"/cgi-bin/gx.cgi/AppLogic+mobmain?msgvw=",
-                                    nPos);
+                            "<a href=\"/cgi-bin/gx.cgi/AppLogic+mobmain?msgvw=",
+                            nPos);
                     if (nPos == -1) {
                         break;
                     }
@@ -108,19 +108,19 @@ public class PluginTim extends POP3Base implements POP3Plugin {
                             if (nSizEnd != -1) {
                                 String cSiz
                                         = cPage
-                                                .substring(nSiz + 19, nSizEnd)
-                                                .replace((char) 9, ' ')
-                                                .replace((char) 13, ' ')
-                                                .replace((char) 10, ' ')
-                                                .trim();
+                                        .substring(nSiz + 19, nSizEnd)
+                                        .replace((char) 9, ' ')
+                                        .replace((char) 13, ' ')
+                                        .replace((char) 10, ' ')
+                                        .trim();
                                 if (cSiz.charAt(cSiz.length() - 1) == 'k') {
                                     nLen
                                             = Double
-                                                    .valueOf(
-                                                            cSiz.substring(
-                                                                    0,
-                                                                    cSiz.length() - 1))
-                                                    .intValue()
+                                            .valueOf(
+                                                    cSiz.substring(
+                                                            0,
+                                                            cSiz.length() - 1))
+                                            .intValue()
                                             * 1024;
                                 } else {
                                     nLen = Double.valueOf(cSiz).intValue();
@@ -160,11 +160,11 @@ public class PluginTim extends POP3Base implements POP3Plugin {
 
             String sMail
                     = getPage(
-                            cServer
+                    cServer
                             + "/cgi-bin/gx.cgi/AppLogic+mobmain?msgvw="
                             + cMsgId,
-                            cSessionCook)
-                            .toString();
+                    cSessionCook)
+                    .toString();
 
             int nI1 = sMail.indexOf("Messaggio multimediale:");
             if (nI1 != -1) {
@@ -176,7 +176,7 @@ public class PluginTim extends POP3Base implements POP3Plugin {
                             = replace(sMail.substring(nI2 + 9, nI3), "&amp;", "&");
                     sMail
                             = getPage(cServer + cNewp, cSessionCook)
-                                    .toString();
+                            .toString();
                 }
             }
 
@@ -252,8 +252,8 @@ public class PluginTim extends POP3Base implements POP3Plugin {
                 Locale bLocale = new Locale("en", "US");
                 SimpleDateFormat formatter
                         = new SimpleDateFormat(
-                                "EEE, dd MMM yyyy HH:mm:ss z",
-                                bLocale);
+                        "EEE, dd MMM yyyy HH:mm:ss z",
+                        bLocale);
                 cRet = formatter.format(cal.getTime());
             }
         }
@@ -274,8 +274,8 @@ public class PluginTim extends POP3Base implements POP3Plugin {
             nInfo = cMail.indexOf("<font size=3>", nInf);
             nInfo2
                     = cMail.indexOf(
-                            "</font>\r\n                </td>\r\n              </tr>\r\n            </table>",
-                            nInfo);
+                    "</font>\r\n                </td>\r\n              </tr>\r\n            </table>",
+                    nInfo);
             if (nInfo != -1 && nInfo2 != -1) {
                 cRet = cMail.substring(nInfo + 13, nInfo2).trim();
             }
@@ -328,9 +328,9 @@ public class PluginTim extends POP3Base implements POP3Plugin {
                         "getMessageID   (" + nPos + "):" + tim.getMessageID(nPos));
                 log.info(
                         "getMessageSize ("
-                        + nPos
-                        + "):"
-                        + tim.getMessageSize(nPos));
+                                + nPos
+                                + "):"
+                                + tim.getMessageSize(nPos));
                 log.info(
                         "getMessage     (" + nPos + "):" + tim.getMessage(nPos));
             }

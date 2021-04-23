@@ -72,7 +72,7 @@ public class PluginInfinito extends POP3Base implements POP3Plugin {
             }
 
             // Preparo I parametri
-            String cPost = "uname=" + URLEncoder.encode(cUser,CharsetCoding.UTF_8) + "&upassword=" + URLEncoder.encode(cPwd,CharsetCoding.UTF_8);
+            String cPost = "uname=" + URLEncoder.encode(cUser, CharsetCoding.UTF_8) + "&upassword=" + URLEncoder.encode(cPwd, CharsetCoding.UTF_8);
 
             sb = postPage(cServer + "/InfTransactionLog/1,2818,SAVE_STATE,00.html", null, cPost); //, cServer +"/homepage" );
 

@@ -3705,11 +3705,11 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
             while (true) {
                 log.info("Libero: login reale");
                 String cPostString = "SERVICE_ID=beta_email"
-                        + "&RET_URL=" + URLEncoder.encode(randomHome,CharsetCoding.UTF_8)
-                        + "&LOGINID=" + URLEncoder.encode(cUser,CharsetCoding.UTF_8)
-                        + "&PASSWORD=" + URLEncoder.encode(cPwd,CharsetCoding.UTF_8)
-                        + "&CAPTCHA_ID=" + URLEncoder.encode(cCaptchaID,CharsetCoding.UTF_8)
-                        + "&CAPTCHA_INP=" + URLEncoder.encode(cStringCaptcha,CharsetCoding.UTF_8);
+                        + "&RET_URL=" + URLEncoder.encode(randomHome, CharsetCoding.UTF_8)
+                        + "&LOGINID=" + URLEncoder.encode(cUser, CharsetCoding.UTF_8)
+                        + "&PASSWORD=" + URLEncoder.encode(cPwd, CharsetCoding.UTF_8)
+                        + "&CAPTCHA_ID=" + URLEncoder.encode(cCaptchaID, CharsetCoding.UTF_8)
+                        + "&CAPTCHA_INP=" + URLEncoder.encode(cStringCaptcha, CharsetCoding.UTF_8);
 
                 cLoginPage = postPage("https://login.libero.it/logincheck.php", cSessionCook, cPostString, cLoginUrl).toString();
                 cAllCookie = getCookie();
@@ -3760,7 +3760,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
             if (urlMember.length() > 0) {
                 // Se c'e' la pagina di stazionamento, la salto andando direttamente alla destinazione
                 log.info("Libero: salto pagina di stazionamento (" + retUrl + ")");
-                retUrl = URLDecoder.decode(urlMember,CharsetCoding.UTF_8);
+                retUrl = URLDecoder.decode(urlMember, CharsetCoding.UTF_8);
             }
 
             // Se vengo rediretto da un'altra parte, non ho fatto il login
