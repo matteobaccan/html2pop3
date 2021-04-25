@@ -955,15 +955,6 @@ public abstract class PluginBase {
         //Date: Sat, 10 Jan 2004 1:06:23 +0100
         SimpleDateFormat oFormatDate;
 
-        /*
-       // Puo' andare, a patto che non ci sia l'ora legale, dove l'offset è +0200
-       oFormatDate = new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss"  , java.util.Locale.US );
-       cRet = oFormatDate.format(d_oper);
-       
-       // TODO:
-       // Non e' il modo giusto .. ma per ora facciamolo andar bene :)
-       cRet += " +0100";
-         */
         String cRet = "";
 
         // Nuovo algoritmo basato sull'offset corrente

@@ -9,8 +9,6 @@
 package it.baccan.html2pop3.utils;
 
 import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
-import it.baccan.html2pop3.plugin.pop3.PluginLibero;
-import it.baccan.html2pop3.plugin.pop3.PluginTin;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,15 +32,12 @@ public final class PluginTester {
     public static void main(final String[] args) {
         String user = args[0];
         String pass = args[1];
-        POP3Plugin plugin = null;
-        if (user.contains("@tim.it")) {
-            plugin = new PluginTin();
-        } else if (user.contains("@libero.it")) {
-            plugin = new PluginLibero(PluginLibero.MAIL_LIBERO);
-        } else {
-            log.error("Unknow plugin for [{}]", user);
-        }
-
+        
+        String server = POP3Selector.user2Server(user);
+        log.info("Server used [{}]", server);
+        
+        POP3Plugin plugin = POP3Selector.server2POP3Plugin(server);
+        
         if (plugin != null && plugin.login(user, pass)) {
             int nNum = plugin.getMessageNum();
             int nSiz = plugin.getMessageSize();

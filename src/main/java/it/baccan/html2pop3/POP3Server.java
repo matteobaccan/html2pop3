@@ -19,24 +19,10 @@ package it.baccan.html2pop3;
 
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
-import it.baccan.html2pop3.plugin.pop3.PluginEmailIt;
-import it.baccan.html2pop3.plugin.pop3.PluginLinuxIt;
-import it.baccan.html2pop3.plugin.pop3.PluginTele2;
-import it.baccan.html2pop3.plugin.pop3.PluginGmail;
-import it.baccan.html2pop3.plugin.pop3.PluginHotmail;
-import it.baccan.html2pop3.plugin.pop3.PluginLibero;
-import it.baccan.html2pop3.plugin.pop3.PluginTiscali;
-import it.baccan.html2pop3.plugin.pop3.PluginTin;
-import it.baccan.html2pop3.plugin.pop3.PluginFastwebnet;
-import it.baccan.html2pop3.plugin.pop3.PluginRSS;
-import it.baccan.html2pop3.plugin.pop3.PluginInfinito;
-import it.baccan.html2pop3.plugin.pop3.PluginVirgilio;
-import it.baccan.html2pop3.plugin.pop3.PluginTim;
-import it.baccan.html2pop3.plugin.pop3.PluginSupereva;
-import it.baccan.html2pop3.plugin.pop3.PluginPOP3;
 import it.baccan.html2pop3.utils.EchoClient;
 import it.baccan.html2pop3.utils.MsgBox;
 import it.baccan.html2pop3.utils.HTMLTool;
+import it.baccan.html2pop3.utils.POP3Selector;
 import it.baccan.html2pop3.utils.Version;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -60,20 +46,20 @@ import lombok.extern.slf4j.Slf4j;
 public class POP3Server extends BaseServer {
 
     private String cLoginString = "+OK HTML2POP3 server ready (" + Version.getVersion() + ")";
-    private Properties config = new Properties();
+    private Properties tunnelpop3 = new Properties();
 
     /**
      *
-     * @param p
+     * @param html2pop3
      */
-    public POP3Server(HTML2POP3 p) {
-        super(p);
+    public POP3Server(HTML2POP3 html2pop3) {
+        super(html2pop3);
 
-        String cPath = p.getConfigPath();
+        String cPath = html2pop3.getConfigPath();
         String cConfig = "tunnelpop3.cfg";
         try {
             try (FileInputStream fis = new FileInputStream(cPath + cConfig)) {
-                config.load(fis);
+                tunnelpop3.load(fis);
             }
         } catch (FileNotFoundException fnf) {
             log.info("Non riesco a leggere il file " + cPath + cConfig);
@@ -86,22 +72,22 @@ public class POP3Server extends BaseServer {
         return (getTunnelConversion(cEmail).length() > 0);
     }
 
-    private String getTunnelConversion(String fullEmail) {
-        String cRet = "";
+    private String getTunnelConversion(final String fullEmail) {
+        String ret = "";
 
-        String cEmail = fullEmail;
+        String email = fullEmail;
         // Stacco la parte @qualcosa e la cerco nel config
-        int nPos = cEmail.indexOf("@");
+        int nPos = email.indexOf("@");
         if (nPos != -1) {
-            String cUser = cEmail.substring(0, nPos);
-            cEmail = cEmail.substring(nPos + 1).toLowerCase();
-            cRet = config.getProperty(cEmail, "");
-            if (cRet.length() > 0) {
-                cRet = cRet.replace("%email%", cUser + "@" + cEmail);
-                cRet = cRet.replace("%user%", cUser);
+            String cUser = email.substring(0, nPos);
+            email = email.substring(nPos + 1).toLowerCase();
+            ret = tunnelpop3.getProperty(email, "");
+            if (ret.length() > 0) {
+                ret = ret.replace("%email%", cUser + "@" + email);
+                ret = ret.replace("%user%", cUser);
             }
         }
-        return cRet;
+        return ret;
     }
 
     @Override
@@ -162,7 +148,7 @@ public class POP3Server extends BaseServer {
     class pop3Thread extends Thread {
 
         private final Socket socket;
-        private POP3Plugin hp = null;
+        private POP3Plugin pop3Plugin = null;
 
         public pop3Thread(Socket s) {
             socket = s;
@@ -184,34 +170,6 @@ public class POP3Server extends BaseServer {
             } catch (IOException e) {
                 log.error("Error closing socket", e);
             }
-        }
-
-        /**
-         * @conditional (JVM14)
-         */
-        private void getTele2() {
-            hp = new PluginTele2();
-        }
-
-        /**
-         * @conditional (JVM14)
-         */
-        private void getHotmail() {
-            hp = new PluginHotmail();
-        }
-
-        /**
-         * @conditional (JVM14)
-         */
-        private void getGmail() {
-            hp = new PluginGmail();
-        }
-
-        /**
-         * @conditional (JVM14)
-         */
-        private void getLinuxIt() {
-            hp = new PluginLinuxIt();
         }
 
         private void manage(Socket socket) throws Throwable {
@@ -241,7 +199,7 @@ public class POP3Server extends BaseServer {
             String cPassword = "";
             ArrayList<Double> aDel = new ArrayList<>();
 
-            hp = null;
+            pop3Plugin = null;
 
             // main loop
             while (!bExit) {
@@ -291,7 +249,7 @@ public class POP3Server extends BaseServer {
                             cPassword = cLine.substring(5);
                         }
 
-                        hp = null;
+                        pop3Plugin = null;
                         int nServer = cUser.indexOf(";");
                         String cServer = "";
                         if (nServer != -1) {
@@ -312,62 +270,8 @@ public class POP3Server extends BaseServer {
                                 log.info("POP3 server: tunneling mode. User converted to " + cUser);
 
                                 // Per gli utenti pigri
-                            } else if (cUser.toUpperCase().indexOf("@LIBERO.IT") != -1) {
-                                cServer = "libero.it";
-                            } else if (cUser.toUpperCase().indexOf("@INWIND.IT") != -1) {
-                                cServer = "inwind.it";
-                            } else if (cUser.toUpperCase().indexOf("@BLU.IT") != -1) {
-                                cServer = "blu.it";
-                            } else if (cUser.toUpperCase().indexOf("@GIALLO.IT") != -1) {
-                                cServer = "giallo.it";
-                            } else if (cUser.toUpperCase().indexOf("@IOL.IT") != -1) {
-                                cServer = "iol.it";
-                            } else if (cUser.toUpperCase().indexOf("@INFINITO.IT") != -1) {
-                                cServer = "infinito.it";
-                            } else if (cUser.toUpperCase().indexOf("@GENIE.IT") != -1) {
-                                cServer = "infinito.it";
-                            } else if (cUser.toUpperCase().indexOf("@TISCALI.IT") != -1) {
-                                cServer = "tiscali.it";
-                            } else if (cUser.toUpperCase().indexOf("@FASTWEBNET.IT") != -1) {
-                                cServer = "fastwebnet.it";
-                            } else if (cUser.toUpperCase().indexOf("@TIN.IT") != -1
-                                    || cUser.toUpperCase().indexOf("@ATLANTIDE.IT") != -1
-                                    || cUser.toUpperCase().indexOf("@TIM.IT") != -1) {
-                                cServer = "tin.it";
-                            } else if (cUser.toUpperCase().indexOf("@VIRGILIO.IT") != -1) {
-                                cServer = "virgilio.it";
-                            } else if (cUser.toUpperCase().indexOf("@HOTMAIL.COM") != -1) {
-                                cServer = "hotmail.com";
-                            } else if (cUser.toUpperCase().indexOf("@SUPEREVA.IT") != -1
-                                    || cUser.toUpperCase().indexOf("@FREEMAIL.IT") != -1
-                                    || cUser.toUpperCase().indexOf("@FREEWEB.ORG") != -1
-                                    || cUser.toUpperCase().indexOf("@SUPERSONIC.IT") != -1
-                                    || //
-                                    cUser.toUpperCase().indexOf("@DADACASA.COM") != -1
-                                    || //
-                                    cUser.toUpperCase().indexOf("@CONCENTO.IT") != -1
-                                    || //
-                                    cUser.toUpperCase().indexOf("@CLARENCE.COM") != -1
-                                    || //
-                                    cUser.toUpperCase().indexOf("@CICCIOCICCIO.COM") != -1
-                                    || cUser.toUpperCase().indexOf("@MYBOX.IT") != -1
-                                    || cUser.toUpperCase().indexOf("@MP4.IT") != -1
-                                    || cUser.toUpperCase().indexOf("@SUPERDADA.COM") != -1) {
-                                cServer = "supereva.it";
-                            } else if (cUser.toUpperCase().indexOf("@TELE2.IT") != -1) {
-                                cServer = "tele2.it";
-                            } else if (cUser.toUpperCase().indexOf("@GMAIL.COM") != -1) {
-                                cServer = "gmail.com";
-                            } else if (cUser.toUpperCase().indexOf("@RSS") != -1) {
-                                cServer = "rss";
-                            } else if (cUser.toUpperCase().indexOf("@AGGREGATOR") != -1) {
-                                cServer = "rss";
-                            } else if (cUser.toUpperCase().indexOf("@LINUX.IT") != -1) {
-                                cServer = "linux.it";
-                            } else if (cUser.toUpperCase().indexOf("@EMAIL.IT") != -1) {
-                                cServer = "email.it";
                             } else {
-                                cServer = "libero.it";
+                                cServer = POP3Selector.user2Server(cUser);
                             }
                         }
 
@@ -394,85 +298,30 @@ public class POP3Server extends BaseServer {
                             return;
                         }
 
-                        if (cServer.equalsIgnoreCase("libero.it")) {
-                            hp = new PluginLibero(PluginLibero.MAIL_LIBERO);
-                        } else if (cServer.equalsIgnoreCase("inwind.it")) {
-                            hp = new PluginLibero(PluginLibero.MAIL_INWIND);
-                        } else if (cServer.equalsIgnoreCase("blu.it")) {
-                            hp = new PluginLibero(PluginLibero.MAIL_BLU);
-                        } else if (cServer.equalsIgnoreCase("iol.it")) {
-                            hp = new PluginLibero(PluginLibero.MAIL_IOL);
-                        } else if (cServer.equalsIgnoreCase("giallo.it")) {
-                            hp = new PluginLibero(PluginLibero.MAIL_GIALLO);
-                        } else if (cServer.equalsIgnoreCase("infinito.it")) {
-                            hp = new PluginInfinito();
-                        } else if (cServer.equalsIgnoreCase("tiscali.it")) {
-                            hp = new PluginTiscali();
-                        } else if (cServer.equalsIgnoreCase("fastwebnet.it")) {
-                            hp = new PluginFastwebnet();
-                        } else if (cServer.equalsIgnoreCase("email.it")) {
-                            hp = new PluginEmailIt();
-                        } else if (cServer.equalsIgnoreCase("tin.it")) {
-                            hp = new PluginTin();
-                        } else if (cServer.equalsIgnoreCase("virgilio.it")) {
-                            hp = new PluginVirgilio();
-                        } else if (cServer.equalsIgnoreCase("tim.it")) {
-                            hp = new PluginTim();
-                            //} else if( cServer.equalsIgnoreCase("aliceposta.it") ){
-                            //hp = new pluginaliceposta();
-                        } else if (cServer.equalsIgnoreCase("hotmail.com")) {
-                            //if( getParent().getIsWin32() ) {
-                            //   log.error( "Hotmail non supportato nella versione Win32" );
-                            //}
+                        pop3Plugin = POP3Selector.server2POP3Plugin(cServer);
 
-                            getHotmail();
-
-                        } else if (cServer.equalsIgnoreCase("supereva.it")) {
-                            hp = new PluginSupereva();
-                        } else if (cServer.equalsIgnoreCase("tele2.it")) {
-                            //if( getParent().getIsWin32() ) {
-                            //   log.error( "Tele2 non supportato nella versione Win32" );
-                            //}
-
-                            getTele2();
-
-                        } else if (cServer.equalsIgnoreCase("gmail.com")) {
-                            //if( getParent().getIsWin32() ) {
-                            //   log.error( "Gmail non supportato nella versione Win32" );
-                            //}
-
-                            getGmail();
-
-                        } else if (cServer.equalsIgnoreCase("linux.it")) {
-                            getLinuxIt();
-                        } else if (cServer.equalsIgnoreCase("pop3")) {
-                            hp = new PluginPOP3();
-                        } else if (cServer.equalsIgnoreCase("rss")) {
-                            hp = new PluginRSS();
-                        }
-
-                        if (hp != null) {
+                        if (pop3Plugin != null) {
                             // Now I can login on server, depending on requested server
-                            hp.setMaxMessageNum(getParent().getMaxEmail());
+                            pop3Plugin.setMaxMessageNum(getParent().getMaxEmail());
                             // Set Debug
-                            hp.setDebug(getParent().isDebug());
+                            pop3Plugin.setDebug(getParent().isDebug());
 
-                            boolean bLogin = hp.login(cUser, cPassword);
+                            boolean bLogin = pop3Plugin.login(cUser, cPassword);
 
                             if (bLogin) {
-                                if (hp.list()) {
+                                if (pop3Plugin.list()) {
                                     //if( getParent().getMaxEmail()!=-1 ) hp.setMessageNum(getParent().getMaxEmail());
-                                    html.putData(SO, "+OK " + hp.getMessageNum() + " messages\r\n");
+                                    html.putData(SO, "+OK " + pop3Plugin.getMessageNum() + " messages\r\n");
                                     if (!getParent().getLifo()) {
-                                        hp.invertSort();
+                                        pop3Plugin.invertSort();
                                     }
-                                    log.info(cServer + ": Trovati " + hp.getMessageNum() + " messaggi");
+                                    log.info(cServer + ": Trovati " + pop3Plugin.getMessageNum() + " messaggi");
                                 } else {
                                     html.putData(SO, "-ERR errore durante la creazione della lista email\r\n");
                                 }
                             } else {
-                                if (hp.getLastErr().length() > 0) {
-                                    html.putData(SO, "-ERR " + hp.getLastErr() + "\r\n");
+                                if (pop3Plugin.getLastErr().length() > 0) {
+                                    html.putData(SO, "-ERR " + pop3Plugin.getLastErr() + "\r\n");
                                 } else {
                                     html.putData(SO, "-ERR invalid password\r\n");
                                 }
@@ -493,13 +342,13 @@ public class POP3Server extends BaseServer {
                     if (nPos == -1) {
                         html.putData(SO, "-ERR Protocol error\r\n");
                     } else {
-                        if (hp == null) {
+                        if (pop3Plugin == null) {
                             html.putData(SO, "-ERR Command is not valid in this state\r\n");
                         } else {
                             int nMsg = Double.valueOf(cLine.substring(4, nPos).trim()).intValue();
                             int nLine = Double.valueOf(cLine.substring(nPos).trim()).intValue();
-                            if (!hp.streamMessageTop(SO, nMsg, nLine)) {
-                                String cMessage = hp.getMessageTop(nMsg, nLine);
+                            if (!pop3Plugin.streamMessageTop(SO, nMsg, nLine)) {
+                                String cMessage = pop3Plugin.getMessageTop(nMsg, nLine);
                                 if (cMessage != null) {
                                     cMessage = "+OK top of message follows\r\n" + cMessage + ".\r\n";
                                     html.putData(SO, cMessage);
@@ -523,7 +372,7 @@ public class POP3Server extends BaseServer {
 
                 } else if (cLineUpper.startsWith("NOOP")) {
                     // RFC 1939 compliant
-                    if (hp == null) {
+                    if (pop3Plugin == null) {
                         html.putData(SO, "-ERR unrecognized POP3 command or wrong state\r\n");
                     } else {
                         html.putData(SO, "+OK\r\n");
@@ -556,13 +405,13 @@ public class POP3Server extends BaseServer {
                         // ----------------------
                     }
 
-                    if (hp == null) {
+                    if (pop3Plugin == null) {
                         html.putData(SO, "-ERR Command is not valid in this state\r\n");
                     } else {
                         // Non complinant al 100%
                         // Note that messages marked as deleted are not counted in either total.
                         // Minimal implementations should just end that line of the response with a CRLF pair
-                        String cMessage = "+OK " + hp.getMessageNum() + " " + hp.getMessageSize();
+                        String cMessage = "+OK " + pop3Plugin.getMessageNum() + " " + pop3Plugin.getMessageSize();
                         html.putData(SO, cMessage + "\r\n");
                         if (bDebug) {
                             log.info(cMessage);
@@ -582,46 +431,46 @@ public class POP3Server extends BaseServer {
                     //} else if( cLineUpper.startsWith("STLS") ){
                     //html.putData( SO, "+OK Begin SSL/TLS negotiation now.\r\n" );
                 } else if (cLineUpper.startsWith("LIST")) {
-                    if (hp == null) {
+                    if (pop3Plugin == null) {
                         html.putData(SO, "-ERR Command is not valid in this state\r\n");
                     } else {
                         if (cLine.length() > 5) {
                             int nMsg = Double.valueOf(cLine.substring(4).trim()).intValue();
-                            int nNum = hp.getMessageNum();
+                            int nNum = pop3Plugin.getMessageNum();
                             if (nMsg > nNum) {
                                 html.putData(SO, "-ERR no such message, only " + nNum + " messages in maildrop\r\n");
                             } else {
-                                html.putData(SO, "+OK " + nMsg + " " + hp.getMessageSize(nMsg) + "\r\n");
+                                html.putData(SO, "+OK " + nMsg + " " + pop3Plugin.getMessageSize(nMsg) + "\r\n");
                             }
 
                         } else {
                             html.putData(SO, "+OK\r\n");
-                            int nNum = hp.getMessageNum();
+                            int nNum = pop3Plugin.getMessageNum();
                             for (int nPos = 1; nPos <= nNum; nPos++) {
-                                html.putData(SO, "" + nPos + " " + hp.getMessageSize(nPos) + "\r\n");
+                                html.putData(SO, "" + nPos + " " + pop3Plugin.getMessageSize(nPos) + "\r\n");
                             }
                             html.putData(SO, ".\r\n");
                         }
                     }
 
                 } else if (cLineUpper.startsWith("UIDL")) {
-                    if (hp == null) {
+                    if (pop3Plugin == null) {
                         html.putData(SO, "-ERR Command is not valid in this state\r\n");
                     } else {
                         if (cLine.length() > 5) {
                             int nMsg = Double.valueOf(cLine.substring(4).trim()).intValue();
-                            int nNum = hp.getMessageNum();
+                            int nNum = pop3Plugin.getMessageNum();
                             if (nMsg > nNum) {
                                 html.putData(SO, "-ERR no such message, only " + nNum + " messages in maildrop\r\n");
                             } else {
-                                html.putData(SO, "+OK " + nMsg + " " + hp.getMessageID(nMsg) + "\r\n");
+                                html.putData(SO, "+OK " + nMsg + " " + pop3Plugin.getMessageID(nMsg) + "\r\n");
                             }
 
                         } else {
                             html.putData(SO, "+OK\r\n");
-                            int nNum = hp.getMessageNum();
+                            int nNum = pop3Plugin.getMessageNum();
                             for (int nPos = 1; nPos <= nNum; nPos++) {
-                                String cMessage = "" + nPos + " " + hp.getMessageID(nPos);
+                                String cMessage = "" + nPos + " " + pop3Plugin.getMessageID(nPos);
                                 html.putData(SO, cMessage + "\r\n");
                                 if (bDebug) {
                                     log.info(cMessage);
@@ -636,12 +485,12 @@ public class POP3Server extends BaseServer {
                     if (cLine.length() == 4) {
                         html.putData(SO, "-ERR Protocol error\r\n");
                     } else {
-                        if (hp == null) {
+                        if (pop3Plugin == null) {
                             html.putData(SO, "-ERR Command is not valid in this state\r\n");
                         } else {
                             int nMsg = Double.valueOf(cLine.substring(4).trim()).intValue();
-                            if (!hp.streamMessage(SO, nMsg)) {
-                                String cMessage = hp.getMessage(nMsg);
+                            if (!pop3Plugin.streamMessage(SO, nMsg)) {
+                                String cMessage = pop3Plugin.getMessage(nMsg);
                                 if (cMessage != null) {
                                     html.putData(SO, "+OK " + cMessage.length() + 2 + " bytes\r\n");
                                     html.putData(SO, cMessage + "\r\n");
@@ -690,16 +539,16 @@ public class POP3Server extends BaseServer {
                         }
                     }
 
-                    if (hp != null) {
+                    if (pop3Plugin != null) {
                         // Cancello se devo cancellare
                         if (getParent().isDelete()) {
                             if (!aDel.isEmpty()) {
                                 log.info("Start removing deleted message from queue ...");
                             }
-                            hp.delMessageStart();
+                            pop3Plugin.delMessageStart();
                             for (int nCur = 0; nCur < aDel.size(); nCur++) {
                                 int nMsg = aDel.get(nCur).intValue();
-                                if (hp.delMessage(nMsg)) {
+                                if (pop3Plugin.delMessage(nMsg)) {
                                     log.info("POP3 server: deleted " + nMsg);
                                 } else {
                                     log.error("POP3 server: error deleting " + nMsg);
@@ -709,13 +558,13 @@ public class POP3Server extends BaseServer {
                             // Pulisco il cestino, solo se ho cancellato qualcosa
                             if (!aDel.isEmpty()) {
                                 try {
-                                    hp.delMessagesFromTrash();
+                                    pop3Plugin.delMessagesFromTrash();
                                 } catch (DeleteMessageException dme) {
                                     log.error("POP3 server: Error while emptying web trash. DeleteMessageException: [{}]", dme.getMessage());
                                 }
                             }
 
-                            hp.delMessageEnd();
+                            pop3Plugin.delMessageEnd();
                             if (!aDel.isEmpty()) {
                                 log.info("End removing deleted message from queue ...");
                             }
@@ -736,6 +585,7 @@ public class POP3Server extends BaseServer {
                 }
             }
         }
+
 
     }
 }
