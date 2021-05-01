@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
-    private static final int nNumMsg = 25;
+    private static final int NUMMSG = 25;
     private static String cConfigPath = "";
     private static String cConfig = "";
     private Vector<String> aOver = new Vector<>();
@@ -138,7 +138,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
         }
 
         try {
-            String cPage = getPage("http://groups.google.it/groups?hl=it&lr=&ie=UTF-8&num=" + nNumMsg + "&group=" + cGroup).toString();
+            String cPage = getPage("http://groups.google.it/groups?hl=it&lr=&ie=UTF-8&num=" + NUMMSG + "&group=" + cGroup).toString();
             Vector<String> aSelm = getSelm(cPage, true);
 
             long nPosMin = 0;

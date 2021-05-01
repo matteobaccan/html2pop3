@@ -1,9 +1,8 @@
 package it.baccan.html2pop3.utils.message;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import java.io.BufferedReader;
 import java.io.StringReader;
-
-import it.baccan.html2pop3.utils.CharsetCoding;
 import java.util.Base64;
 
 /**
@@ -29,11 +28,8 @@ import java.util.Base64;
  *
  * Licence details at http://www.gnu.org/licenses/gpl.txt
  */
-public abstract class MasterMessage implements CharsetCoding, IPopMessage {
+public abstract class MasterMessage  extends CharsetCoding implements IPopMessage {
 
-    /* (non-Javadoc)
-	 * @see it.baccan.utils.message.IPopMessage#getMessage()
-     */
     /**
      *
      * @return
@@ -48,22 +44,20 @@ public abstract class MasterMessage implements CharsetCoding, IPopMessage {
      * @return
      */
     protected String format(String s) {
-        String cRet = null;
+        String cRet;
         try {
-            //log.info( s );
-            StringBuffer stringbuffer = new StringBuffer();
+            StringBuilder stringbuffer = new StringBuilder();
 
             BufferedReader in = new BufferedReader(new StringReader(s));
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 if (inputLine.startsWith(".")) {
-                    inputLine = "." + inputLine;
+                    stringbuffer.append(".");
                 }
                 stringbuffer.append(inputLine + (char) 13 + (char) 10);
             }
             cRet = stringbuffer.toString();
-            //log.info( cRet );
         } catch (Throwable e) {
             cRet = null;
         }
@@ -76,7 +70,7 @@ public abstract class MasterMessage implements CharsetCoding, IPopMessage {
      * @return
      */
     protected String get64EncodedAttach(byte[] content) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int nBlock = 0; nBlock < content.length; nBlock += 60) {
             int nLen = 60;
             if (nBlock + nLen >= content.length) {

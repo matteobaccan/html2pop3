@@ -130,7 +130,11 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                 });
 
                 // Prendo la redirect
-                // FIXME migliorare il controllo
+                if (stringResponse.getHeaders().get("Location").isEmpty()) {
+                    log.error("Possibile Errore di login");
+                    break;
+                }
+
                 String homepageUrl = stringResponse.getHeaders().get("Location").get(0);
 
                 log.info("email.it: home [{}]", homepageUrl);
@@ -161,8 +165,8 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                         break;
                     }
 
-                    String so = href.substring(href.indexOf("&s0="));
-                    so = so.substring(0, so.indexOf("&" + 1));
+                    String so = href.substring(href.indexOf("&so="));
+                    so = so.substring(0, so.indexOf("&", 1));
 
                     HttpResponse<String> page = getUnirest().get(EMAILIT_DOMAIN + "h/search?sfi=" + sfi + so).asString();
                     strongDoc = Jsoup.parse(page.getBody());
@@ -209,23 +213,23 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
      */
     @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
-        StringBuffer oMail = new StringBuffer();
+        StringBuilder oMail = new StringBuilder();
         try {
-            log.error("email.it: getmail init");
+            log.debug("email.it: getmail init");
 
             String cMsgId = getMessageID(nPos);
 
-            log.error("email.it: getmail ID (" + cMsgId + ")");
+            log.debug("email.it: getmail ID (" + cMsgId + ")");
 
             String cSessionCook = ZM_AUTH_TOKEN + "=" + auth.get();
 
-            oMail = getPage(EMAILIT_DOMAIN + "service/home/~/?auth=co&view=text&id=" + cMsgId, cSessionCook, nLine, bAll);
+            oMail.append(getPage(EMAILIT_DOMAIN + "service/home/~/?auth=co&view=text&id=" + cMsgId, cSessionCook, nLine, bAll));
 
-            if (getContentType().indexOf("text/plain") == -1) {
+            if (!getContentType().contains("text/plain")) {
                 oMail = null;
             }
 
-            log.error("email.it: getmail end");
+            log.debug("email.it: getmail end");
 
         } catch (FileNotFoundException fnf) {
             oMail = null;
@@ -251,7 +255,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
 
             log.info("email.it: delmessage ID " + cMsgId);
 
-            HttpResponse<String> response = getUnirest().post(EMAILIT_DOMAIN + "h/search")
+            getUnirest().post(EMAILIT_DOMAIN + "h/search")
                     .queryString("si", "0")
                     .queryString("so", "0")
                     .queryString("sc", "38434")
@@ -274,7 +278,6 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                     .field("crumb", crumb)
                     .field("selectedRow", "0")
                     .asString();
-            String sb = response.getBody();
 
             bRet = true;
 
@@ -297,6 +300,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
     private boolean addEmails(final Document strongDoc) {
         AtomicBoolean ret = new AtomicBoolean(false);
         Elements trs = strongDoc.getElementsByClass("ZhRow");
+        trs.addAll(strongDoc.getElementsByClass("ZhRowOdd"));
         trs.forEach(tr -> {
             Elements as = tr.getElementsByTag("a");
             as.forEach(a -> {
@@ -305,6 +309,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                 if (href.contains(token)) {
                     String id = href.substring(href.indexOf(token) + token.length());
                     if (addEmailInfo(id, 1000)) {
+                        log.info("email.it: add email [{}]", id);
                         ret.set(true);
                     }
                 }

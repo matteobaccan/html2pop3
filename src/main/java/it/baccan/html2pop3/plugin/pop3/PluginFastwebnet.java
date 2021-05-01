@@ -182,7 +182,6 @@ public class PluginFastwebnet extends POP3Base implements POP3Plugin {
             String cMsgId = getMessageID(nPos);
 
             log.error("Fastwebnet: getmail ID (" + cMsgId + ")");
-            //                     log.info(cServer +cLeft +cMsgId +cRight);
             String sb = getPage(cServer + cLeft + cMsgId + cRight, cSessionCook).toString();
 
             POP3Message pop3 = new POP3Message();

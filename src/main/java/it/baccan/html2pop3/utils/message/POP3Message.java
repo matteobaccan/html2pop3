@@ -22,7 +22,7 @@ import it.baccan.html2pop3.utils.LineFormat;
 import it.baccan.html2pop3.utils.Version;
 import java.io.BufferedReader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import lombok.Getter;
@@ -306,13 +306,7 @@ public class POP3Message extends MasterMessage {
 
         // Encoding
         if (bEncode && bRFC2047) {
-            try {
-                // encoded-word = "=?" charset "?" encoding "?" encoded-text "?="
-                cRet = "=?" + getCharset() + "?" + "B" + "?" + Base64.getEncoder().encodeToString(cStr.getBytes("UTF-8")) + "?=";
-            } catch (UnsupportedEncodingException ex) {
-                log.error("Error encoding, use Q encode", ex);
-                cRet = "=?" + getCharset() + "?" + "Q" + "?" + cEncode + "?=";
-            }
+            cRet = "=?" + getCharset() + "?" + "B" + "?" + Base64.getEncoder().encodeToString(cStr.getBytes(StandardCharsets.UTF_8)) + "?=";
         }
         return cRet;
     }
