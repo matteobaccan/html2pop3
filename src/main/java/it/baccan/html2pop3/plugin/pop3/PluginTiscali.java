@@ -419,7 +419,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      *
      * @param b
      */
-    static public void setDelete(boolean b) {
+    public static void setDelete(boolean b) {
         delete = b;
     }
 
@@ -427,7 +427,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      *
      * @return
      */
-    static public boolean isDelete() {
+    public static boolean isDelete() {
         return delete;
     }
 

@@ -47,10 +47,10 @@ public class BaseServer extends Thread {
 
     /**
      *
-     * @param p
+     * @param html2pop3
      */
-    public BaseServer(final HTML2POP3 p) {
-        parent = p;
+    public BaseServer(final HTML2POP3 html2pop3) {
+        parent = html2pop3;
     }
 
     /**

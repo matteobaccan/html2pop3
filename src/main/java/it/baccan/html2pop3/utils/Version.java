@@ -22,14 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Version {
 
-    private static String version = null;
+    private Version() {
+    }
+
+    private static String html2pop3version = null;
 
     /**
      *
      * @return
      */
-    static public String getVersion() {
-        if (version == null) {
+    public static String getVersion() {
+        if (html2pop3version == null) {
             Class clazz = Version.class;
             String className = clazz.getSimpleName() + ".class";
             String classPath = clazz.getResource(className).toString();
@@ -38,14 +41,14 @@ public class Version {
                 try {
                     Manifest manifest = new Manifest(new URL(manifestPath).openStream());
                     Attributes attr = manifest.getMainAttributes();
-                    version = attr.getValue("Implementation-Version");
+                    html2pop3version = attr.getValue("Implementation-Version");
                 } catch (IOException iOException) {
                     log.error("Errr", iOException);
                 }
             } else {
-                version = "";
+                html2pop3version = "";
             }
         }
-        return version;
+        return html2pop3version;
     }
 }

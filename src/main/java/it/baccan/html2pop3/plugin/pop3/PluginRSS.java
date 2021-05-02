@@ -249,24 +249,24 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
         }
 
         // &amp; -> & XML conversion
-        cRss = replace(cRss, "&amp;", "&");
+        cRss = cRss.replace( "&amp;", "&");
 
         if (cEnc.equalsIgnoreCase("ISO-8859-1")) {
-            cRss = replace(cRss, "" + 0xe0, "&agrave;");
-            cRss = replace(cRss, "" + 0xc0, "&Agrave;");
-            cRss = replace(cRss, "" + 0xec, "&igrave;");
-            cRss = replace(cRss, "" + 0xcc, "&Igrave;");
-            cRss = replace(cRss, "" + 0xe8, "&egrave;");
-            cRss = replace(cRss, "" + 0xc8, "&Egrave;");
-            cRss = replace(cRss, "" + 0xf2, "&ograve;");
-            cRss = replace(cRss, "" + 0xd2, "&Ograve;");
-            cRss = replace(cRss, "" + 0xf9, "&ugrave;");
-            cRss = replace(cRss, "" + 0xd9, "&Ugrave;");
+            cRss = cRss.replace( "" + 0xe0, "&agrave;");
+            cRss = cRss.replace( "" + 0xc0, "&Agrave;");
+            cRss = cRss.replace( "" + 0xec, "&igrave;");
+            cRss = cRss.replace( "" + 0xcc, "&Igrave;");
+            cRss = cRss.replace( "" + 0xe8, "&egrave;");
+            cRss = cRss.replace( "" + 0xc8, "&Egrave;");
+            cRss = cRss.replace( "" + 0xf2, "&ograve;");
+            cRss = cRss.replace( "" + 0xd2, "&Ograve;");
+            cRss = cRss.replace( "" + 0xf9, "&ugrave;");
+            cRss = cRss.replace( "" + 0xd9, "&Ugrave;");
         }
         // Serve per far funzionare i tag HTML
-        cRss = replace(cRss, "&gt;", ">");
-        cRss = replace(cRss, "&lt;", "<");
-        cRss = replace(cRss, "&quot;", "\"");
+        cRss = cRss.replace( "&gt;", ">");
+        cRss = cRss.replace( "&lt;", "<");
+        cRss = cRss.replace( "&quot;", "\"");
         return cRss;
     }
 

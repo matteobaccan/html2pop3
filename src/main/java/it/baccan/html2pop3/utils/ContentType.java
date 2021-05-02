@@ -29,7 +29,7 @@ public class ContentType {
      *
      * @return
      */
-    static public ContentType getInstance() {
+    public static ContentType getInstance() {
         if (instance == null) {
             instance = new ContentType();
         }

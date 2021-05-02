@@ -17,7 +17,6 @@
  */
 package it.baccan.html2pop3;
 
-import it.baccan.html2pop3.plugin.PluginBase;
 import it.baccan.html2pop3.plugin.nntp.PluginNNTP;
 import it.baccan.html2pop3.plugin.pop3.PluginTin;
 import it.baccan.html2pop3.plugin.pop3.PluginLibero;
@@ -54,6 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HTML2POP3 extends Thread {
 
     private static String config = "config.cfg";
+    //private static String configPath = "";
     private Filter pop3IpFilter = new Filter();
     private Filter pop3PluginFilter = new Filter();
     private Filter pop3UserFilter = new Filter();
@@ -103,7 +103,7 @@ public class HTML2POP3 extends Thread {
      *
      * @param args
      */
-    static public void main(String args[]) {
+    public static void main(String args[]) {
         // Creo un oggetto html2pop3
         HTML2POP3 html2pop3 = HTML2POP3.getInstance();
         // Imposto l'eventuale config
@@ -120,18 +120,30 @@ public class HTML2POP3 extends Thread {
      *
      * @return
      */
-    static public String getConfig() {
+    public static String getConfig() {
         return config;
     }
 
+    //public static String getConfigPath() {
+    //    return configPath;
+    //}
     /**
+     * Change config filename.
      *
-     * @param c
+     * @param config new Config filename
      */
-    static public void setConfig(String c) {
-        config = c;
+    public static void setConfig(final String config) {
+        HTML2POP3.config = config;
     }
 
+    /**
+     * Overwrite config path.
+     *
+     * @param configPath new ConfigPath
+     */
+    //public static void setConfigPath(final String configPath) {
+    //    HTML2POP3.configPath = configPath;
+    //}
     /**
      *
      * @param args
@@ -141,6 +153,9 @@ public class HTML2POP3 extends Thread {
             if (args[nPar].equalsIgnoreCase("-config") && nPar + 1 < args.length) {
                 HTML2POP3.setConfig(args[nPar + 1]);
             }
+            //if (args[nPar].equalsIgnoreCase("-configdir") && nPar + 1 < args.length) {
+            //    HTML2POP3.setConfigPath(args[nPar + 1]);
+            //}
         }
     }
 
@@ -275,8 +290,6 @@ public class HTML2POP3 extends Thread {
             // NNTP
             PluginNNTP.setConfig(getConfigPath(), "nntp.cfg");
 
-            // Size del log
-            //logStreamMemo.setLogSize(Double.valueOf(p.getProperty("logsize", "2000000")).intValue());
             // Plugin specific
             PluginTiscali.setDelete(p.getProperty("tiscali.delete", "true").equalsIgnoreCase("true"));
             PluginTin.setDelete(p.getProperty("tin.delete", "true").equalsIgnoreCase("true"));
@@ -451,6 +464,7 @@ public class HTML2POP3 extends Thread {
             File file = new File(config);
             cRet = file.getAbsolutePath();
         } catch (Throwable e) {
+            log.error("getConfigFullPath", e);
         }
         return cRet;
     }
@@ -586,13 +600,8 @@ public class HTML2POP3 extends Thread {
         log.info("| POP3/SMTP/NNTP simulation server                           Version " + cVer + " |");
         log.info("| Matteo Baccan Opensource Software                    https://www.baccan.it |");
         log.info("+---------------------------------------------------------------------------+");
-        //if( bIsWin32 ){
-        //    log.info( "Java Version: " +System.getProperty("java.version") );
-        //} else {
         log.info("Java Runtime: " + System.getProperty("java.runtime.name"));
         log.info("Java Version: " + System.getProperty("java.vm.version"));
-        //}
-
         log.info("Config path: " + getConfigFullPath());
 
         if (port > 0) {
@@ -649,7 +658,6 @@ public class HTML2POP3 extends Thread {
         }
         log.info("Attach email originale nella posta emulata: " + POP3Message.getAddHTML());
         log.info("Numero di download massimi per sessione: " + maxEmail);
-        //log.info("Dimensione del file di log: " + logStreamMemo.getLogSize());
         log.info("Tunneling server " + p.getProperty("tunnelingserver", "https://www.baccan.it/pop3/"));
         log.info("-----------------------------------------------------------------------------");
         log.info("Plugin specific setting");
@@ -665,7 +673,9 @@ public class HTML2POP3 extends Thread {
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             String value = (String) p.get(key);
-            log.info(key + ": " + PluginBase.replace(PluginBase.replace(PluginBase.replace(value, "\r", "\\r"), "\n", "\\n"), "\t", "\\t"));
+            log.info("[{}]: [{}]", key, value.replace("\r", "\\r")
+                    .replace("\n", "\\n")
+                    .replace("\t", "\\t"));
         }
         log.info("-----------------------------------------------------------------------------");
     }

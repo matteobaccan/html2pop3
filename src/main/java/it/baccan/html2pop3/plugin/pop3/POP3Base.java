@@ -45,10 +45,14 @@ public abstract class POP3Base extends PluginBase {
     private List<Double> aSize = new ArrayList<>(10);
     private String cLastCacheKey = "";
     private String cLastCacheMsg = "";
-    @Getter private UnirestInstance unirest = null;
+    @Getter
+    private UnirestInstance unirest = null;
 
-    @Getter @Setter private String lastErr = "";
-    @Setter private int maxMessageNum = -1;
+    @Getter
+    @Setter
+    private String lastErr = "";
+    @Setter
+    private int maxMessageNum = -1;
 
     /**
      *
@@ -293,7 +297,10 @@ public abstract class POP3Base extends PluginBase {
     }
 
     private String convertXML(String cEle) throws UnsupportedEncodingException {
-        return replace(URLEncoder.encode(cEle, CharsetCoding.UTF_8).replace('+', ' '), "%40", "@");
+        return URLEncoder
+                .encode(cEle, CharsetCoding.UTF_8)
+                .replace('+', ' ')
+                .replace("%40", "@");
     }
 
     protected void logHeaders(final HttpResponse stringResponse) {

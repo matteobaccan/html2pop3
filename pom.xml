@@ -229,6 +229,18 @@
                                 <resource>
                                     <directory>src/2copy</directory>
                                     <filtering>true</filtering>
+                                    <includes>
+                                        <include>config.cfg</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>nntp.cfg</include>
+                                        <include>rss.cfg</include>
+                                        <include>tunnelpop3.cfg</include>
+                                    </includes>
                                 </resource>
                             </resources>
                             <nonFilteredFileExtensions>
@@ -309,14 +321,14 @@
                     <execution>
                         <phase>install</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <exec
                                     dir="${project.basedir}"
                                     executable="${project.basedir}\src\batch\release.bat"
                                     failonerror="true">
                                     <arg value='${project.artifactId}-${project.version}'></arg>
                                 </exec>
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
