@@ -58,6 +58,7 @@ public class POP3Server extends BaseServer {
         String cPath = html2pop3.getConfigPath();
         String cConfig = "tunnelpop3.cfg";
         try {
+            log.info("Load [{}]", cPath + cConfig);
             try (FileInputStream fis = new FileInputStream(cPath + cConfig)) {
                 tunnelpop3.load(fis);
             }

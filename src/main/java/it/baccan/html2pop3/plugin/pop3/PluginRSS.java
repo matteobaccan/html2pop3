@@ -44,6 +44,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
      */
     public static void setConfig(String cPath, String cConfig) {
         try {
+            log.info("Load [{}]", cPath + cConfig);
             try (FileInputStream fis = new FileInputStream(cPath + cConfig)) {
                 config.load(fis);
             }

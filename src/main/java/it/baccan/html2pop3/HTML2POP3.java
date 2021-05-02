@@ -481,6 +481,7 @@ public class HTML2POP3 extends Thread {
                 cRet = getConfigFullPath().substring(0, nPos + 1);
             }
         } catch (Throwable e) {
+            log.error("getConfigPath", e);
         }
         return cRet;
     }
@@ -598,7 +599,7 @@ public class HTML2POP3 extends Thread {
         }
         log.info("+---------------------------------------------------------------------------+");
         log.info("| POP3/SMTP/NNTP simulation server                           Version " + cVer + " |");
-        log.info("| Matteo Baccan Opensource Software                    https://www.baccan.it |");
+        log.info("| Matteo Baccan Opensource Software                   https://www.baccan.it |");
         log.info("+---------------------------------------------------------------------------+");
         log.info("Java Runtime: " + System.getProperty("java.runtime.name"));
         log.info("Java Version: " + System.getProperty("java.vm.version"));

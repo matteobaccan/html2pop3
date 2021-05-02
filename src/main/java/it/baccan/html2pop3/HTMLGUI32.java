@@ -52,7 +52,7 @@ public class HTMLGUI32 {
      */
     public static void main(String args[]) {
         // Creo un oggetto html2pop3
-        final HTML2POP3 html2pop3 = HTML2POP3.getInstance();        
+        final HTML2POP3 html2pop3 = HTML2POP3.getInstance();
         // Imposto l'eventuale config
         html2pop3.parseCommandLine(args);
         // Carico le properties
@@ -74,8 +74,9 @@ public class HTMLGUI32 {
         //Schedule a job for the event-dispatching thread:
         //adding TrayIcon.
         SwingUtilities.invokeLater(() -> {
+            File file = new File("html2pop3.log");
             HTMLGUI32 g = new HTMLGUI32();
-            g.createAndShowGUI(html2pop3, html2pop3.getConfigPath() + "html2pop3.log", html2pop3.getConfigPath() + "config.cfg");
+            g.createAndShowGUI(html2pop3, file.getAbsolutePath(), html2pop3.getConfigPath() + "config.cfg");
         });
 
     }

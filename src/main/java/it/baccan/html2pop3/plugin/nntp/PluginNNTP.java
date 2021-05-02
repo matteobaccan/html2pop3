@@ -70,6 +70,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
                 oFile.mkdir();
             }
         } catch (Throwable e) {
+            log.error("setConfig", e);
         }
     }
 
@@ -80,6 +81,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      */
     public boolean streamList(OutputStream SO) {
         boolean bRet = false;
+        log.info("Load [{}]", cConfigPath + cConfig);
         try (FileInputStream fis = new FileInputStream(cConfigPath + cConfig)) {
 
             try (BufferedInputStream bis = new BufferedInputStream(fis)) {
