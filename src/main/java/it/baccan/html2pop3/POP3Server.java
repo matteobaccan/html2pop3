@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 public class POP3Server extends BaseServer {
 
     private String cLoginString = "+OK HTML2POP3 server ready (" + Version.getVersion() + ")";
-    private Properties tunnelpop3 = new Properties();
+    private final Properties tunnelpop3 = new Properties();
 
     /**
      *
@@ -61,6 +61,12 @@ public class POP3Server extends BaseServer {
             try (FileInputStream fis = new FileInputStream(cPath + cConfig)) {
                 tunnelpop3.load(fis);
             }
+
+            tunnelpop3.entrySet().forEach(action -> {
+                if (POP3Selector.server2POP3Plugin(action.getKey().toString()) != null) {
+                    log.error("Rimuovere il server [{}] da [{}]", action.getKey(), cConfig);
+                }
+            });
         } catch (FileNotFoundException fnf) {
             log.info("Non riesco a leggere il file " + cPath + cConfig);
         } catch (IOException e) {
@@ -585,7 +591,6 @@ public class POP3Server extends BaseServer {
                 }
             }
         }
-
 
     }
 }
