@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.11</version><!-- 2.3.14 -->
+            <version>3.11.12</version><!-- 2.3.14 -->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
