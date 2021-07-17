@@ -100,7 +100,7 @@
             <plugin>
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
-                <version>4.6.3</version>
+                <version>4.7.0</version>
                 <configuration>
                     <activeRecipes>
                         <recipe>org.openrewrite.java.format.AutoFormat</recipe>
