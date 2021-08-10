@@ -46,7 +46,7 @@ public final class PluginTester {
             for (int nPos = 1; nPos <= nNum; nPos++) {
                 log.info("getMessageID   [{}]:[{}]", nPos, plugin.getMessageID(nPos));
                 log.info("getMessageSize [{}]:[{}]", nPos, plugin.getMessageSize(nPos));
-                log.info("getMessage     [{}]:[{}]", nPos, plugin.getMessage(nPos));
+                log.info("getMessage     [{}] real length [{}]", nPos, plugin.getMessage(nPos).length());
             }
             log.info("getContactXML  [{}]", plugin.getContactXML());
         }
