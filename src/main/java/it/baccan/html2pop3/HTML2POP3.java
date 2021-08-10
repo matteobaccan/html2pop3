@@ -137,14 +137,6 @@ public class HTML2POP3 extends Thread {
     }
 
     /**
-     * Overwrite config path.
-     *
-     * @param configPath new ConfigPath
-     */
-    //public static void setConfigPath(final String configPath) {
-    //    HTML2POP3.configPath = configPath;
-    //}
-    /**
      *
      * @param args
      */
@@ -153,9 +145,6 @@ public class HTML2POP3 extends Thread {
             if (args[nPar].equalsIgnoreCase("-config") && nPar + 1 < args.length) {
                 HTML2POP3.setConfig(args[nPar + 1]);
             }
-            //if (args[nPar].equalsIgnoreCase("-configdir") && nPar + 1 < args.length) {
-            //    HTML2POP3.setConfigPath(args[nPar + 1]);
-            //}
         }
     }
 
@@ -364,7 +353,6 @@ public class HTML2POP3 extends Thread {
                 break;
             }
 
-            //log.info("Add: " +cFilter);
             String cRule = cFilter.substring(0, nSep);
             cFilter = cFilter.substring(nSep + 1);
 
