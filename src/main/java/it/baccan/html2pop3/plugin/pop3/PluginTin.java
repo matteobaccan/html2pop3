@@ -95,7 +95,11 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                 log.info("tin: login init ({}|{})", cDomain, nRetry);
                 log.trace("tin: login user ({}|{})", cUser, cPwd);
 
-                HttpResponse<String> stringResponse = getUnirest().post("https://aaacsc.alice.it/piattaformaAAA/aapm/amI")
+                String tinserver = "https://aaacsc.alice.it";
+                if (cDomain.equalsIgnoreCase("tim.it")) {
+                    tinserver = "https://aaacsc.tim.it";
+                }
+                HttpResponse<String> stringResponse = getUnirest().post(tinserver+"/piattaformaAAA/aapm/amI")
                         .field("usernameDisplay", cUser)
                         .field("dominio", "@" + cDomain)
                         .field("password", cPwd)
@@ -183,7 +187,7 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     log.info("tin: PreLogin: [{}]", anchor);
                     response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
-
+                    
                     href1 = sb.indexOf("&t=");
                     href2 = sb.indexOf("&", href1 + 3);
                     String t = sb.substring(href1 + 3, href2);
