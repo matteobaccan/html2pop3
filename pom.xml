@@ -188,7 +188,7 @@
                             <goal>native-image</goal>
                         </goals>
                         <configuration>
-                            <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
+                            <mainClass>it.baccan.html2pop3.HTML2POP3</mainClass>
                             <buildArgs>--no-fallback --allow-incomplete-classpath</buildArgs>
                             <imageName>HTML2POP3</imageName>
                             <skip>${skipNativeVersion}</skip>
