@@ -330,10 +330,8 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
                 aArtNum.put("" + nMax, cId);
                 lastNum = "" + nMax;
                 cacheID.put(cId, "" + nMax);
-                try {
-                    FileOutputStream fos = new FileOutputStream(cCacheID);
+                try (FileOutputStream fos = new FileOutputStream(cCacheID)){
                     cacheID.store(fos, null);
-                    fos.close();
                 } catch (Throwable e) {
                 }
             } else {

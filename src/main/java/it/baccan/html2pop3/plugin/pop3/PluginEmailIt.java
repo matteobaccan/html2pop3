@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -100,45 +101,51 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                 log.trace("email.it: login user ({}|{})", cUserParam, cPwd);
 
                 // Carico i cookie di dominio in Unirest
-                HttpResponse<String> domainResponse = getUnirest().get(EMAILIT_DOMAIN).asString();
-
-                // Prendo csrf
-                AtomicReference<String> session = new AtomicReference<>("");
-                domainResponse.getHeaders().get("Set-Cookie").forEach(cookie -> {
-                    String cookieLabel = "ZM_LOGIN_CSRF";
-                    if (cookie.startsWith(cookieLabel)) {
-                        int endCokie = cookie.indexOf(";");
-                        session.set(cookie.substring(cookieLabel.length() + 1, endCokie));
-                    }
-                });
-
-                HttpResponse<String> stringResponse = getUnirest().post(EMAILIT_DOMAIN)
-                        .field("loginOp", "login")
-                        .field("login_csrf", session.get())
-                        .field("username", cUserParam)
-                        .field("password", cPwd)
-                        .field("client", "standard")
-                        //.header("Content-Type", "application/x-www-form-urlencoded")
+                HttpResponse<String> domainResponse = getUnirest().get("https://www.email.it/mail.php")
                         .asString();
 
+                String body = domainResponse.getBody();
+                int szIni = body.indexOf("sz: '");
+                int szEnd = body.indexOf("'", szIni + 5);
+                String sz = body.substring(szIni + 5, szEnd);
+
+                HttpResponse<JsonNode> stringResponse = getUnirest().post("https://www.email.it/mail_jxp_.php")
+                        .field("rc", "")
+                        .field("sz", sz)
+                        .basicAuth(cUserParam, cPwd)
+                        .asJson();
+
+                String authPageUrl = stringResponse.getBody().getObject().get("url").toString();
+
+                // Cookie ----------
+                getUnirest().config().reset().followRedirects(false);
+                HttpResponse<String> authPage = getUnirest().get(authPageUrl).asString();
+
                 // Prendo auth
-                stringResponse.getHeaders().get("Set-Cookie").forEach(cookie -> {
+                authPage.getHeaders().get("Set-Cookie").forEach(cookie -> {
                     if (cookie.startsWith(ZM_AUTH_TOKEN)) {
                         int endCokie = cookie.indexOf(";");
                         auth.set(cookie.substring(ZM_AUTH_TOKEN.length() + 1, endCokie));
                     }
                 });
 
-                // Prendo la redirect
-                if (stringResponse.getHeaders().get("Location").isEmpty()) {
-                    log.error("Possibile Errore di login");
-                    break;
-                }
+                // Prendo csrf
+                AtomicReference<String> session = new AtomicReference<>("");
+                authPage.getHeaders().get("Set-Cookie").forEach(cookie -> {
+                    String cookieLabel = "ZM_LOGIN_CSRF";
+                    if (cookie.startsWith(cookieLabel)) {
+                        int endCokie = cookie.indexOf(";");
+                        session.set(cookie.substring(cookieLabel.length() + 1, endCokie));
+                    }
+                });
+                getUnirest().config().reset().followRedirects(true);
+                // Cookie ----------
 
-                String homepageUrl = stringResponse.getHeaders().get("Location").get(0);
-
-                log.info("email.it: home [{}]", homepageUrl);
-                HttpResponse<String> homepage = getUnirest().get(homepageUrl).asString();
+                // Rifaccio la get seguendo i redirect
+                authPage = getUnirest().get(authPageUrl).asString();
+                
+                // Passo alla home in html
+                HttpResponse<String> homepage = getUnirest().get("https://irin.email.it/?client=standard").asString();
 
                 // Creo il DOM
                 String sb = homepage.getBody();

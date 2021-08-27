@@ -99,7 +99,7 @@ public class POP3Server extends BaseServer {
 
     @Override
     public void run() {
-        pop3Thread thread;
+        Pop3Thread thread;
         try {
             if (getParent().getPort() > 0) {
                 setServerSocket(new ServerSocket(getParent().getPort(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
@@ -123,7 +123,7 @@ public class POP3Server extends BaseServer {
                     // Aggiungo un keepalive .. per I client pigri
                     setKeepAlive(socket);
 
-                    thread = new pop3Thread(socket);
+                    thread = new Pop3Thread(socket);
                     thread.start();
                 }
             }
@@ -152,12 +152,12 @@ public class POP3Server extends BaseServer {
         }
     }
 
-    class pop3Thread extends Thread {
+    class Pop3Thread extends Thread {
 
         private final Socket socket;
         private POP3Plugin pop3Plugin = null;
 
-        public pop3Thread(Socket s) {
+        public Pop3Thread(Socket s) {
             socket = s;
         }
 
@@ -512,7 +512,10 @@ public class POP3Server extends BaseServer {
                 } else if (cLineUpper.startsWith("DELE")) {   //DELE num
                     if (cLine.length() == 4) {
                         html.putData(SO, "-ERR Protocol error\r\n");
-                    } else {//getParent().setDelete(true);
+                    } else {
+                        /**
+                         * Per abilitare il delete da debugger getParent().setDelete(true)
+                         */
                         if (getParent().isDelete()) {
                             Double nMsg = Double.valueOf(cLine.substring(4).trim());
                             boolean bDel = true;

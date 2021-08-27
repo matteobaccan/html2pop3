@@ -52,7 +52,7 @@ public class NNTPServer extends BaseServer {
 
     @Override
     public void run() {
-        nntpThread thread;
+        NntpThread thread;
         try {
             if (getParent().getPortNNTP() > 0) {
                 setServerSocket(new ServerSocket(getParent().getPortNNTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
@@ -76,7 +76,7 @@ public class NNTPServer extends BaseServer {
                     // Aggiungo un keepalive .. per I client pigri
                     setKeepAlive(socket);
 
-                    thread = new nntpThread(socket);
+                    thread = new NntpThread(socket);
                     thread.start();
                 }
             }
@@ -105,11 +105,11 @@ public class NNTPServer extends BaseServer {
         }
     }
 
-    class nntpThread extends Thread {
+    class NntpThread extends Thread {
 
         private Socket socket;
 
-        public nntpThread(Socket socket) {
+        public NntpThread(Socket socket) {
             this.socket = socket;
         }
 

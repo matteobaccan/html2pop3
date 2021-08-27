@@ -13,6 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Allineare la versione con graalvm.yml -->
         <graalvm.version>20.2.0</graalvm.version>
+        <skipNativeVersion>true</skipNativeVersion> 
     </properties>
 
     <dependencies>
@@ -181,15 +182,16 @@
                 <version>${graalvm.version}</version>
                 <executions>
                     <execution>
+                        <id>native-build</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>native-image</goal>
                         </goals>
-                        <phase>package</phase>
                         <configuration>
                             <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
                             <buildArgs>--no-fallback --allow-incomplete-classpath</buildArgs>
                             <imageName>HTML2POP3</imageName>
-                            <skip>false</skip>
+                            <skip>${skipNativeVersion}</skip>
                         </configuration>
                     </execution>
                 </executions>

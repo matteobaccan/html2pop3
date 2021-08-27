@@ -96,7 +96,7 @@ public class HTML2POP3 extends Thread {
     @Getter
     @Setter
     private boolean debug = false;
-    private configChange cc;
+    private ConfigChange cc;
     private boolean isRestart = false;
 
     /**
@@ -530,7 +530,7 @@ public class HTML2POP3 extends Thread {
             smtp.start();
             nntp = new NNTPServer(this);
             nntp.start();
-            cc = new configChange(this);
+            cc = new ConfigChange(this);
             cc.start();
 
             while (true) {
@@ -563,7 +563,7 @@ public class HTML2POP3 extends Thread {
                     smtp.start();
                     nntp = new NNTPServer(this);
                     nntp.start();
-                    cc = new configChange(this);
+                    cc = new ConfigChange(this);
                     cc.start();
 
                     printInfo();
@@ -680,13 +680,13 @@ public class HTML2POP3 extends Thread {
         }
     }
 
-    class configChange extends Thread {
+    class ConfigChange extends Thread {
 
         private long timestamp;
         private HTML2POP3 parent;
         private boolean bLoop;
 
-        public configChange(HTML2POP3 p) {
+        public ConfigChange(HTML2POP3 p) {
             timestamp = 0;
             parent = p;
             bLoop = true;

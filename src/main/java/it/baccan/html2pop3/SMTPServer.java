@@ -55,7 +55,7 @@ public class SMTPServer extends BaseServer {
     }
 
     public void run() {
-        smtpThread thread;
+        SmtpThread thread;
         try {
             if (getParent().getPortSMTP() > 0) {
                 setServerSocket(new ServerSocket(getParent().getPortSMTP(), getParent().getClient(), InetAddress.getByName(getParent().getHost())));
@@ -79,7 +79,7 @@ public class SMTPServer extends BaseServer {
                     // Aggiungo un keepalive .. per I client pigri
                     setKeepAlive(socket);
 
-                    thread = new smtpThread(socket);
+                    thread = new SmtpThread(socket);
                     thread.start();
                 }
             }
@@ -108,11 +108,11 @@ public class SMTPServer extends BaseServer {
         }
     }
 
-    class smtpThread extends Thread {
+    class SmtpThread extends Thread {
 
         private Socket socket;
 
-        public smtpThread(Socket socket) {
+        public SmtpThread(Socket socket) {
             this.socket = socket;
         }
 

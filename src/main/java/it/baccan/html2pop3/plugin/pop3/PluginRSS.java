@@ -178,8 +178,8 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
 
             log.error("Rss: login end");
 
-            try {
-                cache.store(new FileOutputStream(cCacheFile), null);
+            try (FileOutputStream fileOutputStream = new FileOutputStream(cCacheFile)){
+                cache.store(fileOutputStream, null);
             } catch (FileNotFoundException e) {
                 log.error("FileNotFoundException", e);
             }
