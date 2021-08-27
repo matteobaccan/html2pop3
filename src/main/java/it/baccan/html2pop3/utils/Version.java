@@ -35,7 +35,12 @@ public class Version {
         if (html2pop3version == null) {
             Class clazz = Version.class;
             String className = clazz.getSimpleName() + ".class";
-            String classPath = clazz.getResource(className).toString();
+            URL url = clazz.getResource(className);
+            // Con GraalVM non ho i class
+            String classPath = "";
+            if (url != null) {
+                classPath = url.toString();
+            }
             if (classPath.startsWith("jar")) {
                 String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF";
                 try {
