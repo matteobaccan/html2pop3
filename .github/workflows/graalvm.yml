@@ -61,7 +61,7 @@ jobs:
       - name: Commit files
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          cp /home/runner/work/html2pop3/html2pop3/target/html2pop3 /home/runner/work/html2pop3/html2pop3/executable/linux/
+          cp /home/runner/work/html2pop3/html2pop3/target/HTML2POP3 /home/runner/work/html2pop3/html2pop3/executable/linux/
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
