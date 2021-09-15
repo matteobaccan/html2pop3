@@ -32,13 +32,16 @@ public final class PluginTester {
     public static void main(final String[] args) {
         String user = args[0];
         String pass = args[1];
-        
+
         String server = POP3Selector.user2Server(user);
         log.info("Server used [{}]", server);
-        
+
         POP3Plugin plugin = POP3Selector.server2POP3Plugin(server);
-        
-        if (plugin != null && plugin.login(user, pass)) {
+
+        if (plugin == null) {
+            log.error("Unknow plugin for [{}]", user);
+            System.exit(1);
+        } else if (plugin.login(user, pass)) {
             int nNum = plugin.getMessageNum();
             int nSiz = plugin.getMessageSize();
             log.info("getMessageNum  [{}]", nNum);
@@ -49,6 +52,9 @@ public final class PluginTester {
                 log.info("getMessage     [{}] real length [{}]", nPos, plugin.getMessage(nPos).length());
             }
             log.info("getContactXML  [{}]", plugin.getContactXML());
+        } else {
+            log.error("Login error on plugin [{}]", plugin.getClass().getName());
+            System.exit(1);
         }
     }
 }
