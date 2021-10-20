@@ -67,6 +67,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         //boolean bRet = false;
         bLogin = false;
@@ -173,6 +174,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      *
      * @return
      */
+    @Override
     public boolean list() {
         boolean bRet = false;
         try {
@@ -295,6 +297,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         StringBuffer oMail = null;
         try {
@@ -436,6 +439,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         boolean bRet = false;
         try {
@@ -462,6 +466,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
     /**
      *
      */
+    @Override
     public void delMessageEnd() {
         try {
             log.error("Tiscali: delmessageEnd init");
@@ -481,7 +486,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      * @return
      */
     @Override
-    public ArrayList<String[]> getContact() {
+    public List<String[]> getContact() {
         ArrayList<String[]> oRet = new ArrayList<>();
         try {
 

@@ -133,7 +133,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          * @return the clean body
          * @throws ParsingMailException
          */
-        private String analyzeBody(String body) throws ParsingMailException {
+        private String analyzeBody(String body1) throws ParsingMailException {
             final String DOWN_URL = "download.php";
             final String PASSED_ENT_ID = "passed_ent_id=";
             String theBody = null;
@@ -145,9 +145,9 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             boolean ok4TheBody = false;
 
             //I messaggi sono tutti di testo. Quelli in html arrivano con l'html allegato
-            if ((body != null) && (!body.trim().equals(""))) {
+            if ((body1 != null) && (!body1.trim().equals(""))) {
                 sb.delete(0, sb.length());
-                m = p.matcher(body);
+                m = p.matcher(body1);
                 while (m.find()) {
                     //there are some url that allow you to download the body as text.
                     //let's try to use it
@@ -164,7 +164,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                 } else {
                     //we do not have downloaded the body from the apposite link.
                     //analyse the page.
-                    matBodyText = patBodyText.matcher(body);
+                    matBodyText = patBodyText.matcher(body1);
                     if (matBodyText.find()) {
                         theBody = Converter.html2TextChar(matBodyText.group(1), true);
                     } else {
@@ -203,10 +203,10 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          * @return the clean headers
          * @throws ParsingMailException
          */
-        private String analyzeHeaders(String headers) throws ParsingMailException {
+        private String analyzeHeaders(String headers1) throws ParsingMailException {
             int start = 0;
             int end = 0;
-            String headUpper = headers.toUpperCase();
+            String headUpper = headers1.toUpperCase();
             String key = null;
             String value = null;
             StringBuffer fullHeaders = new StringBuffer();
@@ -222,14 +222,14 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             end = headUpper.indexOf("</TABLE>", start);
             end = headUpper.lastIndexOf("</TT>", end) + 5; //qui finiscono
 
-            headers = headers.substring(start, end);
+            headers1 = headers1.substring(start, end);
 
-            matHeader = patHeader.matcher(headers);
+            matHeader = patHeader.matcher(headers1);
             while (matHeader.find()) {
                 mat4Bold = pat4Bold.matcher(matHeader.group());
                 if (mat4Bold.find()) {
                     key = mat4Bold.group(1);
-                    value = headers.substring(matHeader.end(), headers.indexOf("</tt>", matHeader.end()))
+                    value = headers1.substring(matHeader.end(), headers1.indexOf("</tt>", matHeader.end()))
                             .replaceAll("\n", "")
                             .replaceAll("\r", "")
                             .replaceAll("<br />", EOL)
@@ -381,7 +381,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
     }
 
     /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.pop3base#getMessage(int, int, boolean)
+     * @see it.baccan.plugin.pop3.pop3base#getMessage(int, int, boolean)
      */
     /**
      *
@@ -390,6 +390,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
      * @param all
      * @return
      */
+    @Override
     public String getMessage(int pos, int line, boolean all) {
         final String MESSAGE_BODY = BASE_SERVER + "read_body.php";
         final String MESSAGE_HEADERS = BASE_SERVER + "view_header.php";
@@ -439,7 +440,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
     }
 
     /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.pop3plugin#login(java.lang.String, java.lang.String)
+     * @see it.baccan.plugin.pop3.pop3plugin#login(java.lang.String, java.lang.String)
      */
     /**
      *
@@ -447,6 +448,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
      * @param password
      * @return
      */
+    @Override
     public boolean login(String user, String password) {
         final String LOGIN_STAGE_I = BASE_SERVER + "login.php";
         final String LOGIN_STAGE_II = BASE_SERVER + "redirect.php";
@@ -491,13 +493,14 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
     }
 
     /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.pop3plugin#delMessage(int)
+     * @see it.baccan.plugin.pop3.pop3plugin#delMessage(int)
      */
     /**
      *
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         final String DELETE_URL = BASE_SERVER + "delete_message.php";
         String postData = null;
@@ -566,8 +569,9 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
     }
 
     /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.pop3base#delMessagesFromTrash()
+     * @see it.baccan.plugin.pop3.pop3base#delMessagesFromTrash()
      */
+    @Override
     public void delMessagesFromTrash() throws DeleteMessageException {
         final String EMPTY_TRASH_URL = BASE_SERVER + "empty_trash.php";
 

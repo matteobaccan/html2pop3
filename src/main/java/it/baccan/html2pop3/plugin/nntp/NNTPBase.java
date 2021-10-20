@@ -19,7 +19,7 @@ package it.baccan.html2pop3.plugin.nntp;
 
 import it.baccan.html2pop3.plugin.PluginBase;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -47,7 +47,7 @@ public abstract class NNTPBase extends PluginBase {
      * @param to
      * @return
      */
-    public abstract ArrayList<String> xover(long from, long to);
+    public abstract List<String> xover(long from, long to);
 
     /**
      *

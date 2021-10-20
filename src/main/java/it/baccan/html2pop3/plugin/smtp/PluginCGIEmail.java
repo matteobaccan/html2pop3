@@ -75,6 +75,7 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         log.error("Smtp: login init");
         cServer = cDefaultServer;
@@ -91,11 +92,13 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
             nTok++;
             if (nTok == 1) {
                 //cLocalUser = cTok.trim();
-            } else if (nTok == 2) ;     //cLocalServer = cTok.trim();
-                else if (nTok == 3) ;         //cLocalPort   = cTok.trim();
-                    else if (nTok == 4) {
-                        cServer = cTok.trim();
-                    }
+            } else if (nTok == 2) {
+            }     //cLocalServer = cTok.trim();
+            else if (nTok == 3) {
+            }         //cLocalPort   = cTok.trim();
+            else if (nTok == 4) {
+                cServer = cTok.trim();
+            }
         }
 
         /* put here allow/deny policy code */
@@ -136,6 +139,7 @@ public class PluginCGIEmail extends SMTPBase implements SMTPPlugin {
      *
      * @return
      */
+    @Override
     public String getLastErr() {
         return cError;
     }

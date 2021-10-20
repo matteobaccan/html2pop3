@@ -59,6 +59,7 @@ public class PluginTim extends POP3Base implements POP3Plugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         boolean bRet = false;
         try {
@@ -149,6 +150,7 @@ public class PluginTim extends POP3Base implements POP3Plugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         StringBuffer oMail = new StringBuffer();
         try {
@@ -288,6 +290,7 @@ public class PluginTim extends POP3Base implements POP3Plugin {
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         boolean bRet = false;
         try {

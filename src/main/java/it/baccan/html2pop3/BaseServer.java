@@ -33,17 +33,21 @@ public class BaseServer extends Thread {
     /**
      *
      */
-    @Getter private HTML2POP3 parent;
+    @Getter
+    private HTML2POP3 parent;
 
     /**
      *
      */
-    @Getter @Setter private ServerSocket serverSocket = null;
+    @Getter
+    @Setter
+    private ServerSocket serverSocket = null;
 
     /**
      *
      */
-    @Getter private boolean isFinish = false;
+    @Getter
+    private boolean isFinish = false;
 
     /**
      *

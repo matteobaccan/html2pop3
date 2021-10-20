@@ -45,7 +45,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HTMLTool {
 
-    @Getter @Setter private boolean debug = false;
+    @Getter
+    @Setter
+    private boolean debug = false;
 
     /**
      *

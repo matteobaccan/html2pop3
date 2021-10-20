@@ -103,7 +103,7 @@ public class HTML2POP3 extends Thread {
      *
      * @param args
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         // Creo un oggetto html2pop3
         HTML2POP3 html2pop3 = HTML2POP3.getInstance();
         // Imposto l'eventuale config
@@ -140,7 +140,7 @@ public class HTML2POP3 extends Thread {
      *
      * @param args
      */
-    public void parseCommandLine(String args[]) {
+    public void parseCommandLine(String[] args) {
         for (int nPar = 0; nPar < args.length; nPar++) {
             if (args[nPar].equalsIgnoreCase("-config") && nPar + 1 < args.length) {
                 HTML2POP3.setConfig(args[nPar + 1]);
@@ -222,8 +222,8 @@ public class HTML2POP3 extends Thread {
      *
      * @param p
      */
-    public void setClient(int p) {
-        nClient = p;
+    public void setClient(int p1) {
+        nClient = p1;
     }
 
     /**
@@ -517,6 +517,7 @@ public class HTML2POP3 extends Thread {
         }
     }
 
+    @Override
     public void run() {
         POP3Server pop3;
         SMTPServer smtp;
@@ -657,11 +658,11 @@ public class HTML2POP3 extends Thread {
         log.info("outlook 2002: timeout " + (isOutlook2002Timeout() ? "ATTIVO" : "DISATTIVO"));
         log.info("supporto per rfc2047: " + (POP3Message.getrfc2047() ? "ATTIVO" : "DISATTIVO"));
         log.info("-----------------------------------------------------------------------------");
-        Properties p = System.getProperties();
-        Enumeration keys = p.keys();
+        Properties p1 = System.getProperties();
+        Enumeration keys = p1.keys();
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
-            String value = (String) p.get(key);
+            String value = (String) p1.get(key);
             log.info("[{}]: [{}]", key, value.replace("\r", "\\r")
                     .replace("\n", "\\n")
                     .replace("\t", "\\t"));
@@ -696,6 +697,7 @@ public class HTML2POP3 extends Thread {
             bLoop = false;
         }
 
+        @Override
         public void run() {
             try {
                 while (bLoop) {

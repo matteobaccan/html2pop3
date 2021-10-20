@@ -19,6 +19,7 @@ public class FakeX509TrustManager implements X509TrustManager {
      * @param cert
      * @param authType
      */
+    @Override
     public void checkClientTrusted(X509Certificate[] cert, String authType) {
         log.info("checkClientTrusted: not implemented");
     }
@@ -28,6 +29,7 @@ public class FakeX509TrustManager implements X509TrustManager {
      * @param cert
      * @param authType
      */
+    @Override
     public void checkServerTrusted(X509Certificate[] cert, String authType) {
         log.info("checkServerTrusted: not implemented");
     }
@@ -36,6 +38,7 @@ public class FakeX509TrustManager implements X509TrustManager {
      *
      * @return
      */
+    @Override
     public X509Certificate[] getAcceptedIssuers() {
         return null;
     }

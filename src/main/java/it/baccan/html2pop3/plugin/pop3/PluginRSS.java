@@ -76,12 +76,12 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
      * @return
      */
     @Override
-    public boolean login(String cUser, String cPwd) {
+    public boolean login(String cUser1, String cPwd) {
         boolean bRet = false;
         try {
             log.error("Rss: login init");
 
-            this.cUser = cUser;
+            this.cUser = cUser1;
             cPwd = config.getProperty(cPwd, cPwd);
 
             List<String> aRss = new ArrayList<>(10);
@@ -101,7 +101,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
 
                 try {
                     java.util.zip.CRC32 crcCache = new java.util.zip.CRC32();
-                    crcCache.update((cUser + cUrl).getBytes(), 0, (cUser + cUrl).length());
+                    crcCache.update((cUser1 + cUrl).getBytes(), 0, (cUser1 + cUrl).length());
                     String cCrcCache = "" + crcCache.getValue();
                     String cCache = cache.getProperty(cCrcCache, "");
 
@@ -178,7 +178,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
 
             log.error("Rss: login end");
 
-            try (FileOutputStream fileOutputStream = new FileOutputStream(cCacheFile)){
+            try (FileOutputStream fileOutputStream = new FileOutputStream(cCacheFile)) {
                 cache.store(fileOutputStream, null);
             } catch (FileNotFoundException e) {
                 log.error("FileNotFoundException", e);
@@ -250,24 +250,24 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
         }
 
         // &amp; -> & XML conversion
-        cRss = cRss.replace( "&amp;", "&");
+        cRss = cRss.replace("&amp;", "&");
 
         if (cEnc.equalsIgnoreCase("ISO-8859-1")) {
-            cRss = cRss.replace( "" + 0xe0, "&agrave;");
-            cRss = cRss.replace( "" + 0xc0, "&Agrave;");
-            cRss = cRss.replace( "" + 0xec, "&igrave;");
-            cRss = cRss.replace( "" + 0xcc, "&Igrave;");
-            cRss = cRss.replace( "" + 0xe8, "&egrave;");
-            cRss = cRss.replace( "" + 0xc8, "&Egrave;");
-            cRss = cRss.replace( "" + 0xf2, "&ograve;");
-            cRss = cRss.replace( "" + 0xd2, "&Ograve;");
-            cRss = cRss.replace( "" + 0xf9, "&ugrave;");
-            cRss = cRss.replace( "" + 0xd9, "&Ugrave;");
+            cRss = cRss.replace("" + 0xe0, "&agrave;");
+            cRss = cRss.replace("" + 0xc0, "&Agrave;");
+            cRss = cRss.replace("" + 0xec, "&igrave;");
+            cRss = cRss.replace("" + 0xcc, "&Igrave;");
+            cRss = cRss.replace("" + 0xe8, "&egrave;");
+            cRss = cRss.replace("" + 0xc8, "&Egrave;");
+            cRss = cRss.replace("" + 0xf2, "&ograve;");
+            cRss = cRss.replace("" + 0xd2, "&Ograve;");
+            cRss = cRss.replace("" + 0xf9, "&ugrave;");
+            cRss = cRss.replace("" + 0xd9, "&Ugrave;");
         }
         // Serve per far funzionare i tag HTML
-        cRss = cRss.replace( "&gt;", ">");
-        cRss = cRss.replace( "&lt;", "<");
-        cRss = cRss.replace( "&quot;", "\"");
+        cRss = cRss.replace("&gt;", ">");
+        cRss = cRss.replace("&lt;", "<");
+        cRss = cRss.replace("&quot;", "\"");
         return cRss;
     }
 

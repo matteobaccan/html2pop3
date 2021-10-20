@@ -54,6 +54,7 @@ public class SMTPServer extends BaseServer {
         super(p);
     }
 
+    @Override
     public void run() {
         SmtpThread thread;
         try {
@@ -139,15 +140,15 @@ public class SMTPServer extends BaseServer {
             }
         }
 
-        private void manage(Socket socket) throws Throwable {
+        private void manage(Socket socket1) throws Throwable {
             // Source
-            InputStream SI = socket.getInputStream();
-            OutputStream SO = socket.getOutputStream();
+            InputStream SI = socket1.getInputStream();
+            OutputStream SO = socket1.getOutputStream();
 
             // Tool
             HTMLTool html = new HTMLTool();
 
-            String cIP = socket.getInetAddress().getHostAddress();
+            String cIP = socket1.getInetAddress().getHostAddress();
             // IP Filter
             if (!getParent().getSMTPIpFilter().isAllow(new String[]{cIP})) {
                 log.error("500 IP (" + cIP + ") deny");

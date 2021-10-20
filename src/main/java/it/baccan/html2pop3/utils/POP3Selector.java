@@ -35,7 +35,7 @@ public class POP3Selector {
         // Utility class
     }
 
-    public static final String user2Server(final String user) {
+    public static String user2Server(final String user) {
         String server;
         String localUser = user.toUpperCase();
         if (localUser.contains("@LIBERO.IT")) {
@@ -94,7 +94,7 @@ public class POP3Selector {
         return server;
     }
 
-    public static final POP3Plugin server2POP3Plugin(final String server) {
+    public static POP3Plugin server2POP3Plugin(final String server) {
         POP3Plugin plugin = null;
         if (server.equalsIgnoreCase("libero.it")) {
             plugin = new PluginLibero(PluginLibero.MAIL_LIBERO);

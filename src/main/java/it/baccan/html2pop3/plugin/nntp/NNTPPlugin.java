@@ -18,7 +18,7 @@
 package it.baccan.html2pop3.plugin.nntp;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -46,7 +46,7 @@ public interface NNTPPlugin {
      * @param nTo
      * @return
      */
-    ArrayList<String> xover(long nFrom, long nTo);
+    List<String> xover(long nFrom, long nTo);
 
     /**
      *

@@ -179,18 +179,18 @@ public class POP3Server extends BaseServer {
             }
         }
 
-        private void manage(Socket socket) throws Throwable {
+        private void manage(Socket socket1) throws Throwable {
             // DEBUG
             boolean bDebug = getParent().isDebug();
             // Source
-            InputStream SI = socket.getInputStream();
-            OutputStream SO = socket.getOutputStream();
+            InputStream SI = socket1.getInputStream();
+            OutputStream SO = socket1.getOutputStream();
 
             // Tool
             HTMLTool html = new HTMLTool();
             html.setDebug(bDebug);
 
-            String cIP = socket.getInetAddress().getHostAddress();
+            String cIP = socket1.getInetAddress().getHostAddress();
             // IP Filter
             if (!getParent().getPOP3IpFilter().isAllow(new String[]{cIP})) {
                 log.error("-ERR IP (" + cIP + ") deny");
@@ -544,7 +544,7 @@ public class POP3Server extends BaseServer {
                     if (getParent().isDeleteOptimized()) {
                         html.putData(SO, "+OK POP3 server closing connection\r\n");
                         try {
-                            socket.close();
+                            socket1.close();
                         } catch (Throwable e) {
                         }
                     }

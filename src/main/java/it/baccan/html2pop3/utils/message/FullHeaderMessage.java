@@ -91,7 +91,7 @@ public class FullHeaderMessage extends MasterMessage {
     }
 
     /* (non-Javadoc)
-	 * @see it.baccan.utils.message.IPopMessage#getMessage(int, boolean)
+     * @see it.baccan.utils.message.IPopMessage#getMessage(int, boolean)
      */
     /**
      *
@@ -144,8 +144,9 @@ public class FullHeaderMessage extends MasterMessage {
      * @param contentAttach
      *
      * @see it.baccan.utils.message.IPopMessage#addAttach(java.lang.String,
-     * byte[])
-     */
+ byte[])
+     
+     **/
     @Override
     public void addAttach(String fileName, byte[] contentAttach) {
         attachments.put(fileName, contentAttach);

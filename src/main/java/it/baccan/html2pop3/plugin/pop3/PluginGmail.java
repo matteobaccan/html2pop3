@@ -61,6 +61,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         bDebug = isDebug();
         bLogin = false;
@@ -199,6 +200,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      *
      * @return
      */
+    @Override
     public boolean list() {
         boolean bRet = false;
         try {
@@ -297,7 +299,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      * @return
      */
     @Override
-    public ArrayList<String[]> getContact() {
+    public List<String[]> getContact() {
         ArrayList<String[]> oRet = new ArrayList<>();
         try {
 
@@ -383,7 +385,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
             String cDele = cServer + "/u/0/?ui=2&ik=" + cGlobal8 + "&rid=mail%3A%23.72c.125.0&at=" + getCook(cGmailCookie, "GMAIL_AT") + "&view=up&act=dm&_reqid=40837562&pcd=1&mb=0&rt=j&search=" + cFolder;
             String cPage = postPage(cDele, cGmailCookie, "m=" + cMsgId).toString();
 
-            bRet = (cPage.indexOf("The message has been moved to the Trash") != -1);
+            bRet = cPage.indexOf("The message has been moved to the Trash") != -1;
 
             log.error("Gmail: delmessage end");
         } catch (Throwable ex) {
@@ -474,7 +476,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
 
             //log.info( "Post:" +postReturn );
             //##da migliorare
-            bRet = (postReturn.indexOf("\"sr\",\"\",1,\"") != -1);
+            bRet = postReturn.indexOf("\"sr\",\"\",1,\"") != -1;
             if (!bRet) {
                 log.error("RET: " + postReturn);
             }

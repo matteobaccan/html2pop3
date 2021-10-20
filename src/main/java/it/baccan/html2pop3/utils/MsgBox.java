@@ -29,8 +29,10 @@ import lombok.Getter;
  */
 public class MsgBox extends JDialog implements ActionListener {
 
-    @Getter private boolean id = false;
-    private Button ok, can;
+    @Getter
+    private boolean id = false;
+    private Button ok;
+    private Button can;
 
     /**
      *
@@ -129,6 +131,7 @@ public class MsgBox extends JDialog implements ActionListener {
         setVisible(true);
     }
 
+    @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == ok) {
             id = true;

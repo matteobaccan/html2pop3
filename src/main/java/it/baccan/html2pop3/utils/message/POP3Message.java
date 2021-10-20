@@ -47,14 +47,28 @@ public class POP3Message extends MasterMessage {
     public static final int HTML_MESSAGE = 1;
     private int messageType = HTML_MESSAGE;
 
-    @Getter @Setter private String da = "";
-    @Getter @Setter private String a = "";
-    @Getter @Setter private String cc = "";
-    @Getter @Setter private String oggetto = "";
-    @Getter @Setter private String data = "";
-    @Getter @Setter private String notifica = "";
+    @Getter
+    @Setter
+    private String da = "";
+    @Getter
+    @Setter
+    private String a = "";
+    @Getter
+    @Setter
+    private String cc = "";
+    @Getter
+    @Setter
+    private String oggetto = "";
+    @Getter
+    @Setter
+    private String data = "";
+    @Getter
+    @Setter
+    private String notifica = "";
 
-    @Getter @Setter private String body = "";
+    @Getter
+    @Setter
+    private String body = "";
 
     private final ArrayList<byte[]> aAttach = new ArrayList<>(0);
     private final ArrayList<String> aName = new ArrayList<>(0);
@@ -63,7 +77,9 @@ public class POP3Message extends MasterMessage {
      *
      */
     public static boolean addHTML = false;
-    @Getter @Setter private String charset = UTF_8;
+    @Getter
+    @Setter
+    private String charset = UTF_8;
 
     private static boolean bRFC2047 = true;
     private final String cHEX = "0123456789abcdef";

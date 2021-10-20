@@ -30,7 +30,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -136,15 +136,15 @@ public class NNTPServer extends BaseServer {
             }
         }
 
-        private void manage(Socket socket) throws Throwable {
+        private void manage(Socket socket1) throws Throwable {
             // Source
-            InputStream SI = socket.getInputStream();
-            OutputStream SO = socket.getOutputStream();
+            InputStream SI = socket1.getInputStream();
+            OutputStream SO = socket1.getOutputStream();
 
             // Tool
             HTMLTool html = new HTMLTool();
 
-            String cIP = socket.getInetAddress().getHostAddress();
+            String cIP = socket1.getInetAddress().getHostAddress();
             // IP Filter
             if (!getParent().getNNTPIpFilter().isAllow(new String[]{cIP})) {
                 log.error("500 IP (" + cIP + ") deny");
@@ -227,7 +227,7 @@ public class NNTPServer extends BaseServer {
                             cTo = cFrom;
                         }
 
-                        ArrayList aRet = sp.xover(Double.valueOf(cFrom).longValue(), Double.valueOf(cTo).longValue());
+                        List<String> aRet = sp.xover(Double.valueOf(cFrom).longValue(), Double.valueOf(cTo).longValue());
 
                         html.putData(SO, "224 Overview Information Follows\r\n");
                         for (int nCur = 0; nCur < aRet.size(); nCur++) {

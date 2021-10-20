@@ -75,7 +75,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         }
 
         @Override
-        public void write(byte buf[], int off, int len) {
+        public void write(byte[] buf, int off, int len) {
             pParent.write(buf, off, len);
             oLog.append(new String(buf, off, len));
             scrollToEnd();
@@ -153,6 +153,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("HTML2POP3");
         addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);
             }
@@ -214,7 +215,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         jPanel2.add(jLabel10);
         jLabel10.setBounds(310, 30, 60, 16);
 
-        oCoda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "lifo", "fifo" }));
+        oCoda.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"lifo", "fifo"}));
         oCoda.setToolTipText("Rappresenta l'ordine di download dei messaggi");
         jPanel2.add(oCoda);
         oCoda.setBounds(430, 30, 70, 22);
@@ -317,6 +318,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         jButton1.setIconTextGap(0);
         jButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -329,6 +331,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         jButton2.setText("Clear");
         jButton2.setToolTipText("Cancella la finestra dei log");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
@@ -347,6 +350,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(607, 366));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Cancellazione dei log di sistema
@@ -355,6 +359,7 @@ public class HTMLGUI extends javax.swing.JFrame {
         html2pop3.printInfo();
         scrollToEnd();
     }//GEN-LAST:event_jButton2ActionPerformed
+    
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Imposta sulla pagina di log
@@ -397,6 +402,7 @@ public class HTMLGUI extends javax.swing.JFrame {
 
         scrollToEnd();
     }//GEN-LAST:event_jButton1ActionPerformed
+    
 
     /**
      * Exit the Application
@@ -405,11 +411,12 @@ public class HTMLGUI extends javax.swing.JFrame {
         log.info("Event request [{}]", evt.getID());
         System.exit(0);
     }//GEN-LAST:event_exitForm
+    
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new HTMLGUI().show();
     }
 

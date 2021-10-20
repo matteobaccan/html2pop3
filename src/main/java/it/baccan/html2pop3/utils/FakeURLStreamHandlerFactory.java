@@ -18,6 +18,7 @@ public class FakeURLStreamHandlerFactory implements URLStreamHandlerFactory {
     // StreamHandler per gestire HTTPS con MS JDK
     private static URLStreamHandler WinINetsh = null;
 
+    @Override
     public URLStreamHandler createURLStreamHandler(String s) {
         // StreamHandler vuoto
         URLStreamHandler urlstreamhandler = null;

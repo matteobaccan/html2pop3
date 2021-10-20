@@ -143,7 +143,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
 
                 // Rifaccio la get seguendo i redirect
                 authPage = getUnirest().get(authPageUrl).asString();
-                
+
                 // Passo alla home in html
                 HttpResponse<String> homepage = getUnirest().get("https://irin.email.it/?client=standard").asString();
 

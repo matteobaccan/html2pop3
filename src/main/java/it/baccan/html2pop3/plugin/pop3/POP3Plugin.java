@@ -19,7 +19,7 @@ package it.baccan.html2pop3.plugin.pop3;
 
 import it.baccan.html2pop3.exceptions.DeleteMessageException;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -177,7 +177,7 @@ public interface POP3Plugin {
      *
      * @return
      */
-    ArrayList<String[]> getContact();
+    List<String[]> getContact();
 
     /**
      *

@@ -68,6 +68,7 @@ public class PluginSMTP extends SMTPBase implements SMTPPlugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
 
         log.error("Smtp: login init");
@@ -156,6 +157,7 @@ public class PluginSMTP extends SMTPBase implements SMTPPlugin {
      *
      * @return
      */
+    @Override
     public String getLastErr() {
         return cError;
     }

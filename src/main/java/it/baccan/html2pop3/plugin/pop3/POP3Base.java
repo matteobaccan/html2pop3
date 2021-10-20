@@ -262,7 +262,7 @@ public abstract class POP3Base extends PluginBase {
      *
      * @return
      */
-    public ArrayList<String[]> getContact() {
+    public List<String[]> getContact() {
         return new ArrayList<>();
     }
 
@@ -271,8 +271,8 @@ public abstract class POP3Base extends PluginBase {
      * @return
      */
     public String getContactXML() {
-        StringBuffer oRet = new StringBuffer();
-        ArrayList<String[]> oContact = getContact();
+        StringBuilder oRet = new StringBuilder();
+        List<String[]> oContact = getContact();
 
         try {
             // Formatta l'xml
@@ -289,7 +289,7 @@ public abstract class POP3Base extends PluginBase {
             oRet.append("</contacts>\r\n");
         } catch (Throwable ex) {
             // Azzera il Vector
-            oRet = new StringBuffer();
+            oRet = new StringBuilder();
             log.error("Error", ex);
         }
 

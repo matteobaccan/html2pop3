@@ -53,7 +53,7 @@ public class EchoClient {
      */
     public static String getLine(String cHost, int nPort) {
         String cRet;
-        
+
         try (Socket echoSocket = new Socket(cHost, nPort)) {
             echoSocket.setSoTimeout(5000);
             try (BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()))) {

@@ -68,7 +68,7 @@ public class Tester {
                     }
 
                     //sending retr
-                    printBosData(bos, "retr " + (retr) + "\r\n");
+                    printBosData(bos, "retr " + retr + "\r\n");
                     printBisData(bis);
                     printBisData(bis);
                     printBosData(bos, "quit\r\n");

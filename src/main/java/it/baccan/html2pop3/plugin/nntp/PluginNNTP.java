@@ -31,10 +31,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -79,6 +77,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      * @param SO
      * @return
      */
+    @Override
     public boolean streamList(OutputStream SO) {
         boolean bRet = false;
         log.info("Load [{}]", cConfigPath + cConfig);
@@ -123,6 +122,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      * @param cGroup
      * @return
      */
+    @Override
     public long[] group(String cGroup) {
         long[] nRet = {0, 0};
         cCurrentGroup = cGroup;
@@ -330,7 +330,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
                 aArtNum.put("" + nMax, cId);
                 lastNum = "" + nMax;
                 cacheID.put(cId, "" + nMax);
-                try (FileOutputStream fos = new FileOutputStream(cCacheID)){
+                try (FileOutputStream fos = new FileOutputStream(cCacheID)) {
                     cacheID.store(fos, null);
                 } catch (Throwable e) {
                 }
@@ -372,7 +372,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      * @return
      */
     @Override
-    public ArrayList<String> xover(long nFrom, long nTo) {
+    public List<String> xover(long nFrom, long nTo) {
         ArrayList<String> aRet = new ArrayList<>(10);
         log.error("nntp: xover init");
         for (int nPos = 0; nPos < aOver.size(); nPos++) {
@@ -397,6 +397,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      * @param nId
      * @return
      */
+    @Override
     public String article(long nId) {
         String cRet = null;
         log.error("nntp: art init");

@@ -34,6 +34,7 @@ public abstract class MasterMessage  extends CharsetCoding implements IPopMessag
      *
      * @return
      */
+    @Override
     public String getMessage() {
         return getMessage(0, true);
     }

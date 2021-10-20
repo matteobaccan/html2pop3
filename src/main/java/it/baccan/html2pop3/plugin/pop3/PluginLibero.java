@@ -40,6 +40,7 @@ import java.net.URLEncoder;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 import kong.unirest.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -115,7 +116,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
                 //p = null;
                 try {
                     String cPage = getPage(p.getProperty("homepage"), p.getProperty("cookie")).toString();
-                    bRet = (cPage.contains("/cp/ps/Main/loadingInside"));
+                    bRet = cPage.contains("/cp/ps/Main/loadingInside");
                 } catch (Throwable t) {
                     // p.put("cookie","")
                 }
@@ -3622,7 +3623,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
             cUser = cUser.substring(0, nQuestionMark);
         } else {
             cFolder = "inbox";
-            cRead = (getRead() ? "true" : "false");
+            cRead = getRead() ? "true" : "false";
         }
 
         if (!cUser.contains("@")) {
@@ -3747,7 +3748,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
                     if (cMes.equalsIgnoreCase("Inserisci le lettere visualizzate nell'immagine.")
                             || cMes.equalsIgnoreCase("Le lettere inserite non corrispondono a quelle visualizzate.")) {
                         cStringCaptcha = getCaptcha(cMes, cCaptcha, cSessionCook);
-                        lCaptcha = (cStringCaptcha.length() > 0);
+                        lCaptcha = cStringCaptcha.length() > 0;
                     }
                 }
                 if (!lCaptcha) {
@@ -3848,6 +3849,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      *
      * @return
      */
+    @Override
     public boolean list() {
         boolean bRet = false;
         try {
@@ -3904,6 +3906,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      * @param nPos
      * @return
      */
+    @Override
     public String getMessageID(int nPos) {
         String cRet = super.getMessageID(nPos);
         int nPosPipe = cRet.indexOf("|");
@@ -3946,6 +3949,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         StringBuffer oMail = null;
         try {
@@ -3987,6 +3991,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      * @return
      * @throws Exception
      */
+    @Override
     public boolean streamMessage(OutputStream SO, int nPos, int nLine, boolean bAll) throws Exception {
         boolean bRet = false;
         boolean bEx = false;
@@ -4181,6 +4186,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
         // Dopo 1 minuto chiudo il frame, in caso di mancato input
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
+            @Override
             public void run() {
                 //log.error("Libero: getCaptcha autoClose");
                 frame.dispose();
@@ -4198,7 +4204,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      * @return
      */
     @Override
-    public ArrayList<String[]> getContact() {
+    public List<String[]> getContact() {
         ArrayList<String[]> oRet = new ArrayList<>();
         /*
          try {
