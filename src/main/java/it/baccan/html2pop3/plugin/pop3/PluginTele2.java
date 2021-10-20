@@ -65,7 +65,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         private String body = "";
         private String subject = "";
         private String cc = "";
-        private HashMap<String, byte[]> attachments = new HashMap<>();
+        private Map<String, byte[]> attachments = new HashMap<>();
         private boolean textMsg = true;
 
         /**
@@ -312,7 +312,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
          *
          * @return
          */
-        public HashMap<String, byte[]> getAttachments() {
+        public Map<String, byte[]> getAttachments() {
             return attachments;
         }
 
@@ -499,7 +499,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
                         p3m.setCc(mail.getCc());
                     }
                     //attachments
-                    HashMap hm = mail.getAttachments();
+                    Map hm = mail.getAttachments();
                     Iterator keySet = mail.getAttachments().keySet().iterator();
                     while (keySet.hasNext()) {
                         String s = (String) keySet.next();
