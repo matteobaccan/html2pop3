@@ -21,7 +21,7 @@ jobs:
         uses: ayltai/setup-graalvm@master
         with:
           # The JDK version to be installed with GraalVM. E.g. 8, 11. See https://github.com/graalvm/graalvm-ce-builds/releases
-          java-version: 11 # optional
+          java-version: 17 # optional
           # The version of GraalVM to make available on PATH. E.g. 20.1.0, 19.3.2. See https://github.com/graalvm/graalvm-ce-builds/releases
           # Allineare la versione con pom.xml
           graalvm-version: 21.3.0
