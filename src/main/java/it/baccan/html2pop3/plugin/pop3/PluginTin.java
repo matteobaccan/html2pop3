@@ -188,11 +188,12 @@ public class PluginTin extends POP3Base implements POP3Plugin {
                     response = getUnirest().get(anchor).asString();
                     sb = response.getBody();
                     
+                    /*
                     href1 = sb.indexOf("&t=");
                     href2 = sb.indexOf("&", href1 + 3);
                     String t = sb.substring(href1 + 3, href2);
                     prop.put("t", t);
-
+                    */
                 } else {
                     int href1 = sb.indexOf(" src=\"");
                     int href2 = sb.indexOf("\"", href1 + 6);
