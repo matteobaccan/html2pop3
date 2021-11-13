@@ -1,4 +1,4 @@
-name: Plugins Check
+name: Email.it plugin check
 
 on:
   push:
