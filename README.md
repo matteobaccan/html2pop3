@@ -8,10 +8,11 @@
 [![security status](https://www.meterian.io/badge/gh/matteobaccan/html2pop3/security)](https://www.meterian.io/report/gh/matteobaccan/html2pop3)
 [![stability status](https://www.meterian.io/badge/gh/matteobaccan/html2pop3/stability)](https://www.meterian.io/report/gh/matteobaccan/html2pop3)
 [![DepShield Badge](https://depshield.sonatype.org/badges/matteobaccan/html2pop3/depshield.svg)](https://depshield.github.io)
-[![Plugins Check](https://github.com/matteobaccan/html2pop3/actions/workflows/maven.yml/badge.svg)](https://github.com/matteobaccan/html2pop3/actions/workflows/maven.yml)
 ![Meterian vulnerability scan workflow](https://github.com/matteobaccan/html2pop3/workflows/Meterian%20vulnerability%20scan%20workflow/badge.svg)
 ![CodeQL](https://github.com/matteobaccan/html2pop3/workflows/CodeQL/badge.svg)
 [![StyleCI](https://github.styleci.io/repos/179081117/shield?branch=master)](https://github.styleci.io/repos/179081117?branch=master)
+
+[![Email.it plugin check](https://github.com/matteobaccan/html2pop3/actions/workflows/maven.yml/badge.svg)](https://github.com/matteobaccan/html2pop3/actions/workflows/maven.yml)
 
 <a href="https://github.com/matteobaccan/html2pop3/stargazers"><img src="https://img.shields.io/github/stars/matteobaccan/html2pop3" alt="Stars Badge"/></a>
 <a href="https://github.com/matteobaccan/html2pop3/network/members"><img src="https://img.shields.io/github/forks/matteobaccan/html2pop3" alt="Forks Badge"/></a>
