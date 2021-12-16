@@ -12,7 +12,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Allineare la versione con graalvm.yml -->
-        <graalvm.version>21.2.0</graalvm.version>
+        <graalvm.version>21.3.0</graalvm.version>
         <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>
         <skipNativeVersion>true</skipNativeVersion>
     </properties>
@@ -331,11 +331,8 @@
                         <phase>install</phase>
                         <configuration>
                             <target>
-                                <exec
-                                    dir="${project.basedir}"
-                                    executable="${project.basedir}\src\batch\release.bat"
-                                    failonerror="true">
-                                    <arg value='${project.artifactId}-${project.version}'></arg>
+                                <exec dir="${project.basedir}" executable="${project.basedir}\src\batch\release.bat" failonerror="true">
+                                    <arg value="${project.artifactId}-${project.version}"/>
                                 </exec>
                             </target>
                         </configuration>
