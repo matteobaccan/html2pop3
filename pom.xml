@@ -13,6 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Allineare la versione con graalvm.yml -->
         <graalvm.version>21.2.0</graalvm.version>
+        <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>
         <skipNativeVersion>true</skipNativeVersion>
     </properties>
 
@@ -203,7 +204,7 @@
             <plugin>
                 <groupId>org.graalvm.nativeimage</groupId>
                 <artifactId>native-image-maven-plugin</artifactId>
-                <version>${graalvm.version}</version>
+                <version>${native-image-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>native-build</id>
