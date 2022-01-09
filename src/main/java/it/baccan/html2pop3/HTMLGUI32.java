@@ -50,7 +50,7 @@ public class HTMLGUI32 {
      *
      * @param args
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         // Creo un oggetto html2pop3
         final HTML2POP3 html2pop3 = HTML2POP3.getInstance();
         // Imposto l'eventuale config

@@ -126,7 +126,9 @@
                     <activeRecipes>
                         <recipe>org.openrewrite.java.cleanup.UseCollectionInterfaces</recipe>
                         <recipe>org.openrewrite.java.cleanup.HiddenField</recipe>
+                        <!--
                         <recipe>org.openrewrite.java.cleanup.MissingOverrideAnnotation</recipe>
+                        -->
                         <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
                         <recipe>org.openrewrite.java.cleanup.UseJavaStyleArrayDeclarations</recipe>
                         <recipe>org.openrewrite.java.cleanup.RemoveExtraSemicolons</recipe>

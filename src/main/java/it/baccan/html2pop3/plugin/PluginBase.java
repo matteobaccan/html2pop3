@@ -474,6 +474,7 @@ public abstract class PluginBase {
         // la pagina .. mannaggia mannaggia
         con.getInputStream().close();
     }
+
     //*/
 
     /**

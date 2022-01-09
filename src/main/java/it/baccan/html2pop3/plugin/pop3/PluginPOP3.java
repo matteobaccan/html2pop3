@@ -152,7 +152,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
 
             String cPost = "action=get&server=" + cLocalServer + "&port=" + cLocalPort + "&user=" + URLEncoder.encode(cLocalUser, CharsetCoding.UTF_8) + "&pass=" + URLEncoder.encode(cLocalPwd, CharsetCoding.UTF_8) + "&msgid=" + cMsgId;
             cPost += "&ver=" + URLEncoder.encode(Version.getVersion(), CharsetCoding.UTF_8);
-            
+
             oMail = new StringBuilder();
             oMail.append(getPage(cServer + "msglist.php?" + cPost, "", nLine, bAll));
 

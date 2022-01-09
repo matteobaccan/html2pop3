@@ -327,11 +327,11 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
 
     }
 
-//end MailMessage
+    //end MailMessage
 
     /* ******************************************************************************* */
- /* ******************************************************************************* */
- /* ******************************************************************************* */
+    /* ******************************************************************************* */
+    /* ******************************************************************************* */
     private interface BoxHandling {
 
         public String getLoginResponse(int retry) throws Throwable;
@@ -349,15 +349,16 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         public void delMessagesFromTrash() throws DeleteMessageException;
     }
 
-//BoxHandling
+    //BoxHandling
 
     /* ******************************************************************************* */
- /* ******************************************************************************* */
- /* ******************************************************************************* */
+    /* ******************************************************************************* */
+    /* ******************************************************************************* */
     private class MBoxHandling1 implements BoxHandling {
 
         private String newUrl = null;
 
+        @Override
         public String getLoginResponse(int retry) throws Throwable {
             String retFromPost = null;
 
@@ -372,22 +373,25 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getUrl()
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getUrl()
          */
+        @Override
         public String getUrl() {
             return newUrl;
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#isValidLogin(java.lang.String)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#isValidLogin(java.lang.String)
          */
+        @Override
         public boolean isValidLogin(String post) {
             return (post.indexOf(WRONG_LOGIN) == -1);
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#extractMail(java.lang.String)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#extractMail(java.lang.String)
          */
+        @Override
         public int extractMail(String pageContent) throws Exception {
             final String EMAIL_ID_START = "/cgi-bin/gx.cgi/AppLogic+mobmain?msgvw=";
             final String EMAIL_ID_END = "\"";
@@ -469,8 +473,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getMessage(int, int, boolean)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getMessage(int, int, boolean)
          */
+        @Override
         public String getMessage(int pos, int line, boolean all) {
             String retFromPost = null;
             String messageId = getMessageID(pos);
@@ -520,8 +525,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessage(int)
+     * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessage(int)
          */
+        @Override
         public boolean delMessage(int pos) {
             String messageId = getMessageID(pos);
             String deleteUrl = secondServer + BASE_DELETE + messageId + "=on";
@@ -548,8 +554,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessagesFromTrash()
+     * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessagesFromTrash()
          */
+        @Override
         public void delMessagesFromTrash() throws DeleteMessageException {
             final String TRASH_URL = secondServer + "/cgi-bin/gx.cgi/AppLogic+mobmain?fold=Trash";
             int retry = 0;
@@ -588,11 +595,11 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
 
     }
 
-//MBoxHandling1
+    //MBoxHandling1
 
     /* ******************************************************************************* */
- /* ******************************************************************************* */
- /* ******************************************************************************* */
+    /* ******************************************************************************* */
+    /* ******************************************************************************* */
     private class MBoxHandling2 implements BoxHandling {
 
         private String newUrl = null;
@@ -628,8 +635,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getLoginResponse(int)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getLoginResponse(int)
          */
+        @Override
         public String getLoginResponse(int retry) throws Throwable {
             String retFromPost = null;
 
@@ -644,22 +652,25 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getUrl()
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getUrl()
          */
+        @Override
         public String getUrl() {
             return newUrl;
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#isValidLogin(java.lang.String)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#isValidLogin(java.lang.String)
          */
+        @Override
         public boolean isValidLogin(String post) {
             return (!Pattern.matches("(?i)<input.+name=\"username\"", post));
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#extractMail(java.lang.String)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#extractMail(java.lang.String)
          */
+        @Override
         public int extractMail(String post) throws Exception {
             Pattern linkMessage = Pattern.compile("<A.+HREF=\"(Message.wssp\\?Mailbox=INBOX&MSG=(\\d+))\"[^>]*>",
                     Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
@@ -731,8 +742,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-		 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getMessage(int, int, boolean)
+         * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#getMessage(int, int, boolean)
          */
+        @Override
         public String getMessage(int pos, int line, boolean all) {
             String messageId = getMessageID(pos);
             String mailUrl = baseHref + "/Message.wssp?Mailbox=INBOX&MSG=" + messageId;
@@ -842,8 +854,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessage(int)
+     * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessage(int)
          */
+        @Override
         public boolean delMessage(int pos) {
             String messageId = getMessageID(pos);
             String deleUrl = baseHref + "/mailbox.wssp?Mailbox=INBOX&&MSG=" + messageId + "&Delete=&";
@@ -861,8 +874,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
         }
 
         /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessagesFromTrash()
+     * @see it.baccan.plugin.pop3.PluginTele2.BoxHandling#delMessagesFromTrash()
          */
+        @Override
         public void delMessagesFromTrash() throws DeleteMessageException {
             log.info("deleting messages from trash");
             try {
@@ -877,11 +891,11 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
 
     }
 
-//MBoxHandling2
+    //MBoxHandling2
 
 
     /* (non-Javadoc)
-	 * @see pop3base#getMessage(int, int, boolean)
+     * @see pop3base#getMessage(int, int, boolean)
      */
     /**
      *
@@ -890,12 +904,13 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
      * @param bAll
      * @return
      */
+    @Override
     public String getMessage(int nPos, int nLine, boolean bAll) {
         return boxHandling.getMessage(nPos, nLine, bAll);
     }
 
     /* (non-Javadoc)
-	 * @see pop3plugin#login(java.lang.String, java.lang.String)
+     * @see pop3plugin#login(java.lang.String, java.lang.String)
      */
     /**
      *
@@ -903,6 +918,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
      * @param cPwd
      * @return
      */
+    @Override
     public boolean login(String cUser, String cPwd) {
         String post = "";
         String retFromPost = "";
@@ -1002,13 +1018,14 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
     }
 
     /* (non-Javadoc)
-	 * @see pop3plugin#delMessage(int)
+     * @see pop3plugin#delMessage(int)
      */
     /**
      *
      * @param nPos
      * @return
      */
+    @Override
     public boolean delMessage(int nPos) {
         return boxHandling.delMessage(nPos);
     }
@@ -1027,8 +1044,9 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
     }
 
     /* (non-Javadoc)
-	 * @see it.baccan.plugin.pop3.pop3base#delMessagesFromTrash()
+     * @see it.baccan.plugin.pop3.pop3base#delMessagesFromTrash()
      */
+    @Override
     public void delMessagesFromTrash() throws DeleteMessageException {
         super.delMessagesFromTrash();
         boxHandling.delMessagesFromTrash();
