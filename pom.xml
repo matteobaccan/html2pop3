@@ -111,7 +111,7 @@
             <plugin>
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
-                <version>4.17.4</version>
+                <version>4.19.0</version>
                 <executions> 
                     <execution>
                         <id>validate</id>
