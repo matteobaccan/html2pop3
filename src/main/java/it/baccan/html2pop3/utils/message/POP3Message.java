@@ -17,6 +17,7 @@
  */
 package it.baccan.html2pop3.utils.message;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import it.baccan.html2pop3.utils.ContentType;
 import it.baccan.html2pop3.utils.LineFormat;
 import it.baccan.html2pop3.utils.Version;
@@ -25,6 +26,8 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -70,8 +73,8 @@ public class POP3Message extends MasterMessage {
     @Setter
     private String body = "";
 
-    private final ArrayList<byte[]> aAttach = new ArrayList<>(0);
-    private final ArrayList<String> aName = new ArrayList<>(0);
+    private final List<byte[]> aAttach = new ArrayList<>(0);
+    private final List<String> aName = new ArrayList<>(0);
 
     /**
      *
@@ -79,7 +82,7 @@ public class POP3Message extends MasterMessage {
     public static boolean addHTML = false;
     @Getter
     @Setter
-    private String charset = UTF_8;
+    private String charset = CharsetCoding.UTF_8;
 
     private static boolean bRFC2047 = true;
     private final String cHEX = "0123456789abcdef";

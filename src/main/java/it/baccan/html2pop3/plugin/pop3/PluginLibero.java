@@ -3842,7 +3842,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
         } catch (Throwable ex) {
             log.error("Error", ex);
         }
-        return (p != null);
+        return p != null;
     }
 
     /**
@@ -3979,7 +3979,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : LineFormat.format(oMail.toString()));
+        return oMail == null ? null : LineFormat.format(oMail.toString());
     }
 
     /**
@@ -4205,7 +4205,7 @@ public class PluginLibero extends POP3Base implements POP3Plugin {
      */
     @Override
     public List<String[]> getContact() {
-        ArrayList<String[]> oRet = new ArrayList<>();
+        List<String[]> oRet = new ArrayList<>();
         /*
          try {
          // Preparo I parametri

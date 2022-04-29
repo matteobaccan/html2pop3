@@ -5,6 +5,9 @@ package it.baccan.html2pop3.utils;
  */
 public class CharsetCoding {
 
+    private CharsetCoding() {
+    }
+
     /**
      *
      */

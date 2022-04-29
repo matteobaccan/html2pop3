@@ -354,7 +354,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
                     cBodyAttach = cBodyAttach.replace("src=\"/cp/ps/Mail/ViewAttachment", "src=\"" + cServer + "/cp/ps/Mail/ViewAttachment");
 
                     POP3Message pop3 = new POP3Message();
-                    pop3.setCharset(POP3Message.ISO_8859_1);
+                    pop3.setCharset(CharsetCoding.ISO_8859_1);
 
                     //String cDA = getInfo( sb, "\t\t\t\t\t\tDa:" );
                     String cDA = getInfo(sb, "<label class=\"custom\">Da:");
@@ -413,7 +413,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : oMail.toString());
+        return oMail == null ? null : oMail.toString();
     }
 
     private static boolean delete = true;
@@ -487,7 +487,7 @@ public class PluginTiscali extends POP3Base implements POP3Plugin {
      */
     @Override
     public List<String[]> getContact() {
-        ArrayList<String[]> oRet = new ArrayList<>();
+        List<String[]> oRet = new ArrayList<>();
         try {
 
             // Prendo i contatti

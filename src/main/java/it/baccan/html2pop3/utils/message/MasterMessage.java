@@ -1,6 +1,5 @@
 package it.baccan.html2pop3.utils.message;
 
-import it.baccan.html2pop3.utils.CharsetCoding;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.Base64;
@@ -28,7 +27,7 @@ import java.util.Base64;
  *
  * Licence details at http://www.gnu.org/licenses/gpl.txt
  */
-public abstract class MasterMessage  extends CharsetCoding implements IPopMessage {
+public abstract class MasterMessage implements IPopMessage {
 
     /**
      *

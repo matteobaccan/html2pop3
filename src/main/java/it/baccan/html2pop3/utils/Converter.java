@@ -30,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Converter {
 
+    private Converter() {
+    }
+
     private static final String EMPTY_STRING = "";
 
     /**
@@ -50,25 +53,24 @@ public class Converter {
      */
     public static String html2TextChar(String htmlString, boolean checkLinks) {
         Pattern patSpecialChar = Pattern.compile("&#([\\d]+);", Pattern.MULTILINE);
-        Matcher matcher = null;
-        String textString = htmlString.replaceAll("&gt;", ">")
-                .replaceAll("&quot;", "\"")
-                .replaceAll("&lt;", "<")
-                .replaceAll("&amp;", "&")
+        String textString = htmlString.replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&lt;", "<")
+                .replace("&amp;", "&")
                 .replaceAll("<font[^>]*>", EMPTY_STRING)
-                .replaceAll("</font>", EMPTY_STRING)
-                .replaceAll("<pre>", EMPTY_STRING)
-                .replaceAll("</pre>", EMPTY_STRING)
-                .replaceAll("<center>", EMPTY_STRING)
-                .replaceAll("</center>", EMPTY_STRING)
-                .replaceAll("<small>", EMPTY_STRING)
-                .replaceAll("</small>", EMPTY_STRING)
-                .replaceAll("<br>", EMPTY_STRING)
+                .replace("</font>", EMPTY_STRING)
+                .replace("<pre>", EMPTY_STRING)
+                .replace("</pre>", EMPTY_STRING)
+                .replace("<center>", EMPTY_STRING)
+                .replace("</center>", EMPTY_STRING)
+                .replace("<small>", EMPTY_STRING)
+                .replace("</small>", EMPTY_STRING)
+                .replace("<br>", EMPTY_STRING)
                 .replaceAll("<hr[^>]*>", EMPTY_STRING);
 
         //searching for special html char line &#214; and replacing them with 
         //the appropriate char
-        matcher = patSpecialChar.matcher(textString);
+        Matcher matcher = patSpecialChar.matcher(textString);
         while (matcher.find()) {
             textString = textString.replaceAll(matcher.group(), String.valueOf((char) Integer.parseInt(matcher.group(1))));
             matcher = patSpecialChar.matcher(textString);

@@ -36,6 +36,7 @@ import it.baccan.html2pop3.utils.Version;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,7 +54,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
     private String cLocalPwd = "";
     private String cLocalServer = "";
     private String cLocalPort = "110";
-    private ArrayList<String> oMsgDel = null;
+    private List<String> oMsgDel = null;
 
     /**
      *
@@ -161,7 +162,7 @@ public class PluginPOP3 extends POP3Base implements POP3Plugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : oMail.toString());
+        return oMail == null ? null : oMail.toString();
     }
 
     /**

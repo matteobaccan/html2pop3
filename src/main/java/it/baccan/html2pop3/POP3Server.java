@@ -36,6 +36,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Properties;
 import java.util.ArrayList;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -76,7 +78,7 @@ public class POP3Server extends BaseServer {
     }
 
     private boolean isTunnel(String cEmail) {
-        return (getTunnelConversion(cEmail).length() > 0);
+        return getTunnelConversion(cEmail).length() > 0;
     }
 
     private String getTunnelConversion(final String fullEmail) {
@@ -204,7 +206,7 @@ public class POP3Server extends BaseServer {
             boolean bExit = false;
             String cUser = "";
             String cPassword = "";
-            ArrayList<Double> aDel = new ArrayList<>();
+            List<Double> aDel = new ArrayList<>();
 
             pop3Plugin = null;
 

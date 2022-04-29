@@ -225,7 +225,7 @@ public class PluginRSS extends POP3Base implements POP3Plugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : oMail.toString());
+        return oMail == null ? null : oMail.toString();
     }
 
     /**

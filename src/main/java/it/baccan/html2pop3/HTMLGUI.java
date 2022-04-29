@@ -14,7 +14,6 @@
 package it.baccan.html2pop3;
 
 import it.baccan.html2pop3.utils.message.POP3Message;
-import java.io.PrintStream;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -63,37 +62,6 @@ public class HTMLGUI extends javax.swing.JFrame {
         oHTMLAttach.setSelected(POP3Message.getAddHTML());
         oSessionEmail.setText("" + html2pop3.getMaxEmail());
 
-    }
-
-    private class PrintStreamMemo extends PrintStream {
-
-        private PrintStream pParent = null;
-
-        public PrintStreamMemo(PrintStream out) {
-            super(System.out);
-            pParent = out;
-        }
-
-        @Override
-        public void write(byte[] buf, int off, int len) {
-            pParent.write(buf, off, len);
-            oLog.append(new String(buf, off, len));
-            scrollToEnd();
-        }
-
-        @Override
-        public void println(String x) {
-            pParent.println(x);
-            oLog.append(x + "\r\n");
-            scrollToEnd();
-        }
-
-        @Override
-        public void write(int b) {
-            pParent.write(b);
-            oLog.append("" + b);
-            scrollToEnd();
-        }
     }
 
     private void scrollToEnd() {

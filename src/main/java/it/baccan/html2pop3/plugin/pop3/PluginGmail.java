@@ -300,7 +300,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
      */
     @Override
     public List<String[]> getContact() {
-        ArrayList<String[]> oRet = new ArrayList<>();
+        List<String[]> oRet = new ArrayList<>();
         try {
 
             // Prendo i contatti
@@ -356,7 +356,7 @@ public class PluginGmail extends POP3Base implements POP3Plugin, SMTPPlugin {
             oMail = null;
             log.error("Error", ex);
         }
-        return (oMail == null ? null : oMail.toString());
+        return oMail == null ? null : oMail.toString();
     }
 
     /**

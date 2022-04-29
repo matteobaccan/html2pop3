@@ -385,7 +385,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
          */
         @Override
         public boolean isValidLogin(String post) {
-            return (post.indexOf(WRONG_LOGIN) == -1);
+            return post.indexOf(WRONG_LOGIN) == -1;
         }
 
         /* (non-Javadoc)
@@ -494,7 +494,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
                 if (isValidSession(retFromPost)) {
                     mail = new MailMessage(retFromPost);
                     p3m = new POP3Message();
-                    p3m.setCharset(POP3Message.ISO_8859_1);
+                    p3m.setCharset(CharsetCoding.ISO_8859_1);
                     p3m.setDa(mail.getFrom());
                     p3m.setA(mail.getTo());
                     p3m.setData(mail.getDate());
@@ -572,7 +572,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
                 } while (!isValidSession(retPage) && retry++ < 5);
 
                 if (isValidSession(retPage)) {
-                    retPage = retPage.replaceAll("&amp;", "&");
+                    retPage = retPage.replace("&amp;", "&");
                     matcher = pattern.matcher(retPage);
                     while (matcher.find()) {
                         retry = 0;
@@ -664,7 +664,7 @@ public class PluginTele2 extends POP3Base implements POP3Plugin {
          */
         @Override
         public boolean isValidLogin(String post) {
-            return (!Pattern.matches("(?i)<input.+name=\"username\"", post));
+            return !Pattern.matches("(?i)<input.+name=\"username\"", post);
         }
 
         /* (non-Javadoc)

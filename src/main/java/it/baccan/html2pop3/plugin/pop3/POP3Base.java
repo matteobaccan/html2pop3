@@ -90,7 +90,7 @@ public abstract class POP3Base extends PluginBase {
      * @return
      */
     protected boolean mailIsUnderStorageLimit() {
-        return (maxMessageNum == -1 || maxMessageNum > aEmail.size());
+        return maxMessageNum == -1 || maxMessageNum > aEmail.size();
     }
 
     /**

@@ -3,6 +3,7 @@ package it.baccan.html2pop3.plugin.pop3;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,7 +55,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
 
         private String body = null;
         private String headers = null;
-        private HashMap attachments = null;
+        private Map attachments = null;
 
         MailMessage(String body, String headers) throws ParsingMailException {
             try {
@@ -74,7 +75,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          * @return an hashmap with the filename and the content
          * @throws ParsingMailException
          */
-        private HashMap getAttachments(String thePage) throws ParsingMailException {
+        private Map getAttachments(String thePage) throws ParsingMailException {
             final String URL_DOWNLOAD = BASE_SERVER + "download.php";
             final String VIEW = "view";
             final String DOWNLOAD = "download";
@@ -87,7 +88,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             String onlyAttach;
             String postData = null;
             String fileName = null;
-            HashMap<String, byte[]> attachmentsMap = null;
+            Map<String, byte[]> attachmentsMap = null;
             int pos;
             int state = DONE;
             byte[] attachContent;
@@ -105,7 +106,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                     } else {
                         if (matLink.group(2).equalsIgnoreCase(DOWNLOAD)) {
                             //questo è il post dei dati per il avviare il download
-                            postData = matLink.group(1).replaceAll("&amp;", "&");
+                            postData = matLink.group(1).replace("&amp;", "&");
                             state |= POST_DATA;
                         }
                     }
@@ -187,7 +188,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
             String content = null;
 
             try {
-                content = new String(getPageBytes(url.replaceAll("&amp;", "&"), lastGoodCook));
+                content = new String(getPageBytes(url.replace("&amp;", "&"), lastGoodCook));
             } catch (Exception e) {
                 log.error("PluginLinuxIt::getBodyFromLink()");
                 log.error("Error while downloading the body from link. Exception: " + e.getMessage());
@@ -230,10 +231,10 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
                 if (mat4Bold.find()) {
                     key = mat4Bold.group(1);
                     value = headers1.substring(matHeader.end(), headers1.indexOf("</tt>", matHeader.end()))
-                            .replaceAll("\n", "")
-                            .replaceAll("\r", "")
-                            .replaceAll("<br />", EOL)
-                            .replaceAll("&nbsp;", " ");
+                            .replace("\n", "")
+                            .replace("\r", "")
+                            .replace("<br />", EOL)
+                            .replace("&nbsp;", " ");
                     value = Converter.html2TextChar(value, true);
                 }
                 fullHeaders.append(key + " " + value);
@@ -367,7 +368,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
          *
          * @return an HashMap with the attachments
          */
-        private HashMap getAttachments() {
+        private Map getAttachments() {
             return attachments;
         }
 
@@ -401,7 +402,7 @@ public class PluginLinuxIt extends POP3Base implements POP3Plugin {
         String ret = null;
         String s = null;
         MailMessage mm = null;
-        HashMap attach = null;
+        Map attach = null;
         Iterator iterator = null;
 
         try {

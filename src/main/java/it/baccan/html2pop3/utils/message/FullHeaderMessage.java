@@ -1,5 +1,6 @@
 package it.baccan.html2pop3.utils.message;
 
+import it.baccan.html2pop3.utils.CharsetCoding;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -67,7 +68,7 @@ public class FullHeaderMessage extends MasterMessage {
         if (matcher.find()) {
             charset = matcher.group(1);
         } else {
-            charset = ISO_8859_1;
+            charset = CharsetCoding.ISO_8859_1;
         }
 
         //and what about the encoding?
@@ -75,7 +76,7 @@ public class FullHeaderMessage extends MasterMessage {
         if (matcher.find()) {
             encoding = matcher.group(1);
         } else {
-            encoding = ENC_8_BIT;
+            encoding = CharsetCoding.ENC_8_BIT;
         }
     }
 
@@ -124,7 +125,7 @@ public class FullHeaderMessage extends MasterMessage {
                 sb.append("\r\n--").append(boundary).append("\r\n");
                 sb.append("Content-Type: ").append(ContentType.getInstance().getFromFilename(fileName)).append(";\r\n");
                 sb.append("      name=\"").append(fileName).append("\"\r\n");
-                sb.append("Content-Transfer-Encoding: " + ENC_BASE_64 + "\r\n");
+                sb.append("Content-Transfer-Encoding: " + CharsetCoding.ENC_BASE_64 + "\r\n");
                 sb.append("Content-Disposition: attachment;\r\n");
                 sb.append("      filename=\"").append(fileName).append("\"\r\n\r\n");
                 sb.append(get64EncodedAttach(content));

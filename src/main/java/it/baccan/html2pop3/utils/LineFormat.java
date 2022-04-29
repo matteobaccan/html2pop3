@@ -10,13 +10,15 @@
 package it.baccan.html2pop3.utils;
 
 import java.io.*;
-import java.util.*;
 
 /**
  *
  * @author matteo
  */
 public class LineFormat {
+
+    private LineFormat() {
+    }
 
     /**
      *

@@ -373,7 +373,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
      */
     @Override
     public List<String> xover(long nFrom, long nTo) {
-        ArrayList<String> aRet = new ArrayList<>(10);
+        List<String> aRet = new ArrayList<>(10);
         log.error("nntp: xover init");
         for (int nPos = 0; nPos < aOver.size(); nPos++) {
             String cOver = (String) aOver.elementAt(nPos);
@@ -413,7 +413,7 @@ public class PluginNNTP extends NNTPBase implements NNTPPlugin {
 
         log.error("nntp: art end");
 
-        return (cRet == null ? null : LineFormat.format(cRet));
+        return cRet == null ? null : LineFormat.format(cRet);
     }
 
 }
