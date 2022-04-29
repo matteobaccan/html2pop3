@@ -41,7 +41,7 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
     /**
      * Url di base di Email.it.
      */
-    static final String EMAILIT_DOMAIN = "https://irin.email.it/";
+    static final String EMAILIT_DOMAIN = "https://webmail.email.it/";
 
     /**
      * Server di riferimento
@@ -145,8 +145,8 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                 authPage = getUnirest().get(authPageUrl).asString();
 
                 // Passo alla home in html
-                HttpResponse<String> homepage = getUnirest().get("https://irin.email.it/?client=standard").asString();
-
+                //HttpResponse<String> homepage = getUnirest().get("https://irin.email.it/?client=standard").asString();
+                HttpResponse<String> homepage = getUnirest().get("https://webmail.email.it/h/search?mesg=welcome&init=true&auth=qp").asString();
                 // Creo il DOM
                 String sb = homepage.getBody();
 

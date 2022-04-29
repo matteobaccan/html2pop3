@@ -111,16 +111,7 @@
             <plugin>
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
-                <version>4.23.0</version>
-                <executions> 
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <version>4.23.0</version>               
                 <configuration>
                     <!-- https://docs.openrewrite.org/reference/recipes/java -->                    
                     <activeRecipes>
