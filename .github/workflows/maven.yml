@@ -29,4 +29,4 @@ jobs:
 
     - name: Test plugin Email.it
       run: 
-        java -cp /home/runner/work/html2pop3/html2pop3/target/HTML2POP3-3.0.6-jar-with-dependencies.jar  it.baccan.html2pop3.utils.PluginTester ${{ secrets.EMAILIT_USER }} ${{ secrets.EMAILIT_PWD }}
+        java -cp /home/runner/work/html2pop3/html2pop3/target/HTML2POP3-3.1.0-jar-with-dependencies.jar  it.baccan.html2pop3.utils.PluginTester ${{ secrets.EMAILIT_USER }} ${{ secrets.EMAILIT_PWD }}
