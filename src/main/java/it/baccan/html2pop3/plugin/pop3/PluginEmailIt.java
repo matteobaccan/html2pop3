@@ -153,6 +153,10 @@ public class PluginEmailIt extends POP3Base implements POP3Plugin {
                 Document strongDoc = Jsoup.parse(sb);
                 addEmails(strongDoc);
 
+                if(  strongDoc.getElementsByAttributeValue("name", "crumb").isEmpty() ){
+                    log.error("Possibile password scaduta: entra su email.it e aggiornala");
+                }
+                
                 crumb = strongDoc.getElementsByAttributeValue("name", "crumb").get(0).val();
                 sfi = strongDoc.getElementsByAttributeValue("title", "Inbox").get(0).parent().attr("href");
                 sfi = sfi.substring(sfi.indexOf("sfi=") + 4);
