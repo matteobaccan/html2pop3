@@ -10,10 +10,11 @@ package it.baccan.html2pop3.utils;
 
 import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
 import lombok.extern.slf4j.Slf4j;
+import java.util.Base64;
 
 /**
  *
- * @author Matteo
+ * @author Matteo Baccan
  */
 @Slf4j
 public final class PluginTester {
@@ -34,7 +35,7 @@ public final class PluginTester {
         String pass = args[1];
 
         String server = POP3Selector.user2Server(user);
-        log.info("Server used [{}][{}][{}]", server,user, pass);
+        log.info("Server used [{}][{}][{}]", server,Base64.getEncoder().encodeToString(user), server,Base64.getEncoder().encodeToString(pass));
 
         POP3Plugin plugin = POP3Selector.server2POP3Plugin(server);
 
