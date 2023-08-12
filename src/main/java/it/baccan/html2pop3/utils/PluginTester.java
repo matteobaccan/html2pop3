@@ -34,7 +34,7 @@ public final class PluginTester {
         String pass = args[1];
 
         String server = POP3Selector.user2Server(user);
-        log.info("Server used [{}]", server);
+        log.info("Server used [{}][{}][{}]", server,user, pass);
 
         POP3Plugin plugin = POP3Selector.server2POP3Plugin(server);
 
