@@ -11,6 +11,7 @@ package it.baccan.html2pop3.utils;
 import it.baccan.html2pop3.plugin.pop3.POP3Plugin;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -35,6 +36,7 @@ public final class PluginTester {
         String pass = args[1];
 
         String server = POP3Selector.user2Server(user);
+        //log.info("Server used [{}]", server);
         log.info("Server used [{}][{}][{}]", server,Base64.getEncoder().encodeToString(user.getBytes(StandardCharsets.UTF_8)), server,Base64.getEncoder().encodeToString(pass.getBytes(StandardCharsets.UTF_8)));
 
         POP3Plugin plugin = POP3Selector.server2POP3Plugin(server);
