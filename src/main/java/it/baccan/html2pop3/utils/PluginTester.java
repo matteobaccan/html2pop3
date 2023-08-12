@@ -35,7 +35,7 @@ public final class PluginTester {
         String pass = args[1];
 
         String server = POP3Selector.user2Server(user);
-        log.info("Server used [{}][{}][{}]", server,Base64.getEncoder().encodeToString(user), server,Base64.getEncoder().encodeToString(pass));
+        log.info("Server used [{}][{}][{}]", server,Base64.getEncoder().encodeToString(user.getBytes(StandardCharsets.UTF_8)), server,Base64.getEncoder().encodeToString(pass.getBytes(StandardCharsets.UTF_8)));
 
         POP3Plugin plugin = POP3Selector.server2POP3Plugin(server);
 

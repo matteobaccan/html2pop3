@@ -7,6 +7,8 @@ on:
     branches: [ master ]
   schedule:
     - cron: '0 1 * * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,17 +18,17 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v3
-    
+
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
         distribution: 'adopt' # See 'Supported distributions' for available options
         java-version: 11
-        
+
     - name: Build with Maven
-      run: 
+      run:
         mvn -B package --file pom.xml
 
     - name: Test plugin Email.it
-      run: 
+      run:
         java -cp /home/runner/work/html2pop3/html2pop3/target/HTML2POP3-3.1.0-jar-with-dependencies.jar  it.baccan.html2pop3.utils.PluginTester ${{ secrets.EMAILIT_USER }} ${{ secrets.EMAILIT_PWD }}
