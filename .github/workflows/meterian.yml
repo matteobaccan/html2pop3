@@ -14,7 +14,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
           - name: Scan project with the Meterian client
             uses: MeterianHQ/meterian-github-action@v1.0.15
             env:
