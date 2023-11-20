@@ -86,8 +86,11 @@ jobs:
         shell: bash
         run: |
           r=$(date "+%Y%m%d-%H%M%S")
-          echo "::set-output name=RELEASE_BODY::$r"
+          #echo "::set-output name=RELEASE_BODY::$r"
+          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
+          cd target
           ls
+          zip html2pop3.zip html2pop3.exe *.dll
 
       - name: Upload Windows Binaries to Release
         if: ${{ matrix.os == 'windows-latest' }}
@@ -95,9 +98,8 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: release/windows/${{ steps.read_release_win.outputs.RELEASE_BODY }}
-          file: target/*.*
-          file_glob: true
-          asset_name: HTML2POP3.exe
+          file: target/html2pop3.zip
+          asset_name: html2pop3-win32.zip
           body: |
             Rilascio Windows del ${{ steps.read_release_win.outputs.RELEASE_BODY }}
 
@@ -107,7 +109,8 @@ jobs:
         shell: bash
         run: |
           r=$(date "+%Y%m%d-%H%M%S")
-          echo "::set-output name=RELEASE_BODY::$r"
+          #echo "::set-output name=RELEASE_BODY::$r"
+          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
 
       - name: Upload Linux Binaries to Release
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -126,7 +129,9 @@ jobs:
         shell: bash
         run: |
           r=$(date "+%Y%m%d-%H%M%S")
-          echo "::set-output name=RELEASE_BODY::$r"
+          #echo "::set-output name=RELEASE_BODY::$r"
+          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
+
 
       - name: Upload Mac Binaries to Release
         if: ${{ matrix.os == 'macos-latest' }}
