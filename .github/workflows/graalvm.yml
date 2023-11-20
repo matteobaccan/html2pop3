@@ -83,13 +83,18 @@ jobs:
       - name: Create release date
         if: ${{ matrix.os == 'windows-latest' }}
         id: read_release_win
-        shell: powershell
+        shell: bash
         run: |
           r=$(date "+%Y%m%d-%H%M%S")
           #echo "::set-output name=RELEASE_BODY::$r"
           echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
+
+      - name: Create release date
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: powershell
+        run: |
           cd target
-          ls
+          dir
           Get-ChildItem -Path *.dll, html2pop3.exe | Compress-Archive -DestinationPath html2pop3.zip
 
       - name: Upload Windows Binaries to Release
@@ -111,6 +116,7 @@ jobs:
           r=$(date "+%Y%m%d-%H%M%S")
           #echo "::set-output name=RELEASE_BODY::$r"
           echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
+          ls
           cd target
           zip html2pop3.zip html2pop3 *.so
 
@@ -133,7 +139,9 @@ jobs:
           r=$(date "+%Y%m%d-%H%M%S")
           #echo "::set-output name=RELEASE_BODY::$r"
           echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
-
+          ls
+          cd target
+          zip html2pop3.zip html2pop3 *.so
 
       - name: Upload Mac Binaries to Release
         if: ${{ matrix.os == 'macos-latest' }}
@@ -141,7 +149,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: release/mac/${{ steps.read_release_mac.outputs.RELEASE_BODY }}
-          file: /Users/runner/work/html2pop3/html2pop3/target/HTML2POP3
+          file: /Users/runner/work/html2pop3/html2pop3/target/html2pop3.zip
           asset_name: html2pop3
           body: |
             Rilascio MacOS del ${{ steps.read_release_mac.outputs.RELEASE_BODY }}
