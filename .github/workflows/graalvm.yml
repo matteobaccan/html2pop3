@@ -87,6 +87,7 @@ jobs:
         run: |
           r=$(date "+%Y%m%d-%H%M%S")
           echo "::set-output name=RELEASE_BODY::$r"
+          ls
 
       - name: Upload Windows Binaries to Release
         if: ${{ matrix.os == 'windows-latest' }}
@@ -94,7 +95,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: release/windows/${{ steps.read_release_win.outputs.RELEASE_BODY }}
-          file: D:\a\html2pop3\html2pop3\target\*.*
+          file: target/*.*
           file_glob: true
           asset_name: HTML2POP3.exe
           body: |
