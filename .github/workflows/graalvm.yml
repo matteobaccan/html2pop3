@@ -78,37 +78,64 @@ jobs:
       - name: Call maven
         run: mvn --no-transfer-progress -B package --file pom.xml -DskipNativeVersion=false
 
-      - name: Commit files
+
+
+      - name: Create release date
         if: ${{ matrix.os == 'windows-latest' }}
+        id: read_release_win
+        shell: bash
         run: |
-          dir D:\a\html2pop3\html2pop3\target\
-          copy D:\a\html2pop3\html2pop3\target\html2pop3.exe   D:\a\html2pop3\html2pop3\executable\windows
-          copy D:\a\html2pop3\html2pop3\target\html2pop3-*.exe D:\a\html2pop3\html2pop3\executable\windows
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add *.exe
-          git commit -m "[Automated] Added Windows build files"
-          git pull
+          r=$(date "+%Y%m%d-%H%M%S")
+          echo "::set-output name=RELEASE_BODY::$r"
 
-      - name: Commit files
+      - name: Upload Windows Binaries to Release
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: release/windows/${{ steps.read_release_win.outputs.RELEASE_BODY }}
+          file: D:\a\FolderCtl\html2pop3\target\html2pop3.exe
+          asset_name: html2pop3.exe
+          body: |
+            Rilascio Windows del ${{ steps.read_release_win.outputs.RELEASE_BODY }}
+
+      - name: Create release date
         if: ${{ matrix.os == 'ubuntu-latest' }}
+        id: read_release_linux
+        shell: bash
         run: |
-          cp /home/runner/work/html2pop3/html2pop3/target/HTML2POP3 /home/runner/work/html2pop3/html2pop3/executable/linux/
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "[Automated] Added Linux build files"
-          git pull
+          r=$(date "+%Y%m%d-%H%M%S")
+          echo "::set-output name=RELEASE_BODY::$r"
 
-      - name: Commit files
+      - name: Upload Linux Binaries to Release
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: release/linux/${{ steps.read_release_linux.outputs.RELEASE_BODY }}
+          file: /home/runner/work/html2pop3/html2pop3/target/HTML2POP3
+          asset_name: html2pop3
+          body: |
+            Rilascio Linux del ${{ steps.read_release_linux.outputs.RELEASE_BODY }}
+
+      - name: Create release date
         if: ${{ matrix.os == 'macos-latest' }}
+        id: read_release_mac
+        shell: bash
         run: |
-          cp /Users/runner/work/html2pop3/html2pop3/target/html2pop3 /Users/runner/work/html2pop3/html2pop3/executable/mac/
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "[Automated] Added Mac build files"
-          git pull
+          r=$(date "+%Y%m%d-%H%M%S")
+          echo "::set-output name=RELEASE_BODY::$r"
+
+      - name: Upload Mac Binaries to Release
+        if: ${{ matrix.os == 'macos-latest' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: release/mac/${{ steps.read_release_mac.outputs.RELEASE_BODY }}
+          file: /Users/runner/work/html2pop3/html2pop3/target/HTML2POP3
+          asset_name: html2pop3
+          body: |
+            Rilascio MacOS del ${{ steps.read_release_mac.outputs.RELEASE_BODY }}
 
 #      - name: Push changes
 #        uses: ad-m/github-push-action@master
