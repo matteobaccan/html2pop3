@@ -94,8 +94,9 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: release/windows/${{ steps.read_release_win.outputs.RELEASE_BODY }}
-          file: D:\a\FolderCtl\html2pop3\target\html2pop3.exe
-          asset_name: html2pop3.exe
+          file: D:\a\html2pop3\html2pop3\target\*.*
+          file_glob: true
+          asset_name: HTML2POP3.exe
           body: |
             Rilascio Windows del ${{ steps.read_release_win.outputs.RELEASE_BODY }}
 
