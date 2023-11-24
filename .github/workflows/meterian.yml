@@ -16,7 +16,7 @@ jobs:
           - name: Checkout
             uses: actions/checkout@v4
           - name: Scan project with the Meterian client
-            uses: MeterianHQ/meterian-github-action@v1.0.16
+            uses: MeterianHQ/meterian-github-action@v1.0.17
             env:
                 METERIAN_API_TOKEN: ${{ secrets.METERIAN_API_TOKEN }}
             with:
