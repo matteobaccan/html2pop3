@@ -47,19 +47,6 @@ jobs:
           # Download token for the GraalVM Download Service. If provided, the action will set up GraalVM Enterprise Edition.
           # gds-token: # optional
           
-#      - name: Setup GraalVM action
-#        # You may pin to the exact commit or the version.
-#        # uses: ayltai/setup-graalvm@eb0db9af1ceb6dadb398847c7e23fc3afa09c0d3
-#        uses: ayltai/setup-graalvm@master
-#        with:
-#          # The JDK version to be installed with GraalVM. E.g. 8, 11. See https://github.com/graalvm/graalvm-ce-builds/releases
-#          java-version: 11 # optional
-#          # The version of GraalVM to make available on PATH. E.g. 20.1.0, 19.3.2. See https://github.com/graalvm/graalvm-ce-builds/releases
-#          # Allineare la versione con pom.xml
-#          graalvm-version: 21.3.0
-#          # Install GraalVM Native Image
-#          native-image: true # optional
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -97,16 +84,16 @@ jobs:
           dir
           Get-ChildItem -Path *.dll, html2pop3.exe | Compress-Archive -DestinationPath html2pop3.zip
 
-      - name: Upload Windows Binaries to Release
-        if: ${{ matrix.os == 'windows-latest' }}
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: release/windows/${{ steps.read_release_win.outputs.RELEASE_BODY }}
-          file: target/html2pop3.zip
-          asset_name: html2pop3-win32.zip
-          body: |
-            Rilascio Windows del ${{ steps.read_release_win.outputs.RELEASE_BODY }}
+#      - name: Upload Windows Binaries to Release
+#        if: ${{ matrix.os == 'windows-latest' }}
+#        uses: svenstaro/upload-release-action@v2
+#        with:
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          tag: release/windows/${{ steps.read_release_win.outputs.RELEASE_BODY }}
+#          file: target/html2pop3.zip
+#          asset_name: html2pop3-win32.zip
+#          body: |
+#            Rilascio Windows del ${{ steps.read_release_win.outputs.RELEASE_BODY }}
 
       - name: Create release date
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -120,16 +107,16 @@ jobs:
           cd target
           zip html2pop3.zip html2pop3 *.so
 
-      - name: Upload Linux Binaries to Release
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: release/linux/${{ steps.read_release_linux.outputs.RELEASE_BODY }}
-          file: /home/runner/work/html2pop3/html2pop3/target/html2pop3.zip
-          asset_name: html2pop3
-          body: |
-            Rilascio Linux del ${{ steps.read_release_linux.outputs.RELEASE_BODY }}
+#      - name: Upload Linux Binaries to Release
+#        if: ${{ matrix.os == 'ubuntu-latest' }}
+#        uses: svenstaro/upload-release-action@v2
+#        with:
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          tag: release/linux/${{ steps.read_release_linux.outputs.RELEASE_BODY }}
+#          file: /home/runner/work/html2pop3/html2pop3/target/html2pop3.zip
+#          asset_name: html2pop3
+#          body: |
+#            Rilascio Linux del ${{ steps.read_release_linux.outputs.RELEASE_BODY }}
 
       - name: Create release date
         if: ${{ matrix.os == 'macos-latest' }}
@@ -143,19 +130,14 @@ jobs:
           cd target
           zip html2pop3.zip html2pop3 *.so
 
-      - name: Upload Mac Binaries to Release
-        if: ${{ matrix.os == 'macos-latest' }}
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: release/mac/${{ steps.read_release_mac.outputs.RELEASE_BODY }}
-          file: /Users/runner/work/html2pop3/html2pop3/target/html2pop3.zip
-          asset_name: html2pop3
-          body: |
-            Rilascio MacOS del ${{ steps.read_release_mac.outputs.RELEASE_BODY }}
-
-#      - name: Push changes
-#        uses: ad-m/github-push-action@master
+#      - name: Upload Mac Binaries to Release
+#        if: ${{ matrix.os == 'macos-latest' }}
+#        uses: svenstaro/upload-release-action@v2
 #        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          branch: ${{ github.ref }}
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          tag: release/mac/${{ steps.read_release_mac.outputs.RELEASE_BODY }}
+#          file: /Users/runner/work/html2pop3/html2pop3/target/html2pop3.zip
+#          asset_name: html2pop3
+#          body: |
+#            Rilascio MacOS del ${{ steps.read_release_mac.outputs.RELEASE_BODY }}
+
