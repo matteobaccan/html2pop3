@@ -55,7 +55,7 @@ jobs:
           fetch-depth: 2
 
       - name: Windows msvc setup
-        uses: ilammy/msvc-dev-cmd@v1.12.1
+        uses: ilammy/msvc-dev-cmd@v1.13.0
         if: ${{ matrix.os == 'windows-latest' }}
 
       - name: Windows msbuild setup
