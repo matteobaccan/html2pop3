@@ -59,7 +59,7 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
 
       - name: Windows msbuild setup
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v2
         if: ${{ matrix.os == 'windows-latest' }}
 
       - name: Call maven
