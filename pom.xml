@@ -108,26 +108,24 @@
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
+            <!--
             <plugin>
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
-                <version>5.46.2</version>               
+                <version>5.46.2</version>
                 <configuration>
-                    <!-- https://docs.openrewrite.org/reference/recipes/java -->                    
                     <activeRecipes>
                         <recipe>org.openrewrite.java.cleanup.UseCollectionInterfaces</recipe>
                         <recipe>org.openrewrite.java.cleanup.HiddenField</recipe>
-                        <!--
                         <recipe>org.openrewrite.java.cleanup.MissingOverrideAnnotation</recipe>
-                        -->
                         <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
                         <recipe>org.openrewrite.java.cleanup.UseJavaStyleArrayDeclarations</recipe>
                         <recipe>org.openrewrite.java.cleanup.RemoveExtraSemicolons</recipe>
-                        <recipe>org.openrewrite.java.cleanup.NoFinalizer</recipe>             
-                        <recipe>org.openrewrite.java.cleanup.UnnecessaryParentheses</recipe>  
+                        <recipe>org.openrewrite.java.cleanup.NoFinalizer</recipe>
+                        <recipe>org.openrewrite.java.cleanup.UnnecessaryParentheses</recipe>
                         <recipe>org.openrewrite.java.cleanup.UnnecessaryCloseInTryWithResources</recipe>
                         <recipe>org.openrewrite.java.cleanup.UseDiamondOperator</recipe>
-                        <recipe>org.openrewrite.java.cleanup.MultipleVariableDeclarations</recipe>      
+                        <recipe>org.openrewrite.java.cleanup.MultipleVariableDeclarations</recipe>
                         <recipe>org.openrewrite.java.cleanup.IsEmptyCallOnCollections</recipe>
                         <recipe>org.openrewrite.java.cleanup.StaticMethodNotFinal</recipe>
                         <recipe>org.openrewrite.java.cleanup.LambdaBlockToExpression</recipe>
@@ -135,6 +133,7 @@
                     </activeRecipes>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
