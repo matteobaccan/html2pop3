@@ -45,14 +45,14 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.15</version>
+            <version>1.5.16</version>
             <type>jar</type>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.5.15</version>
+            <version>1.5.16</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.unbescape/unbescape -->
