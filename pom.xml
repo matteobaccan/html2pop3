@@ -296,7 +296,7 @@
             <plugin>
                 <groupId>net.jsign</groupId>
                 <artifactId>jsign-maven-plugin</artifactId>
-                <version>7.0</version>
+                <version>7.1</version>
                 <executions>
                     <execution>
                         <goals>
