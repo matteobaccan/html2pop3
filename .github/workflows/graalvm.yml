@@ -26,8 +26,8 @@ jobs:
           java-version: 17
           # GraalVM distribution. See the list of available distributions in the README file.
           distribution: 'graalvm' # optional, default is 
-          # Comma-separated list of GraalVM components to be installed.
-          # components: # optional, default is 
+          # Comma-separated list of GraalVM components to be installed.          
+          components: 'native-image' # optional, default is 
           # Set it to secrets.GITHUB_TOKEN to increase rate limits when accessing the GitHub API. Defaults to github.token.
           # github-token: # optional, default is ${{ github.token }}
           # Set $JAVA_HOME to the GraalVM installation. Default: true.
@@ -63,8 +63,7 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
 
       - name: Call maven
-        run: mvn --no-transfer-progress -B package --file pom.xml -DskipNativeVersion=false
-
+        run: mvn -e -X --no-transfer-progress -B package --file pom.xml -DskipNativeVersion=false
 
 
       - name: Create release date

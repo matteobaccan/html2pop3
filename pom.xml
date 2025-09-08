@@ -141,7 +141,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>sources</goal>
+                            <goal>resolve-sources</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -171,7 +171,9 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <!--
                     <minimizeJar>true</minimizeJar>
+                    -->
                     <archive>
                         <manifest>
                             <mainClass>it.baccan.html2pop3.HTMLGUI32</mainClass>
