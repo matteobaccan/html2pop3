@@ -23,7 +23,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           # Java version. See examples of supported syntax in the README file.
-          java-version: 17
+          java-version: 17.0.20+101
           # GraalVM distribution. See the list of available distributions in the README file.
           distribution: 'graalvm' # optional, default is 
           # Comma-separated list of GraalVM components to be installed.          
